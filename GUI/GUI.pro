@@ -10,7 +10,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = GUI
 TEMPLATE = app
+    target.files = GUI/GUI
+    target.path = /home/ubuntu/qt
 
+INSTALLS += target
 
 SOURCES += main.cpp\
         mainwindow.cpp \
