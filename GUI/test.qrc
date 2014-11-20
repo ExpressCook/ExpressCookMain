@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/test">
+        <file>appleicon.png</file>
+        <file>main_page.jpg</file>
+        <file>page1.jpg</file>
+        <file>potatoicon.png</file>
+        <file>taskpage.jpg</file>
+    </qresource>
+</RCC>

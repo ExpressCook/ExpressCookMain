@@ -13,8 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    taskpage.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    taskpage.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    taskpage.ui
+
+RESOURCES += \
+    test.qrc
+    test.qrc \
