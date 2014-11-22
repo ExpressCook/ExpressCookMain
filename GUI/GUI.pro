@@ -28,3 +28,11 @@ FORMS    += mainwindow.ui \
 RESOURCES += \
     test.qrc
     test.qrc \
+
+#add the motor library
+unix:!macx: LIBS += -L$$OUT_PWD/../Motor/ -lMotor
+
+INCLUDEPATH += $$PWD/../Motor
+DEPENDPATH += $$PWD/../Motor
+
+unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../Motor/libMotor.a
