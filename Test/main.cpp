@@ -95,5 +95,6 @@ void testVision()
     Vision vs;
 
     CentrePoint point = vs.AppleCentroid();
+    cout<<"Centroid Points are"<<point.x<<endl<<point.y;
 
 }

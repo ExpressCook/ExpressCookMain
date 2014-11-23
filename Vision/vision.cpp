@@ -8,19 +8,40 @@ using namespace std;
 using namespace cv;
 Vision::Vision()
 {
+}
+
+void imgCapture(int condition,Mat img,Mat imgNew)
+{
     VideoCapture capture(0);
     capture.set(CV_CAP_PROP_FRAME_WIDTH,120);
     capture.set(CV_CAP_PROP_FRAME_HEIGHT,160);
-    if(!capture.isOpened()){
-    cout << "Failed to connect to the camera." << endl;
+    if(!capture.isOpened())
+    {
+        cout << "Failed to connect to the camera." << endl;
     }
-    Mat imgNew;
-    capture >> imgNew;
-    if(imgNew.empty()){
-    cout << "Failed to capture an image" << endl;
-    //return -1;
+    if(condition==0)
+    {
+        //Mat img;
+        capture >> img;
+        if(img.empty())
+        {
+        cout << "Failed to capture an image" << endl;
+        }
+    }
+    else
+    {
+        //Mat imgNew;
+        capture >> imgNew;
+        if(imgNew.empty())
+        {
+        cout << "Failed to capture an image" << endl;
+        }
     }
 
+
+}
+void Compute(cv::Mat img, cv::Mat imgNew, std::vector<cv::Point2f> centroids, cv::Mat1i ind)
+{
     vector <Point2f> srcPoints;
     vector <Point2f> dstPoints;
 
@@ -44,8 +65,10 @@ Vision::Vision()
     //cout<<"Sugandha printing new image"<<endl;
     //imwrite("New.jpg",imgNew);
     warpPerspective(imgNew, imgNew_out, H, imgNew.size(), 1, 1);
+    Mat img_out = Mat::zeros( img.size(), CV_8UC3 );
+    warpPerspective(img, img_out, H, img.size(), 1, 1);
     //imwrite("WarpedNew.jpg", imgNew_out);
-    Mat img_out=imread("warpedOriginal.jpg",1);
+    //Mat img_out=imread("warpedOriginal.jpg",1);
     Mat imgChange;
     absdiff(imgNew_out,img_out,imgChange);
     //imwrite("BackgroundChange.jpg",imgChange);
