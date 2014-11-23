@@ -1,7 +1,5 @@
 #include "vision.h"
 #include <iostream>
-#include "opencv2/core/core.hpp"
-#include "opencv2/opencv.hpp"
 #include <algorithm>
 
 cv::RNG rng(12345);
@@ -37,7 +35,7 @@ Vision::Vision()
 
     Mat H;
     //Mat img_out = Mat::zeros( img.size(), CV_8UC3 );
-    H=findHomography(srcPoints, dstPoints, 0, 3) ;
+    //H=findHomography(srcPoints, dstPoints, 0, 3) ;
     //warpPerspective(img, img_out, H, img.size(), 1, 1);
     //imwrite("warpedoriginal.jpg",img_out);
     //Mat imgNew;

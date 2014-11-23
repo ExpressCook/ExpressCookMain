@@ -1,19 +1,24 @@
 #include <QCoreApplication>
 #include <stdio.h>
-#include "serialib.h"
-#include "motorserial.h"
+#include <serialib.h>
+#include <motorserial.h>
+#include <visioninitialization.h>
+#include <vision.h>
 
 #define  DEVICE_PORT "/dev/ttyO1"
 
 int testSerial();
 void testSerialLib();
+void testVision();
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
     //testSerial();
-    testSerialLib();
+    //testSerialLib();
+
+    testVision();
 
     return a.exec();
 }
@@ -82,4 +87,13 @@ void testSerialLib()
               && motorControl.getLPos()>150)
         {}
     }
+}
+
+void testVision()
+{
+    VisionInitialization vsInit;
+    Vision vs;
+
+    vs.AppleCentroid();
+
 }
