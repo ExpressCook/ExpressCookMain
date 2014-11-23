@@ -126,16 +126,28 @@ Vision::Vision()
     //return 0;
 }
 
-cv::Point2f Vision::AppleCentroid()
+CentrePoint Vision::AppleCentroid()
 {
+    CentrePoint c;
+    c.x=(89-centroids.at(ind(0,2)).y)*(25/3);
+    c.y=(centroids.at(ind(0,2)).x-46)*7.3;
+    return c;
     //cv::Point2f appleCentroid;
-    cv::Point2f appleCentroid((89-centroids.at(ind(0,2)).y)*(25/3), (centroids.at(ind(0,2)).x-46)*7.3);
-    return(appleCentroid);
+    //cv::Point2f appleCentroid((89-centroids.at(ind(0,2)).y)*(25/3), (centroids.at(ind(0,2)).x-46)*7.3);
+    //float x=appleCentroid.x;
+    //float y=appleCentroid.y;
+    //float Centr
+    //return(appleCentroid);
 }
 
-cv::Point2f Vision::PotatoCentroid()
+CentrePoint Vision::PotatoCentroid()
 {
+    CentrePoint c;
+    c.x=(89-centroids.at(ind(0,1)).y)*(25/3);
+    c.y=(centroids.at(ind(0,1)).x-46)*7.3;
+    return c;
     //cv::Point2f potatoCentroid;
-    cv::Point2f potatoCentroid((89-centroids.at(ind(0,1)).y)*(25/3), (centroids.at(ind(0,1)).x-46)*7.3);
-    return(potatoCentroid);
+    //cv::Point2f potatoCentroid((89-centroids.at(ind(0,1)).y)*(25/3), (centroids.at(ind(0,1)).x-46)*7.3);
+    //return(potatoCentroid);
 }
+

@@ -11,11 +11,12 @@
 class VisionInitialization
 {
 public:
-    VisionInitialization();
+
     /*!
       *\brief Captures the background image of the drawer on first initialzation
       *\param nil
       */
+    VisionInitialization();
 };
 
 #endif // VISIONINITIALIZATION_H
