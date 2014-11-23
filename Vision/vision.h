@@ -7,29 +7,41 @@
 #include <vector>
 #include <algorithm>
 
+
+struct CentrePoint
+{
+    float x;
+    float y;
+};
+
 class Vision
 {
 
 public:
-    Vision();
+
     /*!
       *\brief Captures the new image and computes centroid of all existing objects in the image
       *\param NIL
       * */
+    Vision();
 
-    cv::Point2f AppleCentroid();
+
     /*!
       *\brief Returns the centroid location of apple
       *       Is called when Apple is clicked on GUI
       * \param NIL
       */
+    CentrePoint AppleCentroid();
 
-    cv::Point2f PotatoCentroid();
+
+
     /*!
       *\brief Returns the centroid location of Potato
       *       Is called when Potato is clicked on GUI
       * \param NIL
       */
+    CentrePoint PotatoCentroid();
+
 private:
     std::vector<cv::Point2f> centroids;
     cv::Mat1i ind;
