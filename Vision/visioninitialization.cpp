@@ -35,7 +35,7 @@ VisionInitialization::VisionInitialization()
         dstPoints.push_back(Point2f(120,160));
         Mat H;
         Mat img_out = Mat::zeros( img.size(), CV_8UC3 );
-        //H=cv::findHomography(srcPoints, dstPoints, 0, 3) ;
+        H=cv::findHomography(srcPoints, dstPoints, 0, 3) ;
         warpPerspective(img, img_out, H, img.size(), 1, 1);
         imwrite("warpedOriginal.jpg",img_out);
     }

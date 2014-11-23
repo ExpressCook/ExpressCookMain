@@ -25,11 +25,24 @@ bool MotorSerial::moveXTo(int position)
     return toBool(ret);
 }
 
+void MotorSerial::bMoveXTo(int position)
+{
+    moveXTo(position);
+    while(getXPos()!=position){}
+}
+
 bool MotorSerial::moveXBy(int position)
 {
     QString command = "xr"+QString::number(position)+endMark;
     int ret = serial.WriteString(toChar(command));
     return toBool(ret);
+}
+
+void MotorSerial::bMoveXBy(int position)
+{
+    int finalPos = getXPos()+position;
+    moveXBy(position);
+    while(finalPos!=getXPos()){}
 }
 
 bool MotorSerial::moveYTo(int position)
@@ -39,11 +52,24 @@ bool MotorSerial::moveYTo(int position)
     return toBool(ret);
 }
 
+void MotorSerial::bMoveYTo(int position)
+{
+    moveYTo(position);
+    while(getYPos()!=position){}
+}
+
 bool MotorSerial::moveYBy(int position)
 {
     QString command = "yr"+QString::number(position)+endMark;
     int ret = serial.WriteString(toChar(command));
     return toBool(ret);
+}
+
+void MotorSerial::bMoveYBy(int position)
+{
+    int finalPos = getYPos()+position;
+    moveYBy(position);
+    while(finalPos!=getYPos()){}
 }
 
 bool MotorSerial::rotateWith(int speed)
@@ -58,6 +84,12 @@ bool MotorSerial::moveDownTo(int position)
     QString command = "lp"+QString::number(position)+endMark;
     int ret = serial.WriteString(toChar(command));
     return toBool(ret);
+}
+
+void MotorSerial::bMoveDownTo(int position)
+{
+    moveDownTo(position);
+    while(abs(position-getLPos())>30){}
 }
 
 bool MotorSerial::goToOrigin()

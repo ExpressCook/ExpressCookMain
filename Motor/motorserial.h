@@ -20,24 +20,28 @@ public:
      * \param position
      */
     bool moveXTo(int position);
+    void bMoveXTo(int position);
 
     /*!
      * \brief move the arm in x direction with relative position
      * \param position
      */
     bool moveXBy(int position);
+    void bMoveXBy(int position);
 
     /*!
      * \brief move the arm in y direction to absolute position
      * \param position
      */
     bool moveYTo(int position);
+    void bMoveYTo(int position);
 
     /*!
      * \brief move the arm in y direction with relative position
      * \param position
      */
     bool moveYBy(int position);
+    void bMoveYBy(int position);
 
     /*!
      * \brief rotate the arm with speed
@@ -50,6 +54,7 @@ public:
      * \param position
      */
     bool moveDownTo(int position);
+    void bMoveDownTo(int position);
 
     /*!
      * \brief set the gantry into origin position

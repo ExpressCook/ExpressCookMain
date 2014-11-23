@@ -40,6 +40,9 @@ unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../Vision/libVision.a
 unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_core
 unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_highgui
 unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_imgproc
+unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_calib3d
+unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_flann
+unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_features2d
 
 INCLUDEPATH += $$PWD/../opencv/include
 DEPENDPATH += $$PWD/../opencv/include
