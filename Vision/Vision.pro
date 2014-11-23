@@ -17,3 +17,10 @@ unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_core
+unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_highgui
+unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_imgproc
+
+INCLUDEPATH += $$PWD/../opencv/include
+DEPENDPATH += $$PWD/../opencv/include
