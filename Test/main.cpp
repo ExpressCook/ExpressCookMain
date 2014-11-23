@@ -1,16 +1,19 @@
 #include <QCoreApplication>
 #include <stdio.h>
 #include "serialib.h"
+#include "motorserial.h"
 
 #define  DEVICE_PORT "/dev/ttyO1"
 
 int testSerial();
+void testSerialLib();
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    testSerial();
+    //testSerial();
+    testSerialLib();
 
     return a.exec();
 }
@@ -49,4 +52,34 @@ int testSerial()
     LS.Close();
 
     return 0;
+}
+
+void testSerialLib()
+{
+    MotorSerial motorControl;
+    motorControl.init();
+
+    motorControl.goToOrigin();
+
+    for(int i=0; i<10; i++)
+    {
+        motorControl.moveXTo(1000);
+        motorControl.moveYTo(500);
+        motorControl.rotateWith(200);
+        motorControl.moveDownTo(700);
+
+        while(motorControl.getLPos()<600)
+        {}
+
+        motorControl.moveDownTo(100);
+        motorControl.rotateWith(0);
+
+        motorControl.moveXTo(100);
+        motorControl.moveYTo(100);
+
+        while(motorControl.getXPos()!=100
+              && motorControl.getYPos()!=100
+              && motorControl.getLPos()>150)
+        {}
+    }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.0.1, 2014-11-21T22:52:55. -->
+<!-- Written by QtCreator 3.0.1, 2014-11-22T23:10:44. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -197,8 +197,8 @@
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">RemoteLinux.DirectUploadStep</value>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles">
-       <value type="QString">/home/wenda/Developer/Qt/projects/build-ExpressCook-Beagle_Bone_Kit-Debug/GUI/GUI</value>
        <value type="QString">/home/wenda/Developer/Qt/projects/build-ExpressCook-Beagle_Bone_Kit-Debug/Test/Test</value>
+       <value type="QString">/home/wenda/Developer/Qt/projects/build-ExpressCook-Beagle_Bone_Kit-Debug/GUI/GUI</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts">
        <value type="QString">192.168.7.2</value>
@@ -213,8 +213,8 @@
        <value type="QString"></value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes">
-       <value type="QDateTime">2014-11-20T16:12:17</value>
-       <value type="QDateTime">2014-11-21T19:54:07</value>
+       <value type="QDateTime">2014-11-22T23:10:33</value>
+       <value type="QDateTime">2014-11-22T23:06:56</value>
       </valuelist>
       <value type="bool" key="RemoteLinux.GenericDirectUploadStep.IgnoreMissingFiles">false</value>
       <value type="bool" key="RemoteLinux.GenericDirectUploadStep.Incremental">true</value>
