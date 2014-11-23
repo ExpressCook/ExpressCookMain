@@ -4,6 +4,7 @@
 #include <motorserial.h>
 #include <visioninitialization.h>
 #include <vision.h>
+#include <unistd.h>
 
 #define  DEVICE_PORT "/dev/ttyO1"
 
@@ -91,10 +92,17 @@ void testSerialLib()
 
 void testVision()
 {
-    VisionInitialization vsInit;
-    Vision vs;
+    //VisionInitialization vsInit;protected variables in C++ functions
+    //Vision vsOriginal;
+    Vision vsNew;
 
-    CentrePoint point = vs.AppleCentroid();
-    cout<<"Centroid Points are"<<point.x<<endl<<point.y;
+    vsNew.imgCapture(0);
+    //usleep(10000000);
+    vsNew.imgCapture(1);
+    vsNew.compute();
+    CentrePoint point = vsNew.PotatoCentroid();
+    cout<<"Centroid Points are x:"<<point.x<<endl;
+    cout<<"Centroid Points are y:"<<point.y<<endl;
+    //cout<<"......................"<<endl;
 
 }

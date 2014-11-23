@@ -10,7 +10,7 @@ Vision::Vision()
 {
 }
 
-void imgCapture(int condition,Mat img,Mat imgNew)
+void Vision::imgCapture(int condition)
 {
     VideoCapture capture(0);
     capture.set(CV_CAP_PROP_FRAME_WIDTH,120);
@@ -40,7 +40,8 @@ void imgCapture(int condition,Mat img,Mat imgNew)
 
 
 }
-void Compute(cv::Mat img, cv::Mat imgNew, std::vector<cv::Point2f> centroids, cv::Mat1i ind)
+//cv::Mat img, cv::Mat imgNew, std::vector<cv::Point2f> centroids, cv::Mat1i ind
+void Vision::compute()
 {
     vector <Point2f> srcPoints;
     vector <Point2f> dstPoints;

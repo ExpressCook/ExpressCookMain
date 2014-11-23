@@ -32,14 +32,15 @@ public:
       * \params 0: Original Image Capture
       * \params 1: New Image Capture
       * */
-    void imgCapture(int,cv::Mat,cv::Mat);
+    void imgCapture(int);
 
 
     /*!
       *\brief Does all the other computation
       * \params original image, new image, centroid vector
       * */
-    void Compute(cv::Mat,cv::Mat,std::vector<cv::Point2f>, cv::Mat1i);
+    void compute();
+    //cv::Mat,cv::Mat,std::vector<cv::Point2f>, cv::Mat1i
 
     /*!
       *\brief Returns the centroid location of apple
@@ -56,12 +57,11 @@ public:
       * \param NIL
       */
     CentrePoint PotatoCentroid();
+cv:: Mat img,imgNew;
 
-    cv:: Mat img,imgNew;
 private:
     std::vector<cv::Point2f> centroids;
     cv::Mat1i ind;
-
 
 };
 
