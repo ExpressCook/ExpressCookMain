@@ -10,9 +10,11 @@ TARGET = Vision
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += vision.cpp
+SOURCES += vision.cpp \
+    visionInitialization.cpp
 
-HEADERS += vision.h
+HEADERS += vision.h \
+    visionInitialization.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
