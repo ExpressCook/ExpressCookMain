@@ -9,14 +9,14 @@ using namespace cv;
 Vision::Vision()
 {
     VideoCapture capture(0);
-    capture.set(CV_CAP_PROP_FRAME_WIDTH,1920);
-    capture.set(CV_CAP_PROP_FRAME_HEIGHT,1080);
+    capture.set(CV_CAP_PROP_FRAME_WIDTH,120);
+    capture.set(CV_CAP_PROP_FRAME_HEIGHT,160);
     if(!capture.isOpened()){
     cout << "Failed to connect to the camera." << endl;
     }
-    Mat img,imgNew;
-    capture >> img;
-    if(img.empty()){
+    Mat imgNew;
+    capture >> imgNew;
+    if(imgNew.empty()){
     cout << "Failed to capture an image" << endl;
     //return -1;
     }

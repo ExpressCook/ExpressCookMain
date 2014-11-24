@@ -94,6 +94,6 @@ void testVision()
     VisionInitialization vsInit;
     Vision vs;
 
-    vs.AppleCentroid();
+    CentrePoint point = vs.AppleCentroid();
 
 }

@@ -8,8 +8,8 @@ using namespace cv;
 VisionInitialization::VisionInitialization()
 {
     VideoCapture capture(0);
-    capture.set(CV_CAP_PROP_FRAME_WIDTH,1920);
-    capture.set(CV_CAP_PROP_FRAME_HEIGHT,1080);
+    capture.set(CV_CAP_PROP_FRAME_WIDTH,120);
+    capture.set(CV_CAP_PROP_FRAME_HEIGHT,160);
     if(!capture.isOpened())
     {
         cout << "Failed to connect to the camera." <<endl;
