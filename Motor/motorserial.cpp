@@ -18,6 +18,19 @@ bool MotorSerial::init()
     return toBool(ret);
 }
 
+bool MotorSerial::moveTo(int xPos, int yPos)
+{
+    bool r1 = moveXTo(xPos);
+    bool r2 = moveYTo(yPos);
+    return r1&&r2;
+}
+
+void MotorSerial::bMoveTo(int xPos, int yPos)
+{
+    moveTo(xPos,yPos);
+    while(getXPos()!=xPos || getYPos()!=yPos){}
+}
+
 bool MotorSerial::moveXTo(int position)
 {
     QString command = "xa"+QString::number(position)+endMark;
@@ -104,6 +117,19 @@ bool MotorSerial::goToOrigin()
     }
     while(state.compare("c")==0);
     return toBool(ret);
+}
+
+void MotorSerial::moveAwayForCamera()
+{
+    int xSafe = 1200;
+    int ySafe = 700;
+
+    if(getXPos()<xSafe && getYPos()<ySafe)
+        bMoveTo(xSafe, ySafe);
+    else if(getXPos()<xSafe)
+        bMoveXTo(xSafe);
+    else if(getYPos()<ySafe)
+        bMoveYTo(ySafe);
 }
 
 int MotorSerial::getXPos()
