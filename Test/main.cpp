@@ -100,9 +100,9 @@ void testVision()
     //usleep(10000000);
     vsNew.imgCapture(1);
     vsNew.compute();
-    CentrePoint point = vsNew.PotatoCentroid();
-    cout<<"Centroid Points are x:"<<point.x<<endl;
-    cout<<"Centroid Points are y:"<<point.y<<endl;
+    //CentrePoint point = vsNew.PotatoCentroid();
+    //cout<<"Centroid Points are x:"<<point.x<<endl;
+    //cout<<"Centroid Points are y:"<<point.y<<endl;
     //cout<<"......................"<<endl;
 
 }

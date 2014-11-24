@@ -47,6 +47,7 @@ void Vision::imgCapture(int condition)
 //cv::Mat img, cv::Mat imgNew, std::vector<cv::Point2f> centroids, cv::Mat1i ind
 void Vision::compute()
 {
+    centroids.erase(centroids.begin(),centroids.begin()+centroids.size());
     vector <Point2f> srcPoints;
     vector <Point2f> dstPoints;
 
@@ -90,7 +91,7 @@ void Vision::compute()
     Mat imgBw;
     //Otsu thresholding operation
     //threshold( imgGray, imgBw, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU );
-    threshold( imgGray, imgBw, 10, 255,cv::THRESH_BINARY);
+    threshold( imgGray, imgBw, 20, 255,cv::THRESH_BINARY);
     //imshow("BW image",imgBw);
     imwrite("BWimage.jpg", imgBw);
    // Mat imgDilute;
@@ -98,7 +99,7 @@ void Vision::compute()
     Mat imgErode;
     erode(imgBw,imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(3,3), Point(-1,-1)));
     cout<<"Size of eroded image is "<<imgErode.size()<<endl;
-    //imwrite("Erodedimage.jpg", imgErode);
+    imwrite("Erodedimage.jpg", imgErode);
     Mat dst = Mat::zeros(imgErode.rows, imgErode.cols, CV_8UC3);
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
@@ -119,17 +120,41 @@ void Vision::compute()
     cout<<"Number of contours detected is"<<num<<endl;
     //cout<<"Number of contours is"<< contours.size()<<endl;
     //cout<<"Max element is"<<max_element(contours,contours)<<endl;
+    float maxArea=contourArea(contours[0]);
+    int indMax=0;
     for(int i=0;i<num;i++)
     {
+        if (contourArea(contours[i])>maxArea)
+        {
+            maxArea=contourArea(contours[i]);
+            indMax=i;
+        }
     areas.push_back(contourArea(contours[i]));
     cout << i<<" Contour area is" << contourArea(contours[i])<<endl ;
     }
-   Mat1d size_mat(1, areas.size());
+    float secondMaxArea=contourArea(contours[0]);
+    int secondIndMax=0;
+    for(int i=0;i<num;i++)
+    {
+        if (i!= indMax && contourArea(contours[i])>secondMaxArea)
+        {
+            secondMaxArea=contourArea(contours[i]);
+            secondIndMax=i;
+        }
+    //areas.push_back(contourArea(contours[i]));
+    //cout << i<<" Contour area is" << contourArea(contours[i])<<endl ;
+    }
+    cout<<"Largest "<<indMax<<endl<<"Second "<<secondIndMax<<endl;
+    //cv::Mat m = cv::Mat::zeros(height, width, CV_32F);
+   //Mat1d size_mat(1, areas.size());
+    Mat1d size_mat =Mat1d::zeros(1,areas.size());
    memcpy(size_mat.data,areas.data(),areas.size()*sizeof(float));
    cv::sortIdx(size_mat, ind, cv::SORT_EVERY_ROW | cv::SORT_DESCENDING);
+   ind.at<int>(0,0)=indMax;
+   ind.at<int>(0,1)=secondIndMax;
    cout<<"Biggest bounding rectangeles"<<ind(0,0)<<endl<<ind(0,1)<<endl;
     //namedWindow( "Components", 1 );
-   //imwrite( "Components.jpg", dst );
+   imwrite( "Components.jpg", dst );
    cout<<"Bounding Rectangles"<<endl;
    vector<vector<Point> > contours_poly( contours.size() );
    vector<Rect> boundRect( contours.size() );
@@ -138,11 +163,13 @@ void Vision::compute()
     for( int i = 0; i < contours.size(); i++ )
      { approxPolyDP( Mat(contours[i]), contours_poly[i], 3, true );
        boundRect[i] = boundingRect( Mat(contours_poly[i]) );
+       cout<<i<<" "<<boundRect[i].br().x<<"  "<<boundRect[i].br().y<<"  "<<boundRect[i].tl().x<<"   "<<boundRect[i].tl().y<<endl;
        /*TL.push_back(boundRect[i].tl());
        BR.push_back(boundRect[i].br());
        Point t=TL.at(i);
        Point b=BR.at(i);*/
-       centroids.push_back(Point((boundRect[i].br().x+boundRect[i].tl().x)/2.0,(boundRect[i].br().y+boundRect[i].tl().y)/2));
+       centroids.push_back(Point((boundRect[i].br().x+boundRect[i].tl().x)/2,(boundRect[i].br().y+boundRect[i].tl().y)/2));
+       cout<<i<<" "<<centroids.at(i).x<<"   "<<centroids.at(i).y<<endl;
        //cout<<boundRect[i].tl().x<<"\t"<<boundRect[i].br().x<<endl;
       // cout<<centroids.at(i)<<endl;
      }
@@ -150,20 +177,23 @@ void Vision::compute()
      Mat drawing = Mat::zeros( dst.size(), CV_8UC3 );
    for( int i = 0; i< 2; i++ )
      {
+       cout<<"...."<<ind(0,i)<<endl;
        Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-       drawContours( drawing, contours_poly, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+       //drawContours( drawing, contours_poly, ind(0,i), color, 1, 8, vector<Vec4i>(), 0, Point() );
        rectangle( drawing, boundRect[ind(0,i)].tl(), boundRect[ind(0,i)].br(), color, 2, 8, 0 );
        circle(drawing, centroids.at(ind(0,i)),2.0,color,-1,8,0);
+       cout<<boundRect[ind(0,i)].br().x<<"  "<<boundRect[ind(0,i)].br().y<<"  "<<boundRect[ind(0,i)].tl().x<<"   "<<boundRect[ind(0,i)].tl().y<<endl;
+       cout<<centroids.at(ind(0,i)).x<<"   "<<centroids.at(ind(0,i)).y<<endl;
      }
 
     // namedWindow( "Contours", CV_WINDOW_AUTOSIZE );
-   //imwrite( "Contours.jpg", drawing );
+   imwrite( "Contours.jpg", drawing );
   //Apple=[(89-centerA(2))*(25/3), (centerA(1)-46)*7.3]
    // waitKey();
     //return 0;
 }
 
-CentrePoint Vision::AppleCentroid()
+/*CentrePoint Vision::AppleCentroid()
 {
     CentrePoint c;
     cout<<"x :"<<centroids.at(ind(0,1)).x<<endl<<"y :"<<centroids.at(ind(0,1)).y<<endl;
@@ -176,14 +206,14 @@ CentrePoint Vision::AppleCentroid()
     //float y=appleCentroid.y;
     //float Centr
     //return(appleCentroid);
-}
+}*/
 
-CentrePoint Vision::PotatoCentroid()
+CentrePoint Vision::CalculateCentroid(int i)
 {
     CentrePoint c;
-    cout<<"x :"<<centroids.at(ind(0,0)).x<<endl<<"y :"<<centroids.at(ind(0,0)).y<<endl;
-    c.x=(430-centroids.at(ind(0,0)).x)*(2.04);
-    c.y=(centroids.at(ind(0,0)).y-194)*2.51;
+    cout<<"x :"<<centroids.at(ind(0,i)).x<<endl<<"y :"<<centroids.at(ind(0,i)).y<<endl;
+    c.x=(430-centroids.at(ind(0,i)).x)*(2.04);
+    c.y=(centroids.at(ind(0,i)).y-194)*2.51;
     cout<<"Centroid Points are x:"<<c.x<<endl;
     cout<<"Centroid Points are y:"<<c.y<<endl;
     return c;
