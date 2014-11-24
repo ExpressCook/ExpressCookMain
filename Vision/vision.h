@@ -42,21 +42,21 @@ public:
     void compute();
     //cv::Mat,cv::Mat,std::vector<cv::Point2f>, cv::Mat1i
 
-    /*!
+   /* /*!
       *\brief Returns the centroid location of apple
       *       Is called when Apple is clicked on GUI
       * \param NIL
       */
-    CentrePoint AppleCentroid();
+   // CentrePoint AppleCentroid();
 
 
 
     /*!
       *\brief Returns the centroid location of Potato
       *       Is called when Potato is clicked on GUI
-      * \param NIL
+      * \param 0: Potato centroids, 1: Apple Centroid
       */
-    CentrePoint PotatoCentroid();
+    CentrePoint CalculateCentroid(int);
 cv:: Mat img,imgNew;
 
 private:
