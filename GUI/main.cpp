@@ -21,5 +21,6 @@ int main(int argc, char *argv[])
 void initialize()
 {
     motor.init();
+    motor.goToOrigin();
     vision.imgCapture(0);
 }

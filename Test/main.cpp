@@ -10,6 +10,7 @@
 
 int testSerial();
 void testSerialLib();
+void testSerialLibBlock();
 void testVision();
 
 int main(int argc, char *argv[])
@@ -18,8 +19,8 @@ int main(int argc, char *argv[])
 
     //testSerial();
     //testSerialLib();
-
-    testVision();
+    testSerialLibBlock();
+    //testVision();
 
     return a.exec();
 }
@@ -58,6 +59,20 @@ int testSerial()
     LS.Close();
 
     return 0;
+}
+
+void testSerialLibBlock()
+{
+    MotorSerial motorControl;
+    motorControl.init();
+
+    motorControl.goToOrigin();
+
+    motorControl.bMoveXTo(1000);
+    motorControl.bMoveYTo(400);
+    motorControl.bMoveDownTo(600);
+    motorControl.bMoveDownTo(200);
+    motorControl.bMoveTo(0,0);
 }
 
 void testSerialLib()
