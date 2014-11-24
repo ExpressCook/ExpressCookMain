@@ -21,11 +21,26 @@ class Vision
 public:
 
     /*!
-      *\brief Captures the new image and computes centroid of all existing objects in the image
-      *\param NIL
+      *\brief Initializes the vision algorithm
+      *\param
       * */
     Vision();
 
+
+    /*!
+      *\brief Capture the image and stores it
+      * \params 0: Original Image Capture
+      * \params 1: New Image Capture
+      * */
+    void imgCapture(int);
+
+
+    /*!
+      *\brief Does all the other computation
+      * \params original image, new image, centroid vector
+      * */
+    void compute();
+    //cv::Mat,cv::Mat,std::vector<cv::Point2f>, cv::Mat1i
 
     /*!
       *\brief Returns the centroid location of apple
@@ -42,6 +57,7 @@ public:
       * \param NIL
       */
     CentrePoint PotatoCentroid();
+cv:: Mat img,imgNew;
 
 private:
     std::vector<cv::Point2f> centroids;
