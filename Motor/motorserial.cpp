@@ -18,6 +18,19 @@ bool MotorSerial::init()
     return toBool(ret);
 }
 
+bool MotorSerial::moveTo(int xPos, int yPos)
+{
+    bool r1 = moveXTo(xPos);
+    bool r2 = moveYTo(yPos);
+    return r1&&r2;
+}
+
+void MotorSerial::bMoveTo(int xPos, int yPos)
+{
+    moveTo(xPos,yPos);
+    while(getXPos()!=xPos || getYPos()!=yPos){}
+}
+
 bool MotorSerial::moveXTo(int position)
 {
     QString command = "xa"+QString::number(position)+endMark;

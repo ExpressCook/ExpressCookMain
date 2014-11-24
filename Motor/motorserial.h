@@ -16,6 +16,15 @@ public:
     bool init();
 
     /*!
+     * \brief move the arm in base x and y direction
+     * \param xPos
+     * \param yPos
+     * \return
+     */
+    bool moveTo(int xPos, int yPos);
+    void bMoveTo(int xPos, int yPos);
+
+    /*!
      * \brief move the arm in x direction to absolute position
      * \param position
      */
