@@ -2,6 +2,8 @@
 #define TASKPAGE_H
 
 #include <QMainWindow>
+#include <motorserial.h>
+#include <vision.h>
 
 namespace Ui {
 class ExpressCookTaskPage;
@@ -29,5 +31,8 @@ private slots:
 private:
     Ui::ExpressCookTaskPage *ui;
 };
+
+extern Vision vision;
+extern MotorSerial motor;
 
 #endif // TASKPAGE_H

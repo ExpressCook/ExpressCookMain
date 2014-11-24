@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "taskpage.h"
+#include <motorserial.h>
+#include <vision.h>
 
 namespace Ui {
 class MainWindow;
@@ -27,5 +29,8 @@ private:
     taskPage *mMyTaskPage;
 
 };
+
+extern Vision vision;
+extern MotorSerial motor;
 
 #endif // MAINWINDOW_H

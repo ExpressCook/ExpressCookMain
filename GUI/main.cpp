@@ -1,5 +1,12 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <motorserial.h>
+#include <vision.h>
+
+Vision vision;
+MotorSerial motor;
+
+void initialize();
 
 int main(int argc, char *argv[])
 {
@@ -9,4 +16,10 @@ int main(int argc, char *argv[])
     w.showFullScreen();
 
     return a.exec();
+}
+
+void initialize()
+{
+    motor.init();
+    vision.imgCapture(0);
 }

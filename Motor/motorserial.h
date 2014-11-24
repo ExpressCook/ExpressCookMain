@@ -70,6 +70,11 @@ public:
      */
     bool goToOrigin();
 
+    /*!
+     * \brief move away the arm so it do not obscure the camera view
+     */
+    void moveAwayForCamera();
+
     int getXPos();
 
     int getYPos();

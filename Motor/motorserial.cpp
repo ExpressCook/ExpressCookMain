@@ -119,6 +119,19 @@ bool MotorSerial::goToOrigin()
     return toBool(ret);
 }
 
+void MotorSerial::moveAwayForCamera()
+{
+    int xSafe = 1200;
+    int ySafe = 700;
+
+    if(getXPos()<xSafe && getYPos()<ySafe)
+        bMoveTo(xSafe, ySafe);
+    else if(getXPos()<xSafe)
+        bMoveXTo(xSafe);
+    else if(getYPos()<ySafe)
+        bMoveYTo(ySafe);
+}
+
 int MotorSerial::getXPos()
 {
     updateState();
