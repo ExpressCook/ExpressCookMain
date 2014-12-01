@@ -27,6 +27,8 @@ bool MotorSerial::moveTo(int xPos, int yPos)
 
 void MotorSerial::bMoveTo(int xPos, int yPos)
 {
+    xPos = checkXpos(xPos);
+    yPos = checkYpos(yPos);
     moveTo(xPos,yPos);
     while(getXPos()!=xPos || getYPos()!=yPos){}
 }
@@ -40,6 +42,7 @@ bool MotorSerial::moveXTo(int position)
 
 void MotorSerial::bMoveXTo(int position)
 {
+    position = checkXpos(position);
     moveXTo(position);
     while(getXPos()!=position){}
 }
@@ -54,8 +57,7 @@ bool MotorSerial::moveXBy(int position)
 void MotorSerial::bMoveXBy(int position)
 {
     int finalPos = getXPos()+position;
-    moveXBy(position);
-    while(finalPos!=getXPos()){}
+    bMoveXTo(finalPos);
 }
 
 bool MotorSerial::moveYTo(int position)
@@ -67,6 +69,7 @@ bool MotorSerial::moveYTo(int position)
 
 void MotorSerial::bMoveYTo(int position)
 {
+    position = checkYpos(position);
     moveYTo(position);
     while(getYPos()!=position){}
 }
@@ -81,8 +84,7 @@ bool MotorSerial::moveYBy(int position)
 void MotorSerial::bMoveYBy(int position)
 {
     int finalPos = getYPos()+position;
-    moveYBy(position);
-    while(finalPos!=getYPos()){}
+    bMoveYTo(finalPos);
 }
 
 bool MotorSerial::rotateWith(int speed)
@@ -101,6 +103,7 @@ bool MotorSerial::moveDownTo(int position)
 
 void MotorSerial::bMoveDownTo(int position)
 {
+    position = checkLpos(position);
     moveDownTo(position);
     while(abs(position-getLPos())>30){}
 }
@@ -174,6 +177,32 @@ void MotorSerial::updateState()
     _yPos = states.at(1).toInt();
     _rSpeed = states.at(2).toInt();
     _lPos = states.at(3).toInt();
+}
+
+int MotorSerial::checkXpos(int xpos)
+{
+   return constrain(xpos,0,1700);
+}
+
+int MotorSerial::checkYpos(int ypos)
+{
+   return constrain(ypos,0,720);
+}
+
+int MotorSerial::checkLpos(int lpos)
+{
+    return constrain(lpos,5,870);
+}
+
+int MotorSerial::constrain(int value, int min, int max)
+{
+    if(value<min)
+        value = min;
+
+    if(value>max)
+        value = max;
+
+    return value;
 }
 
 bool MotorSerial::toBool(int value)

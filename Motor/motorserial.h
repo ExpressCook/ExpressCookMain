@@ -6,6 +6,12 @@
 
 using namespace std;
 
+/*!
+ * \brief sending serial command to the arduino motor controller
+ * function ended with to means absolute position
+ * function ended with by means relative position
+ * function start with b means block function, only return when the manipulator reach its position
+ */
 class MotorSerial
 {
 
@@ -22,6 +28,12 @@ public:
      * \return
      */
     bool moveTo(int xPos, int yPos);
+
+    /*!
+     * \brief the function return until the arm reach its position
+     * \param xPos
+     * \param yPos
+     */
     void bMoveTo(int xPos, int yPos);
 
     /*!
@@ -75,12 +87,28 @@ public:
      */
     void moveAwayForCamera();
 
+    /*!
+     * \brief return the x poistion of the gantry
+     * \return
+     */
     int getXPos();
 
+    /*!
+     * \brief return the y position of the gantry
+     * \return
+     */
     int getYPos();
 
+    /*!
+     * \brief return the rotation speed of the arm
+     * \return
+     */
     int getRSpeed();
 
+    /*!
+     * \brief return the depth of the arm
+     * \return
+     */
     int getLPos();
 
 private:
@@ -95,6 +123,10 @@ private:
     char _buffer[128];
 
     void updateState();
+    int checkXpos(int xpos);
+    int checkYpos(int ypos);
+    int checkLpos(int lpos);
+    int constrain(int value, int min, int max);
 
     bool toBool(int value);
     const char *toChar(QString string);

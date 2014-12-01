@@ -10,21 +10,6 @@ taskPage::taskPage(QWidget *parent) :
     ui->setupUi(this);
 }
 
-void taskPage::checkRange(CentrePoint &center)
-{
-    if(center.x<0)
-        center.x=0;
-
-    if(center.x>1700)
-        center.x=1700;
-
-    if(center.y<0)
-        center.y = 0;
-
-    if(center.y>720)
-        center.y=720;
-}
-
 void taskPage::on_apple_clicked()
 {
     //make sure the view of camera is not obscured
@@ -36,11 +21,7 @@ void taskPage::on_apple_clicked()
     //return the center point value of apple
     CentrePoint point = vision.CalculateCentroid(1);
     //move the gantry to the point
-    checkRange(point);
-    int x = round(point.x);
-    int y = round(point.y);
-
-    motor.bMoveTo(x, y);
+    motor.bMoveTo(point.x, point.y);
     //move down the arm
     motor.bMoveDownTo(800);
     usleep(5000000);
@@ -59,10 +40,7 @@ void taskPage::on_potato_clicked()
     //return the center point value of apple
     CentrePoint point = vision.CalculateCentroid(0);
     //move the gantry to the point
-    checkRange(point);
-    int x = round(point.x);
-    int y = round(point.y);
-    motor.bMoveTo(x, y);
+    motor.bMoveTo(point.x, point.y);
     //move down the arm
     motor.bMoveDownTo(800);
     usleep(5000000);
