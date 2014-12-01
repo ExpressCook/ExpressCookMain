@@ -1,9 +1,8 @@
 #include "motorserial.h"
 #define DEVICE_PORT "/dev/ttyO1"
 
-MotorSerial::MotorSerial()
+MotorSerial::MotorSerial():endMark("!")
 {
-    endMark = "!";
 }
 
 MotorSerial::~MotorSerial()

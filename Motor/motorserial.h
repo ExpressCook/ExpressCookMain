@@ -85,7 +85,7 @@ public:
 
 private:
     serialib serial;
-    QString endMark;
+    const QString endMark;
 
     int _xPos;
     int _yPos;

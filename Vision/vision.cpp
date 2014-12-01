@@ -8,10 +8,14 @@ using namespace std;
 using namespace cv;
 Vision::Vision()
 {
+    numApples=0;
+    numPotatoes=0;
 }
 
 void Vision::imgCapture(int condition)
 {
+    numApples=0;
+    numPotatoes=0;
     VideoCapture capture(0);
     capture.set(CV_CAP_PROP_FRAME_WIDTH,1280);
     capture.set(CV_CAP_PROP_FRAME_HEIGHT,720);
@@ -45,16 +49,13 @@ void Vision::imgCapture(int condition)
 
 }
 //cv::Mat img, cv::Mat imgNew, std::vector<cv::Point2f> centroids, cv::Mat1i ind
-void Vision::compute()
+int Vision::compute()
 {
     centroids.erase(centroids.begin(),centroids.begin()+centroids.size());
     vector <Point2f> srcPoints;
     vector <Point2f> dstPoints;
 
-    /*srcPoints.push_back(Point2f(48,20));
-    srcPoints.push_back(Point2f(119,17));
-    srcPoints.push_back(Point2f(53,106));
-    srcPoints.push_back(Point2f(118,104));*/
+   // Points used for homography
     srcPoints.push_back(Point2f(394,50));
     srcPoints.push_back(Point2f(953,12));
     srcPoints.push_back(Point2f(436,706));
@@ -132,7 +133,8 @@ void Vision::compute()
     areas.push_back(contourArea(contours[i]));
     cout << i<<" Contour area is" << contourArea(contours[i])<<endl ;
     }
-    float secondMaxArea=contourArea(contours[0]);
+    //float secondMaxArea=contourArea(contours[0]);
+    float secondMaxArea=-1;
     int secondIndMax=0;
     for(int i=0;i<num;i++)
     {
@@ -173,7 +175,7 @@ void Vision::compute()
        //cout<<boundRect[i].tl().x<<"\t"<<boundRect[i].br().x<<endl;
       // cout<<centroids.at(i)<<endl;
      }
-   cout<<"Bounding Rectangles ended"<<endl;
+   //cout<<"Bounding Rectangles ended"<<endl;
      Mat drawing = Mat::zeros( dst.size(), CV_8UC3 );
    for( int i = 0; i< 2; i++ )
      {
@@ -188,9 +190,74 @@ void Vision::compute()
 
     // namedWindow( "Contours", CV_WINDOW_AUTOSIZE );
    imwrite( "Contours.jpg", drawing );
-  //Apple=[(89-centerA(2))*(25/3), (centerA(1)-46)*7.3]
-   // waitKey();
-    //return 0;
+
+   int number;     // Stores the number of fruits found
+    // Checking how many fruits exist, by taking minArea to be 9000(experimental value)
+   if(maxArea>9000 && secondMaxArea>9000)
+   {
+       //both the biggest areas are bigger than the threshold
+       number=2;
+   }
+   else if(maxArea>9000 && secondMaxArea<9000)
+   {
+       //Only the biggest area is bigger than the threshold
+       number=1;
+   }
+   else if(maxArea<9000 && secondMaxArea<9000)
+   {
+       //Even the biggest area is smaller than the threshold
+       number=0;
+   }
+   cout<<"number is"<<number;
+    // Converting image to HSV space to determine apples vs potatoes
+   Mat imgHSV;
+   cvtColor(imgChange, imgHSV, COLOR_BGR2HSV);
+
+    // Checking whether the existing fruits are apples/potatoes
+
+  if(number>0)
+  {
+      for(int iter=1;iter<=number;iter++)
+      {
+          Point2f pt;
+          double meanH=0.0;
+          int count=0;
+          vector<Point> cont=contours[ind(0,iter-1)];
+          for(int X=0;X<imgHSV.rows;X++)
+          {
+              for(int Y=0;Y<imgHSV.cols;Y++)
+              {
+                  pt.x=Y; pt.y=X;
+                  int position=pointPolygonTest(cont, pt, false);
+                  if(position==1)
+                  {
+                      int Hval=imgHSV.at<cv::Vec3b>(X,Y)[0];
+                      //cout<<Hval<<endl;
+                      meanH=meanH+Hval;  //imgHSV.at<cv::Vec3b>(X,Y)[0];//insert H value;
+                      count++;
+                  }
+              }
+          }
+          meanH=meanH/count;
+          if(meanH>60)
+          //if((meanH>=0.0 && meanH<0.05*179) || (meanH>0.9*179 && meanH<=1.0*179))
+          {
+              cout<<"Apples before"<<numApples<<endl;
+              numApples++;
+              //numPotatoes=0;
+              cout<<"Apples after"<<numApples<<endl;
+          }
+          else
+          {
+              //numApples=0;
+              cout<<"Potatoes before"<<numPotatoes<<endl;
+              numPotatoes++;
+              cout<<"Potatoes after"<<numPotatoes<<endl;
+          }
+      }
+  }
+
+  return number;
 }
 
 /*CentrePoint Vision::AppleCentroid()
@@ -210,12 +277,26 @@ void Vision::compute()
 
 CentrePoint Vision::CalculateCentroid(int i)
 {
-    CentrePoint c;
-    cout<<"x :"<<centroids.at(ind(0,i)).x<<endl<<"y :"<<centroids.at(ind(0,i)).y<<endl;
-    c.x=(430-centroids.at(ind(0,i)).x)*(2.04);
-    c.y=(centroids.at(ind(0,i)).y-194)*2.51;
-    cout<<"Centroid Points are x:"<<c.x<<endl;
-    cout<<"Centroid Points are y:"<<c.y<<endl;
+     CentrePoint c;
+    //Before returning, check whether fruit asked for is available or not
+     cout<<"Potatoes: "<<numPotatoes<<endl<<"Apples: "<<numApples<<endl;
+    if(i==0 && numPotatoes==0)
+    {
+        c.x=-1; c.y=-1;
+    }
+    else if(i==1 && numApples==0)
+    {
+        c.x=-1; c.y=-1;
+    }
+    else
+    {
+        cout<<"x :"<<centroids.at(ind(0,i)).x<<endl<<"y :"<<centroids.at(ind(0,i)).y<<endl;
+        c.x=(430-centroids.at(ind(0,i)).x)*(2.04);
+        c.y=(centroids.at(ind(0,i)).y-194)*2.51;
+        cout<<"Centroid Points are x:"<<c.x<<endl;
+        cout<<"Centroid Points are y:"<<c.y<<endl;
+    }
+
     return c;
     //cv::Point2f potatoCentroid;
     //cv::Point2f potatoCentroid((89-centroids.at(ind(0,1)).y)*(25/3), (centroids.at(ind(0,1)).x-46)*7.3);

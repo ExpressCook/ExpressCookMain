@@ -37,9 +37,12 @@ public:
 
     /*!
       *\brief Does all the other computation
-      * \params original image, new image, centroid vector
+      * \params Nil
+      * returns 0 if no fruit found
+      * returns 1 if 1 fruit found
+      * returns 2 if fruit found
       * */
-    void compute();
+    int compute();
     //cv::Mat,cv::Mat,std::vector<cv::Point2f>, cv::Mat1i
 
    /* /*!
@@ -62,6 +65,7 @@ cv:: Mat img,imgNew;
 private:
     std::vector<cv::Point2f> centroids;
     cv::Mat1i ind;
+    int numApples, numPotatoes;         // Stores the number of apples found, number of potatoes found.
 
 };
 
