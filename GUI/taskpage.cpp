@@ -10,21 +10,6 @@ taskPage::taskPage(QWidget *parent) :
     ui->setupUi(this);
 }
 
-void taskPage::checkRange(CentrePoint &center)
-{
-    if(center.x<0)
-        center.x=0;
-
-    if(center.x>1700)
-        center.x=1700;
-
-    if(center.y<0)
-        center.y = 0;
-
-    if(center.y>720)
-        center.y=720;
-}
-
 void taskPage::on_apple_clicked()
 {
     //make sure the view of camera is not obscured
@@ -46,8 +31,7 @@ void taskPage::on_apple_clicked()
             cout<<"Fruit requested out of stock"<<endl;
         }
         else
-        {
-            checkRange(point);
+        {            
             int x = round(point.x);
             int y = round(point.y);
 
@@ -60,7 +44,6 @@ void taskPage::on_apple_clicked()
         }
 
     }
-
 }
 
 void taskPage::on_potato_clicked()
@@ -84,7 +67,6 @@ void taskPage::on_potato_clicked()
         else
         {
             //move the gantry to the point
-            checkRange(point);
             int x = round(point.x);
             int y = round(point.y);
             motor.bMoveTo(x,y);

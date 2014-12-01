@@ -30,7 +30,6 @@ private slots:
 
 private:
     Ui::ExpressCookTaskPage *ui;
-    void checkRange(CentrePoint &point);
 };
 
 extern Vision vision;
