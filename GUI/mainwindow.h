@@ -24,10 +24,10 @@ public slots:
 private slots:
     void on_clickanywhere_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     taskPage *mMyTaskPage;
-
 };
 
 extern Vision vision;

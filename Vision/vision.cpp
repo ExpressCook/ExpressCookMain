@@ -1,7 +1,8 @@
 #include "vision.h"
 #include <iostream>
 #include <algorithm>
-
+#include <fstream>
+#define PI 3.14
 cv::RNG rng(12345);
 
 using namespace std;
@@ -14,8 +15,6 @@ Vision::Vision()
 
 void Vision::imgCapture(int condition)
 {
-    numApples=0;
-    numPotatoes=0;
     VideoCapture capture(0);
     capture.set(CV_CAP_PROP_FRAME_WIDTH,1280);
     capture.set(CV_CAP_PROP_FRAME_HEIGHT,720);
@@ -51,6 +50,10 @@ void Vision::imgCapture(int condition)
 //cv::Mat img, cv::Mat imgNew, std::vector<cv::Point2f> centroids, cv::Mat1i ind
 int Vision::compute()
 {
+    ofstream myfile;
+    numApples=0;
+    numPotatoes=0;
+
     centroids.erase(centroids.begin(),centroids.begin()+centroids.size());
     vector <Point2f> srcPoints;
     vector <Point2f> dstPoints;
@@ -72,14 +75,14 @@ int Vision::compute()
     //imwrite("warpedoriginal.jpg",img_out);
     //Mat imgNew;
     //imgNew=imread("/home/ubuntu/vision/openCV_Learning/Learning3/PR4/New.jpg",1);
-    cout<<"Size of the image "<<imgNew.size()<<endl;
+    //cout<<"Size of the image "<<imgNew.size()<<endl;
     Mat imgNew_out = Mat::zeros( 640, 640, CV_8UC3 );
     //cout<<"Sugandha printing new image"<<endl;
     //imwrite("New.jpg",imgNew);
     warpPerspective(imgNew, imgNew_out, H, imgNew_out.size(), 1, 1);
     Mat img_out = Mat::zeros( 640, 640, CV_8UC3 );
     warpPerspective(img, img_out, H, img_out.size(), 1, 1);
-    //imwrite("WarpedNew.jpg", imgNew_out);
+    imwrite("WarpedNew.jpg", imgNew_out);
     //Mat img_out=imread("warpedOriginal.jpg",1);
     Mat imgChange;
     absdiff(imgNew_out,img_out,imgChange);
@@ -92,6 +95,8 @@ int Vision::compute()
     Mat imgBw;
     //Otsu thresholding operation
     //threshold( imgGray, imgBw, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU );
+
+    //Threshold for black background=20;
     threshold( imgGray, imgBw, 20, 255,cv::THRESH_BINARY);
     //imshow("BW image",imgBw);
     imwrite("BWimage.jpg", imgBw);
@@ -99,7 +104,7 @@ int Vision::compute()
    // dilate(imgBw,imgDilute, getStructuringElement(MORPH_ELLIPSE, Size(3,3), Point(-1,-1)));
     Mat imgErode;
     erode(imgBw,imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(3,3), Point(-1,-1)));
-    cout<<"Size of eroded image is "<<imgErode.size()<<endl;
+    //cout<<"Size of eroded image is "<<imgErode.size()<<endl;
     imwrite("Erodedimage.jpg", imgErode);
     Mat dst = Mat::zeros(imgErode.rows, imgErode.cols, CV_8UC3);
     vector<vector<Point> > contours;
@@ -118,7 +123,7 @@ int Vision::compute()
     vector<double> areas;
     //Mat1i ind;
     int num=contours.size();
-    cout<<"Number of contours detected is"<<num<<endl;
+    //cout<<"Number of contours detected is"<<num<<endl;
     //cout<<"Number of contours is"<< contours.size()<<endl;
     //cout<<"Max element is"<<max_element(contours,contours)<<endl;
     float maxArea=contourArea(contours[0]);
@@ -131,7 +136,7 @@ int Vision::compute()
             indMax=i;
         }
     areas.push_back(contourArea(contours[i]));
-    cout << i<<" Contour area is" << contourArea(contours[i])<<endl ;
+    //cout << i<<" Contour area is" << contourArea(contours[i])<<endl ;
     }
     //float secondMaxArea=contourArea(contours[0]);
     float secondMaxArea=-1;
@@ -146,7 +151,7 @@ int Vision::compute()
     //areas.push_back(contourArea(contours[i]));
     //cout << i<<" Contour area is" << contourArea(contours[i])<<endl ;
     }
-    cout<<"Largest "<<indMax<<endl<<"Second "<<secondIndMax<<endl;
+    //cout<<"Largest "<<indMax<<endl<<"Second "<<secondIndMax<<endl;
     //cv::Mat m = cv::Mat::zeros(height, width, CV_32F);
    //Mat1d size_mat(1, areas.size());
     Mat1d size_mat =Mat1d::zeros(1,areas.size());
@@ -154,10 +159,10 @@ int Vision::compute()
    cv::sortIdx(size_mat, ind, cv::SORT_EVERY_ROW | cv::SORT_DESCENDING);
    ind.at<int>(0,0)=indMax;
    ind.at<int>(0,1)=secondIndMax;
-   cout<<"Biggest bounding rectangeles"<<ind(0,0)<<endl<<ind(0,1)<<endl;
+   //cout<<"Biggest bounding rectangeles"<<ind(0,0)<<endl<<ind(0,1)<<endl;
     //namedWindow( "Components", 1 );
    imwrite( "Components.jpg", dst );
-   cout<<"Bounding Rectangles"<<endl;
+   //cout<<"Bounding Rectangles"<<endl;
    vector<vector<Point> > contours_poly( contours.size() );
    vector<Rect> boundRect( contours.size() );
    //vector<Point> centroids;
@@ -171,7 +176,7 @@ int Vision::compute()
        Point t=TL.at(i);
        Point b=BR.at(i);*/
        centroids.push_back(Point((boundRect[i].br().x+boundRect[i].tl().x)/2,(boundRect[i].br().y+boundRect[i].tl().y)/2));
-       cout<<i<<" "<<centroids.at(i).x<<"   "<<centroids.at(i).y<<endl;
+       //cout<<i<<" "<<centroids.at(i).x<<"   "<<centroids.at(i).y<<endl;
        //cout<<boundRect[i].tl().x<<"\t"<<boundRect[i].br().x<<endl;
       // cout<<centroids.at(i)<<endl;
      }
@@ -179,13 +184,13 @@ int Vision::compute()
      Mat drawing = Mat::zeros( dst.size(), CV_8UC3 );
    for( int i = 0; i< 2; i++ )
      {
-       cout<<"...."<<ind(0,i)<<endl;
+       //cout<<"...."<<ind(0,i)<<endl;
        Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
        //drawContours( drawing, contours_poly, ind(0,i), color, 1, 8, vector<Vec4i>(), 0, Point() );
        rectangle( drawing, boundRect[ind(0,i)].tl(), boundRect[ind(0,i)].br(), color, 2, 8, 0 );
        circle(drawing, centroids.at(ind(0,i)),2.0,color,-1,8,0);
-       cout<<boundRect[ind(0,i)].br().x<<"  "<<boundRect[ind(0,i)].br().y<<"  "<<boundRect[ind(0,i)].tl().x<<"   "<<boundRect[ind(0,i)].tl().y<<endl;
-       cout<<centroids.at(ind(0,i)).x<<"   "<<centroids.at(ind(0,i)).y<<endl;
+       //cout<<boundRect[ind(0,i)].br().x<<"  "<<boundRect[ind(0,i)].br().y<<"  "<<boundRect[ind(0,i)].tl().x<<"   "<<boundRect[ind(0,i)].tl().y<<endl;
+       //cout<<centroids.at(ind(0,i)).x<<"   "<<centroids.at(ind(0,i)).y<<endl;
      }
 
     // namedWindow( "Contours", CV_WINDOW_AUTOSIZE );
@@ -212,47 +217,68 @@ int Vision::compute()
     // Converting image to HSV space to determine apples vs potatoes
    Mat imgHSV;
    cvtColor(imgChange, imgHSV, COLOR_BGR2HSV);
-
+   imwrite("HSV.jpg",imgHSV);
     // Checking whether the existing fruits are apples/potatoes
 
   if(number>0)
   {
       for(int iter=1;iter<=number;iter++)
       {
+          //cout<<"Iter value"<<iter;
           Point2f pt;
           double meanH=0.0;
+          double meanG=0.0;
+          //cout<<"Existing H value"<<meanH<<endl;
           int count=0;
+          int countC=0;
           vector<Point> cont=contours[ind(0,iter-1)];
+          myfile.open("HSVval.txt");
           for(int X=0;X<imgHSV.rows;X++)
           {
               for(int Y=0;Y<imgHSV.cols;Y++)
               {
                   pt.x=Y; pt.y=X;
                   int position=pointPolygonTest(cont, pt, false);
-                  if(position==1)
+                  int Sval=imgHSV.at<cv::Vec3b>(X,Y)[1];
+                  int Vval=imgHSV.at<cv::Vec3b>(X,Y)[2];
+
+                  if(position==1 && Sval>50 && Vval>70)
                   {
                       int Hval=imgHSV.at<cv::Vec3b>(X,Y)[0];
-                      //cout<<Hval<<endl;
-                      meanH=meanH+Hval;  //imgHSV.at<cv::Vec3b>(X,Y)[0];//insert H value;
+                      int Rval=imgChange.at<cv::Vec3b>(X,Y)[2];
+                      meanG=meanG+Rval;
+//                      if((cos((2*Hval*PI)/180)+1)<(cos((160*PI)/180)+1) && (cos((2*Hval*PI)/180)+1)>120)
+//                      {
+//                          countC++;
+//                      }
+                      myfile<<X<<"\t"<<Y<<"\t"<<Hval<<"\t"<<int(imgHSV.at<cv::Vec3b>(X,Y)[1])<<"\t"<<int(imgHSV.at<cv::Vec3b>(X,Y)[2])<<endl;
+                      meanH=meanH+(cos((2*Hval*PI)/180)+1);  //imgHSV.at<cv::Vec3b>(X,Y)[0];//insert H value;
                       count++;
                   }
               }
           }
+          myfile.close();
           meanH=meanH/count;
-          if(meanH>60)
+          meanG=meanG/count;
+          //double c=(countC*1.0)/count;
+          //if(countC*(1.0)/count<0.2)
+          //if(meanH>=(cos((2*18*PI)/180)+1) && meanH<=1.85)//(cos((2*50*PI)/180)+1))
           //if((meanH>=0.0 && meanH<0.05*179) || (meanH>0.9*179 && meanH<=1.0*179))
-          {
-              cout<<"Apples before"<<numApples<<endl;
-              numApples++;
-              //numPotatoes=0;
-              cout<<"Apples after"<<numApples<<endl;
-          }
-          else
+          if(meanH>= 0.82 && meanH<=1.85)
           {
               //numApples=0;
               cout<<"Potatoes before"<<numPotatoes<<endl;
               numPotatoes++;
               cout<<"Potatoes after"<<numPotatoes<<endl;
+
+          }
+          else
+          {
+
+              cout<<"Apples before"<<numApples<<endl;
+              numApples++;
+              //numPotatoes=0;
+              cout<<"Apples after"<<numApples<<endl;
           }
       }
   }

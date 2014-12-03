@@ -20,6 +20,10 @@ void taskPage::on_apple_clicked()
     int num;
     num=vision.compute();
     cout<<"Number is"<<num<<endl;
+    if(num==0)
+    {
+        cout<<"Pantry out of stock."<<endl;
+    }
     // continue to do the rest if atleast 1 fruit is found
     if(num>0)
     {
@@ -55,6 +59,10 @@ void taskPage::on_potato_clicked()
     //compute the number of available fruits
     int num=vision.compute();
     cout<<"Number is"<<num<<endl;
+    if(num==0)
+    {
+        cout<<"Pantry out of stock."<<endl;
+    }
     // continue to do the rest if atleast 1 fruit is found
     if(num>0)
     {

@@ -11,6 +11,7 @@ void initialize();
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
     initialize();
 
     MainWindow w;
