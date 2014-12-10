@@ -1,4 +1,5 @@
 ExpressCookMain
+Read code convention before editing any code!!
 ===============
 The Main programe for the Express Cook
 * GUI - graphical user interface
