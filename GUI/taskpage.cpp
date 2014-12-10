@@ -42,7 +42,7 @@ void taskPage::on_apple_clicked()
             motor.bMoveTo(x, y);
             //move down the arm
             motor.bMoveDownTo(800);
-            usleep(5000000);
+            usleep(1000000);
             //move up the arm
             motor.bMoveDownTo(100);
         }
@@ -80,7 +80,7 @@ void taskPage::on_potato_clicked()
             motor.bMoveTo(x,y);
             //move down the arm
             motor.bMoveDownTo(800);
-            usleep(5000000);
+            usleep(1000000);
             //move up the arm
             motor.bMoveDownTo(100);
         }

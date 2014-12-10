@@ -83,6 +83,7 @@ int Vision::compute()
     Mat img_out = Mat::zeros( 640, 640, CV_8UC3 );
     warpPerspective(img, img_out, H, img_out.size(), 1, 1);
     imwrite("WarpedNew.jpg", imgNew_out);
+    imwrite("WarpedOriginal.jpg", img_out);
     //Mat img_out=imread("warpedOriginal.jpg",1);
     Mat imgChange;
     absdiff(imgNew_out,img_out,imgChange);
@@ -97,7 +98,7 @@ int Vision::compute()
     //threshold( imgGray, imgBw, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU );
 
     //Threshold for black background=20;
-    threshold( imgGray, imgBw, 20, 255,cv::THRESH_BINARY);
+    threshold( imgGray, imgBw, 25, 255,cv::THRESH_BINARY);
     //imshow("BW image",imgBw);
     imwrite("BWimage.jpg", imgBw);
    // Mat imgDilute;
