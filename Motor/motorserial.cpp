@@ -104,12 +104,44 @@ void MotorSerial::bMoveDownTo(int position)
 {
     position = checkLpos(position);
     moveDownTo(position);
-    while(abs(position-getLPos())>30){}
+    //the tolerance should be smaller
+    while(abs(position-getLPos())>20){}
+}
+
+bool MotorSerial::moveDownBy(int position)
+{
+    return moveDownTo(getLPos()+position);
+}
+
+void MotorSerial::bMoveDownBy(int position)
+{
+    bMoveDownTo(getLPos()+position);
+}
+
+bool MotorSerial::moveDownTillHit()
+{
+    QString command = "lh0"+endMark;
+    int ret = serial.WriteString(toChar(command));
+    return toBool(ret);
+}
+
+void MotorSerial::bMoveDownTillHit()
+{
+    moveDownTillHit();
+
+    int lastPos,nowPos;
+    do
+    {
+        QThread::msleep(300);
+        lastPos = nowPos;
+        nowPos = getLPos();
+    }
+    while(lastPos!=nowPos);
 }
 
 bool MotorSerial::goToOrigin()
 {
-    //the function should block until it reach the origin point
+    //the function block until it reach the origin point
     int ret = serial.WriteString("gc");
     QString state="";
     do
