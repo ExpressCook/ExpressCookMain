@@ -11,6 +11,7 @@
 int testSerial();
 void testSerialLib();
 void testSerialLibBlock();
+void testHit();
 void testVision();
 
 int main(int argc, char *argv[])
@@ -19,8 +20,9 @@ int main(int argc, char *argv[])
 
     //testSerial();
     //testSerialLib();
-    testSerialLibBlock();
+    //testSerialLibBlock();
     //testVision();
+    testHit();
 
     return a.exec();
 }
@@ -103,6 +105,17 @@ void testSerialLib()
               && motorControl.getLPos()>150)
         {}
     }
+}
+
+void testHit()
+{
+    MotorSerial motor;
+    motor.init();
+    motor.goToOrigin();
+
+    motor.bMoveDownTillHit();
+    motor.bMoveTo(400,400);
+    motor.goToOrigin();
 }
 
 void testVision()

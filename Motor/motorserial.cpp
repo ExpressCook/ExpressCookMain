@@ -105,7 +105,7 @@ void MotorSerial::bMoveDownTo(int position)
     position = checkLpos(position);
     moveDownTo(position);
     //the tolerance should be smaller
-    while(abs(position-getLPos())>20){}
+    while(abs(position-getLPos())>=2){}
 }
 
 bool MotorSerial::moveDownBy(int position)
@@ -132,7 +132,7 @@ void MotorSerial::bMoveDownTillHit()
     int lastPos,nowPos;
     do
     {
-        QThread::msleep(300);
+        QThread::msleep(30);
         lastPos = nowPos;
         nowPos = getLPos();
     }
@@ -222,7 +222,7 @@ int MotorSerial::checkYpos(int ypos)
 
 int MotorSerial::checkLpos(int lpos)
 {
-    return constrain(lpos,5,870);
+    return constrain(lpos,35,885);
 }
 
 int MotorSerial::constrain(int value, int min, int max)
