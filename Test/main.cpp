@@ -19,10 +19,10 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
     //testSerial();
-    //testSerialLib();
+    testSerialLib();
     //testSerialLibBlock();
     //testVision();
-    testHit();
+    //testHit();
 
     return a.exec();
 }

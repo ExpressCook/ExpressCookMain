@@ -88,7 +88,7 @@ void MotorSerial::bMoveYBy(int position)
 
 bool MotorSerial::rotateWith(int speed)
 {
-    QString command = "ro"+QString::number(speed)+endMark;
+    QString command = "rc"+QString::number(speed)+endMark;
     int ret = serial.WriteString(toChar(command));
     return toBool(ret);
 }
