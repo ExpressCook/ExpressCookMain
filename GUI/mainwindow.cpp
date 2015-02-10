@@ -25,9 +25,5 @@ void MainWindow::on_clickanywhere_clicked()
 
 void MainWindow::openTaskPage()
 {
-//    mMyTaskPage = new taskPage();
-
-//    mMyTaskPage->show();
-
 }
 

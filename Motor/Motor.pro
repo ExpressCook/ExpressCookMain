@@ -14,7 +14,8 @@ SOURCES += motorserial.cpp \
     serialib.cpp
 
 HEADERS += motorserial.h \
-    serialib.h
+    serialib.h \
+    motorparams.h
 
 unix {
     target.path = /usr/lib

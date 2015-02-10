@@ -1,0 +1,4 @@
+#ifndef TOOLPOSITION_H
+#define TOOLPOSITION_H
+
+#endif // TOOLPOSITION_H

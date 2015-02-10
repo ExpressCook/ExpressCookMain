@@ -10,10 +10,9 @@ MotorSerial::~MotorSerial()
     serial.Close();
 }
 
-
 bool MotorSerial::init()
 {
-    int ret = serial.Open(DEVICE_PORT,19200);
+    int ret = serial.Open(DEVICE_PORT,SERIAL_RATE);
     return toBool(ret);
 }
 
@@ -88,7 +87,7 @@ void MotorSerial::bMoveYBy(int position)
 
 bool MotorSerial::rotateWith(int speed)
 {
-    QString command = "ro"+QString::number(speed)+endMark;
+    QString command = "rc"+QString::number(speed)+endMark;
     int ret = serial.WriteString(toChar(command));
     return toBool(ret);
 }
@@ -104,12 +103,44 @@ void MotorSerial::bMoveDownTo(int position)
 {
     position = checkLpos(position);
     moveDownTo(position);
-    while(abs(position-getLPos())>30){}
+    //the tolerance should be smaller
+    while(abs(position-getLPos())>=2){}
+}
+
+bool MotorSerial::moveDownBy(int position)
+{
+    return moveDownTo(getLPos()+position);
+}
+
+void MotorSerial::bMoveDownBy(int position)
+{
+    bMoveDownTo(getLPos()+position);
+}
+
+bool MotorSerial::moveDownTillHit()
+{
+    QString command = "lh0"+endMark;
+    int ret = serial.WriteString(toChar(command));
+    return toBool(ret);
+}
+
+void MotorSerial::bMoveDownTillHit()
+{
+    moveDownTillHit();
+
+    int lastPos,nowPos;
+    do
+    {
+        QThread::msleep(30);
+        lastPos = nowPos;
+        nowPos = getLPos();
+    }
+    while(lastPos!=nowPos);
 }
 
 bool MotorSerial::goToOrigin()
 {
-    //the function should block until it reach the origin point
+    //the function block until it reach the origin point
     int ret = serial.WriteString("gc");
     QString state="";
     do
@@ -158,6 +189,11 @@ int MotorSerial::getLPos()
     return _lPos;
 }
 
+int MotorSerial::getRevLPos()
+{
+    return RANGE_L_MAX - getLPos();
+}
+
 void MotorSerial::updateState()
 {
     char a;
@@ -180,17 +216,17 @@ void MotorSerial::updateState()
 
 int MotorSerial::checkXpos(int xpos)
 {
-   return constrain(xpos,0,1700);
+   return constrain(xpos,0,RANGE_X);
 }
 
 int MotorSerial::checkYpos(int ypos)
 {
-   return constrain(ypos,0,720);
+   return constrain(ypos,0,RANGE_Y);
 }
 
 int MotorSerial::checkLpos(int lpos)
 {
-    return constrain(lpos,5,870);
+    return constrain(lpos,RANGE_L_MIN,RANGE_L_MAX);
 }
 
 int MotorSerial::constrain(int value, int min, int max)

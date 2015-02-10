@@ -3,6 +3,7 @@
 
 #include "serialib.h"
 #include <QtCore>
+#include "motorparams.h"
 
 using namespace std;
 
@@ -78,6 +79,21 @@ public:
     void bMoveDownTo(int position);
 
     /*!
+     * \brief move the arm down with relative position
+     * \param position
+     * \return
+     */
+    bool moveDownBy(int position);
+    void bMoveDownBy(int position);
+
+    /*!
+     * \brief move the arm down till hit the fruit
+     * \return
+     */
+    bool moveDownTillHit();
+    void bMoveDownTillHit();
+
+    /*!
      * \brief set the gantry into origin position
      */
     bool goToOrigin();
@@ -110,6 +126,7 @@ public:
      * \return
      */
     int getLPos();
+    int getRevLPos();
 
 private:
     serialib serial;

@@ -1,0 +1,27 @@
+Code Convention:
+
+General Guides:
+
+1. http://www.cs.cmu.edu/~./213/codeStyle.html
+2. http://google-styleguide.googlecode.com/svn/trunk/cppguide.html
+
+
+Naming:
+
+1. file name: every word start with lower case and no space
+2. class name: every word start with upper case and no space
+3. function name: use upper case start with second word
+4. private memeber name: start with "_" and use upper case start with second word
+5. other variable name: use upper case start with second word 
+
+
+Documentation:
+
+1. formal documentation: using "/*! ....  */"
+	/*!
+     * \brief move the arm in both x and y direction
+     * \param xPos
+     * \param yPos
+     * \return
+     */ 
+
