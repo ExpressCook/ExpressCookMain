@@ -3,6 +3,7 @@
 
 #include "serialib.h"
 #include <QtCore>
+#include "motorparams.h"
 
 using namespace std;
 
@@ -125,6 +126,7 @@ public:
      * \return
      */
     int getLPos();
+    int getRevLPos();
 
 private:
     serialib serial;

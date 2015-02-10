@@ -43,16 +43,6 @@ public:
       * returns 2 if fruit found
       * */
     int compute();
-    //cv::Mat,cv::Mat,std::vector<cv::Point2f>, cv::Mat1i
-
-   /* /*!
-      *\brief Returns the centroid location of apple
-      *       Is called when Apple is clicked on GUI
-      * \param NIL
-      */
-   // CentrePoint AppleCentroid();
-
-
 
     /*!
       *\brief Returns the centroid location of Potato
@@ -60,7 +50,7 @@ public:
       * \param 0: Potato centroids, 1: Apple Centroid
       */
     CentrePoint CalculateCentroid(int);
-cv:: Mat img,imgNew;
+    cv:: Mat img,imgNew;
 
 private:
     std::vector<cv::Point2f> centroids;

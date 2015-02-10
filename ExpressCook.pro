@@ -4,4 +4,5 @@ SUBDIRS += \
     Motor \
     Vision \
     Test \
-    GUI
+    GUI \
+    Plan

@@ -26,5 +26,4 @@ void initialize()
     motor.goToOrigin();
     motor.moveAwayForCamera();
     vision.imgCapture(0);
-
 }
