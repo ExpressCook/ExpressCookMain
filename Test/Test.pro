@@ -13,8 +13,11 @@ CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
-    target.files = Test/Test
-    target.path = /home/ubuntu/qt
+
+    target.files = Test
+    target.path = /usr/lib
+
+
 
 INSTALLS += target
 

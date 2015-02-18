@@ -18,4 +18,4 @@ unix {
     INSTALLS += target
 }
 
-c
+

@@ -5,5 +5,4 @@ SUBDIRS += \
     Vision \
     Test \
     GUI \
-    VisionImproved \
     Plan

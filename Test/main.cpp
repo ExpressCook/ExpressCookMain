@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <serialib.h>
 #include <motorserial.h>
-#include <visioninitialization.h>
 #include <vision.h>
 #include <unistd.h>
 
@@ -124,12 +123,12 @@ void testVision()
     //Vision vsOriginal;
     Vision vsNew;
 
-    vsNew.imgCapture(0);
+    vsNew.init(0);
     usleep(10000000);
-    vsNew.imgCapture(1);
-    int num;
-    num=vsNew.compute();
-    cout<<"Number"<<num<<endl;
+    vsNew.init(1);
+    vector<DetectionResults> num;
+    num=vsNew.detect();
+    cout<<"size"<<num.size()<<endl;
     CentrePoint point = vsNew.CalculateCentroid(0);
     //cout<<"Centroid Points are x:"<<point.x<<endl;
     //cout<<"Centroid Points are y:"<<point.y<<endl;

@@ -1,18 +1,21 @@
 #ifndef VISION_H
 #define VISION_H
 
+
 #include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
 #include <vector>
 #include <algorithm>
+#include <list>
 
-
-struct CentrePoint
+struct DetectionResults
 {
-    float x;
-    float y;
+    int fruitType;
+    cv::Point2f topLeft;
+    cv::Point2f bottomRight;
+    cv::Point2f centroid;
 };
 
 class Vision
@@ -21,41 +24,72 @@ class Vision
 public:
 
     /*!
-      *\brief Initializes the vision algorithm
+      *\brief constructor for Vision class
       *\param
       * */
     Vision();
 
 
     /*!
-      *\brief Capture the image and stores it
-      * \params 0: Original Image Capture
-      * \params 1: New Image Capture
+      *\brief Initializes vision system by capturing the image of the drawer
+      *\params 0: Original Image Capture
+      *\params 1: New Image Capture
       * */
-    void imgCapture(int);
+    void init(int);
 
 
     /*!
-      *\brief Does all the other computation
-      * \params Nil
-      * returns 0 if no fruit found
-      * returns 1 if 1 fruit found
-      * returns 2 if fruit found
-      * */
-    int compute();
-
-    /*!
-      *\brief Returns the centroid location of Potato
-      *       Is called when Potato is clicked on GUI
-      * \param 0: Potato centroids, 1: Apple Centroid
+      *\brief Returns the centroid location of fruit selected on GUI
+      *\param 0: Potato centroids, 1: Apple Centroid
+      *\return a vector containing type, bounding rectanlge and centroid of each fruit detected
       */
-    CentrePoint CalculateCentroid(int);
-    cv:: Mat img,imgNew;
+    std::vector<DetectionResults> detect();
+
 
 private:
-    std::vector<cv::Point2f> centroids;
-    cv::Mat1i ind;
-    int numApples, numPotatoes;         // Stores the number of apples found, number of potatoes found.
+
+/*!
+     * \brief computes Homography Matrix for transformation
+     */
+cv::Mat computeHomography();
+
+/*!
+     * \brief perform pre-processing operations
+     * homography, background subtraction, grayScale conversion, BW conversion and erosion
+     */
+cv::Mat preProcessing();
+
+/*!
+     * \brief finds contours to help in image segmentation
+     * \param takes in the pre-processed image as input and returns contours
+     */
+void findDrawContours(cv::Mat);
+
+/*!
+ *\brief Function to determine whether fruit is apple or potato
+ *\param
+ *\return 0:Potato, 1:Apple
+ */
+
+int determineFruit(int i);
+
+/*!
+ *\brief Converts points in image co-ordinates suitable to co-ordinates for manipulator motion
+ *\param the point whose co-ordinates must be converted
+ *\return the point with co-ordinates in manipulator frame
+ */
+
+cv::Point2f frameConversion(cv::Point2f pt);
+
+
+    cv:: Mat _img,_imgNew, _imgHSV;
+    std::vector<cv::Point2f> _centroids;
+    cv::Mat1i _ind;
+    int _numApples, _numPotatoes;         // Stores the number of apples found, number of potatoes found.
+    std::vector<std::vector<cv::Point2f> > _contours;
+    static int _minArea;
+
+
 
 };
 
