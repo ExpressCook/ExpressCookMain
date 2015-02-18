@@ -1,3 +1,8 @@
+/*
+ * Implemnet the core functionalities and execution sequences
+ * Funcitons implemented includes: load, unload, peel, slice
+ */
+
 #ifndef EXECUTOR_H
 #define EXECUTOR_H
 

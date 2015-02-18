@@ -6,5 +6,5 @@ potato::potato():AbstractFood()
 
 int potato::getType()
 {
-    return 1;
+    return 0;
 }

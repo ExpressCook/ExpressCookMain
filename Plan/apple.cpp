@@ -6,5 +6,5 @@ Apple::Apple():AbstractFood()
 
 int Apple::getType()
 {
-    return 0;
+    return 1;
 }

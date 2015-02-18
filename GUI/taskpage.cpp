@@ -2,6 +2,8 @@
 #include "ui_taskpage.h"
 #include "mainwindow.h"
 #include <unistd.h>
+#include <executor.h>
+#include <apple.h>
 
 taskPage::taskPage(QWidget *parent) :
     QMainWindow(parent),
@@ -12,7 +14,11 @@ taskPage::taskPage(QWidget *parent) :
 
 void taskPage::on_apple_clicked()
 {
-
+    Executor &exe = Executor::getInstance();
+    Apple apple;
+    exe.load(apple);
+    exe.peel(apple);
+    exe.unload(apple);
 }
 
 void taskPage::on_potato_clicked()

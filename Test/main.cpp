@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <serialib.h>
 #include <motorserial.h>
-#include <visioninitialization.h>
 #include <vision.h>
+#include <executor.h>
+#include <apple.h>
 #include <unistd.h>
 
 #define  DEVICE_PORT "/dev/ttyO1"
@@ -13,16 +14,18 @@ void testSerialLib();
 void testSerialLibBlock();
 void testHit();
 void testVision();
+void testPeel();
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
     //testSerial();
-    testSerialLib();
+    //testSerialLib();
     //testSerialLibBlock();
     //testVision();
     //testHit();
+    testPeel();
 
     return a.exec();
 }
@@ -125,14 +128,61 @@ void testVision()
     Vision vsNew;
 
     vsNew.imgCapture(0);
+    cout<<"put the food..."<<endl;
     usleep(10000000);
+    cout<<"capture the new image now"<<endl;
     vsNew.imgCapture(1);
     int num;
     num=vsNew.compute();
     cout<<"Number"<<num<<endl;
     CentrePoint point = vsNew.CalculateCentroid(0);
-    //cout<<"Centroid Points are x:"<<point.x<<endl;
-    //cout<<"Centroid Points are y:"<<point.y<<endl;
-    //cout<<"......................"<<endl;
+    cout<<"Centroid Points are x:"<<point.x<<endl;
+    cout<<"Centroid Points are y:"<<point.y<<endl;
+    cout<<"......................"<<endl;
 
+}
+
+void testPeel()
+{
+    MotorSerial motor;
+    Apple apple;
+    int PEELER_X = 1550;
+    int PEELER_Y = 460;
+    int PEELER_H = 750;
+
+    motor.init();
+    motor.goToOrigin();
+
+    //pick up
+    motor.bMoveDownTo(100);
+    motor.bMoveTo(300,300);
+    motor.bMoveDownTillHit();
+    apple.height = motor.getRevLPos()
+                  + 400;
+    motor.bMoveDownTo(270);
+
+    //do peel
+    //approaching the peeler station
+    motor.bMoveYTo(PEELER_Y+200);
+    motor.bMoveXTo(PEELER_X);
+
+    //loading into peeler
+    motor.bMoveDownTo(PEELER_H-apple.height);
+    motor.rotateWith(400);
+    motor.bMoveTo(PEELER_X, PEELER_Y);
+
+    //start peeling
+    for (int i=0;i<=apple.height;i=i+2)
+    {
+        //QThread::msleep(5);
+        motor.bMoveDownTo(PEELER_H-apple.height+i);
+    }
+
+    //unload from peeler
+    motor.bMoveTo(PEELER_X-50,PEELER_Y+50);
+    motor.rotateWith(0);
+
+    //unload
+    motor.bMoveTo(1500,600);
+    motor.bMoveDownTo(0);
 }

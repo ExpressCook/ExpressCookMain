@@ -1,3 +1,8 @@
+/*
+ * Base class for all kinds of food
+ * Store information like height and width
+ */
+
 #include "abstractfood.h"
 
 AbstractFood::AbstractFood()

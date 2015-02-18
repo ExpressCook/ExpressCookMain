@@ -29,6 +29,14 @@ RESOURCES += \
     test.qrc
     test.qrc \
 
+#add plan library
+unix:!macx: LIBS += -L$$OUT_PWD/../Plan/ -lPlan
+
+INCLUDEPATH += $$PWD/../Plan
+DEPENDPATH += $$PWD/../Plan
+
+unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../Plan/libPlan.a
+
 #add the motor library
 unix:!macx: LIBS += -L$$OUT_PWD/../Motor/ -lMotor
 
@@ -44,14 +52,6 @@ INCLUDEPATH += $$PWD/../Vision
 DEPENDPATH += $$PWD/../Vision
 
 unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../Vision/libVision.a
-
-#add plan library
-unix:!macx: LIBS += -L$$OUT_PWD/../Plan/ -lPlan
-
-INCLUDEPATH += $$PWD/../Plan
-DEPENDPATH += $$PWD/../Plan
-
-unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../Plan/libPlan.a
 
 #opencv again!
 unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_core

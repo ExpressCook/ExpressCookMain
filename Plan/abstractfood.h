@@ -1,3 +1,8 @@
+/*
+ * Base class for all kinds of food
+ * Store information like height and width
+ */
+
 #ifndef ABSTRACTFOOD_H
 #define ABSTRACTFOOD_H
 
