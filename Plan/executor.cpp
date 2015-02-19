@@ -14,7 +14,7 @@ Executor::Executor()
 
     //initial camera
     motor.moveAwayForCamera();
-    vision.imgCapture(0);
+    vision.init(0);
 }
 
 Executor::~Executor()
@@ -37,20 +37,19 @@ bool Executor::load(AbstractFood &food)
 {
     //make sure the view of camera is not obscured
     motor.moveAwayForCamera();
-    //take the picture
-    vision.imgCapture(1);
+    vision.init(1);
 
     //compute the number of available fruits
     int num; bool result = false;
-    num=vision.compute();
+    vision.detect();
     if(num>0)
     {
         //return the center point value of apple
-        CentrePoint point = vision.CalculateCentroid(food.getType());
+        //CentrePoint point = vision.CalculateCentroid(food.getType());
         //move the gantry to the point
-        if(point.x!=-1 || point.y!=-1)
+        //if(point.x!=-1 || point.y!=-1)
         {
-            motor.bMoveTo(point.x,point.y);
+            motor.bMoveTo(0,0);
             motor.bMoveDownTillHit();
 
             //register the height of food

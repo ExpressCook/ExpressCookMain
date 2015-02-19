@@ -127,17 +127,15 @@ void testVision()
     //Vision vsOriginal;
     Vision vsNew;
 
-    vsNew.imgCapture(0);
-    cout<<"put the food..."<<endl;
+    vsNew.init(0);
     usleep(10000000);
-    cout<<"capture the new image now"<<endl;
-    vsNew.imgCapture(1);
-    int num;
-    num=vsNew.compute();
-    cout<<"Number"<<num<<endl;
-    CentrePoint point = vsNew.CalculateCentroid(0);
-    cout<<"Centroid Points are x:"<<point.x<<endl;
-    cout<<"Centroid Points are y:"<<point.y<<endl;
+    vsNew.init(1);
+    vector<DetectionResults> num;
+    num=vsNew.detect();
+    cout<<"size"<<num.size()<<endl;
+    //CentrePoint point = vsNew.CalculateCentroid(0);
+    //cout<<"Centroid Points are x:"<<point.x<<endl;
+    //cout<<"Centroid Points are y:"<<point.y<<endl;
     cout<<"......................"<<endl;
 
 }
