@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <list>
+#include <opencv2/nonfree/nonfree.hpp>
 
 struct DetectionResults
 {
@@ -31,10 +32,8 @@ public:
 
     /*!
       *\brief Initializes vision system by capturing the image of the drawer
-      *\params 0: Original Image Capture
-      *\params 1: New Image Capture
       * */
-    void init(int);
+    void init();
 
 
     /*!
@@ -43,6 +42,12 @@ public:
       *\return a vector containing type, bounding rectanlge and centroid of each fruit detected
       */
     std::vector<DetectionResults> detect();
+
+    /*!
+     *\brief Detects blobs by color segmentation
+     *\param
+     * */
+    void detectingBlobs();
 
 
 private:
@@ -56,13 +61,13 @@ cv::Mat computeHomography();
      * \brief perform pre-processing operations
      * homography, background subtraction, grayScale conversion, BW conversion and erosion
      */
-cv::Mat preProcessing();
+void preProcessing();
 
 /*!
      * \brief finds contours to help in image segmentation
      * \param takes in the pre-processed image as input and returns contours
      */
-void findDrawContours(cv::Mat);
+void findDrawContours();
 
 /*!
  *\brief Function to determine whether fruit is apple or potato
@@ -81,11 +86,11 @@ int determineFruit(int i);
 cv::Point2f frameConversion(cv::Point2f pt);
 
 
-    cv:: Mat _img,_imgNew, _imgHSV;
+    cv:: Mat _imgNew, _imgHSV, _imgErode;
     std::vector<cv::Point2f> _centroids;
     cv::Mat1i _ind;
     int _numApples, _numPotatoes;         // Stores the number of apples found, number of potatoes found.
-    std::vector<std::vector<cv::Point2f> > _contours;
+    std::vector<std::vector<cv::Point> > _contours;
     static int _minArea;
 };
 

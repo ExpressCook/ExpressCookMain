@@ -25,5 +25,6 @@ unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_imgproc
 unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_calib3d
 unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_flann
 unix:!macx: LIBS += -L$$PWD/../opencv/lib/ -lopencv_features2d
+
 INCLUDEPATH += $$PWD/../opencv/include
 DEPENDPATH += $$PWD/../opencv/include

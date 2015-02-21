@@ -1,6 +1,6 @@
 # Package Information for pkg-config
 
-prefix=/home/sugandha/opencv-2.4.9/build/install
+prefix=/home/lulyu/opencv-2.4.9/build/install
 exec_prefix=${prefix}
 libdir=
 includedir_old=${prefix}/include/opencv

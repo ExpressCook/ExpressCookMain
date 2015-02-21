@@ -13,8 +13,8 @@ Executor::Executor()
     motor.goToOrigin();
 
     //initial camera
-    motor.moveAwayForCamera();
-    vision.init(0);
+    //motor.moveAwayForCamera();
+    //vision.init(0);
 }
 
 Executor::~Executor()
@@ -37,7 +37,7 @@ bool Executor::load(AbstractFood &food)
 {
     //make sure the view of camera is not obscured
     motor.moveAwayForCamera();
-    vision.init(1);
+    vision.init();
 
     //compute the number of available fruits
     int num; bool result = false;

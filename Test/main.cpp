@@ -23,9 +23,9 @@ int main(int argc, char *argv[])
     //testSerial();
     //testSerialLib();
     //testSerialLibBlock();
-    //testVision();
+    testVision();
     //testHit();
-    testPeel();
+    //testPeel();
 
     return a.exec();
 }
@@ -73,10 +73,10 @@ void testSerialLibBlock()
 
     motorControl.goToOrigin();
 
-    motorControl.bMoveXTo(1000);
-    motorControl.bMoveYTo(400);
+    motorControl.bMoveXTo(1700);
+    motorControl.bMoveYTo(720);
     motorControl.bMoveDownTo(600);
-    motorControl.bMoveDownTo(200);
+    motorControl.bMoveDownTo(600);
     motorControl.bMoveTo(0,0);
 }
 
@@ -123,16 +123,21 @@ void testHit()
 
 void testVision()
 {
+    //MotorSerial motor;
+    //motor.init();
+    //motor.moveAwayForCamera();
     //VisionInitialization vsInit;protected variables in C++ functions
     //Vision vsOriginal;
     Vision vsNew;
 
-    vsNew.init(0);
-    usleep(10000000);
-    vsNew.init(1);
+    //vsNew.init(0);
+    //cout<<"Keep fruits in drawer"<<endl;
+    //usleep(10000000);
+    vsNew.init();
     vector<DetectionResults> num;
-    num=vsNew.detect();
-    cout<<"size"<<num.size()<<endl;
+    vsNew.detectingBlobs();
+    //num=vsNew.detect();
+    //cout<<"size "<<num.size()<<endl;
     //CentrePoint point = vsNew.CalculateCentroid(0);
     //cout<<"Centroid Points are x:"<<point.x<<endl;
     //cout<<"Centroid Points are y:"<<point.y<<endl;
