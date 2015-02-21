@@ -135,12 +135,13 @@ void testVision()
     //usleep(10000000);
     vsNew.init();
     vector<DetectionResults> num;
-    vsNew.detectingBlobs();
-    //num=vsNew.detect();
-    //cout<<"size "<<num.size()<<endl;
-    //CentrePoint point = vsNew.CalculateCentroid(0);
-    //cout<<"Centroid Points are x:"<<point.x<<endl;
-    //cout<<"Centroid Points are y:"<<point.y<<endl;
+    //vsNew.detectingBlobs();
+    num=vsNew.detect();
+    for(int i=0;i<num.size();i++)
+    {
+        DetectionResults test=num.at(i);
+        cout<<"Type of fruit "<<test.fruitType<<endl;
+    }
     cout<<"......................"<<endl;
 
 }

@@ -92,6 +92,7 @@ cv::Point2f frameConversion(cv::Point2f pt);
     int _numApples, _numPotatoes;         // Stores the number of apples found, number of potatoes found.
     std::vector<std::vector<cv::Point> > _contours;
     static int _minArea;
+    static int _maxArea;
 };
 
 

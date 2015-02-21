@@ -11,10 +11,12 @@ using namespace std;
 using namespace cv;
 
 int Vision::_minArea;
+int Vision::_maxArea;
 
 Vision::Vision()
 {
-    _minArea = 9000;
+    _minArea = 6000;
+    _maxArea = 10000;
     _numApples=0;
     _numPotatoes=0;
 }
@@ -62,7 +64,7 @@ vector<DetectionResults> Vision::detect()
 
     for(int i=0;i<_contours.size();i++)
     {
-        if(contourArea(_contours[i])>=_minArea)
+        if(contourArea(_contours[i])>=_minArea && contourArea(_contours[i])<=_maxArea)
             validContourIdx.push_back(i);
 
     }
@@ -74,12 +76,14 @@ vector<DetectionResults> Vision::detect()
      {
         DetectionResults tmp;
         approxPolyDP( Mat(_contours[validContourIdx.at(i)]), contours_poly[i], 3, true );
-        boundRect[i] = boundingRect( Mat(contours_poly[validContourIdx.at(i)]));
-       //cout<<i<<" "<<boundRect[i].br().x<<"  "<<boundRect[i].br().y<<"  "<<boundRect[i].tl().x<<"   "<<boundRect[i].tl().y<<endl;
+
+        boundRect[i] = boundingRect( Mat(contours_poly[i]));
+
         tmp.topLeft=frameConversion(boundRect[i].tl());
         tmp.bottomRight=frameConversion(boundRect[i].br());
         tmp.centroid=frameConversion(Point2f((boundRect[i].br().x+boundRect[i].tl().x)/2,(boundRect[i].br().y+boundRect[i].tl().y)/2));
-        tmp.fruitType=determineFruit(i);
+        _centroids.push_back(tmp.centroid);
+        tmp.fruitType=determineFruit(validContourIdx.at(i));
 
         results.push_back(tmp);
      }
@@ -161,17 +165,17 @@ void Vision::findDrawContours()
         drawContours( dst, _contours, idx, color, CV_FILLED, 8, hierarchy );
     }
 
-    //imwrite( "Components.jpg", dst );
+    imwrite( "Components.jpg", dst );
 
 }
 
 int Vision::determineFruit(int i)
 {
-    double meanH=0.0;
-    double meanG=0.0;
+    double meanH = 0.0;
+    double meanG = 0.0;
     int count=0;
-    //int countC=0;
-    vector<Point> cont=_contours.at(i);
+
+    /*vector<Point> cont=_contours.at(i);
     for(int X=0;X<_imgHSV.rows;X++)
     {
         for(int Y=0;Y<_imgHSV.cols;Y++)
@@ -183,20 +187,38 @@ int Vision::determineFruit(int i)
             if(position==1 && Sval>50 && Vval>70)
             {
                 int Hval=_imgHSV.at<cv::Vec3b>(X,Y)[0];
-                //int Rval=imgChange.at<cv::Vec3b>(X,Y)[2];
-                //meanG=meanG+Rval;
-//                      if((cos((2*Hval*PI)/180)+1)<(cos((160*PI)/180)+1) && (cos((2*Hval*PI)/180)+1)>120)
-//                      {
-//                          countC++;
-//                      }
-                meanH=meanH+(cos((2*Hval*PI)/180)+1);  //imgHSV.at<cv::Vec3b>(X,Y)[0];//insert H value;
+                meanH=meanH+(cos((2*Hval*PI)/180)+1);
+                //imgHSV.at<cv::Vec3b>(X,Y)[0];//insert H value;
+                count++;
+            }
+        }
+    }*/
+
+    vector<Point> cont=_contours.at(i);
+    for(int X=0;X<_imgNew.rows;X++)
+    {
+        for(int Y=0;Y<_imgNew.cols;Y++)
+        {
+            int position=pointPolygonTest(cont, Point2f(X,Y), false);
+
+            if(position==1)
+            {
+                int Gval=_imgNew.at<cv::Vec3b>(X,Y)[1];
+                meanG=meanG+Gval;
                 count++;
             }
         }
     }
-    meanH=meanH/count;
+
+    //meanH=meanH/count;
+    //cout<<"Count is "<<count<<endl;
+    //cout<<"Mean Hue Value is "<<meanH<<endl;
+
     meanG=meanG/count;
-    if(meanH>= 0.82 && meanH<=1.85)
+    cout<<"Mean G value is "<<meanG<<endl;
+
+    //if(meanH>= 0.82 && meanH<=1.85)
+    if(meanG>100)
     {
         //numApples=0;
         //cout<<"Potatoes before"<<numPotatoes<<endl;
@@ -228,11 +250,6 @@ Point2f Vision::frameConversion(Point2f pt)
 
 void Vision::detectingBlobs()
 {
-
-    //Mat imgGray;
-    //cvtColor(_img, imgGray, COLOR_BGR2GRAY);
-    //imwrite("Gray.jpg", imgGray);
-
     cv::SimpleBlobDetector::Params params;
     params.minDistBetweenBlobs = 50.0f;
     params.filterByInertia = false;
@@ -242,7 +259,6 @@ void Vision::detectingBlobs()
     params.filterByArea = false;
     params.minArea = 20.0f;
     params.maxArea = 500.0f;
-    // ... any other params you don't want default value
 
     // set up and create the detector using the parameters
     cv::SimpleBlobDetector blob_detector(params);
@@ -261,7 +277,6 @@ void Vision::detectingBlobs()
 
     Mat imBlobs= Mat::zeros( 640, 360, _imgNew.type() );
     drawKeypoints(_imgNew, keypoints, imBlobs, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
-    //= drawKeypoints(_img, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS);
     imwrite("Blobs.jpg", imBlobs);
     cout<<"Number of blobs "<<keypoints.size()<<endl;
 }
