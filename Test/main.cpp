@@ -123,27 +123,17 @@ void testHit()
 
 void testVision()
 {
-    //MotorSerial motor;
-    //motor.init();
-    //motor.moveAwayForCamera();
-    //VisionInitialization vsInit;protected variables in C++ functions
-    //Vision vsOriginal;
     Vision vsNew;
+    vsNew.takePicture();
+    vsNew.detect();
+    vector<DetectionResults> &num = vsNew.getList();
 
-    //vsNew.init(0);
-    //cout<<"Keep fruits in drawer"<<endl;
-    //usleep(10000000);
-    vsNew.init();
-    vector<DetectionResults> num;
-    //vsNew.detectingBlobs();
-    num=vsNew.detect();
     for(int i=0;i<num.size();i++)
     {
         DetectionResults test=num.at(i);
         cout<<"Type of fruit "<<test.fruitType<<endl;
     }
     cout<<"......................"<<endl;
-
 }
 
 void testPeel()
@@ -162,7 +152,7 @@ void testPeel()
     motor.bMoveTo(300,300);
     motor.bMoveDownTillHit();
     apple.height = motor.getRevLPos()
-                  + 400;
+            + 400;
     motor.bMoveDownTo(270);
 
     //do peel

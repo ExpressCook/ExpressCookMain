@@ -2,10 +2,10 @@
 #define POTATO_H
 
 #include<abstractfood.h>
-class potato : public AbstractFood
+class Potato : public AbstractFood
 {
 public:
-    potato();
+    Potato();
     int getType();
 };
 

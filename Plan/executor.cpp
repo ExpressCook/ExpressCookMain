@@ -5,6 +5,7 @@
 
 #include "executor.h"
 #include "toolposition.h"
+#include <vector>
 
 Executor::Executor()
 {
@@ -13,8 +14,6 @@ Executor::Executor()
     motor.goToOrigin();
 
     //initial camera
-    //motor.moveAwayForCamera();
-    //vision.init(0);
 }
 
 Executor::~Executor()
@@ -35,32 +34,35 @@ Executor& Executor::getInstance()
 
 bool Executor::load(AbstractFood &food)
 {
+    bool ret = false;
+
     //make sure the view of camera is not obscured
     motor.moveAwayForCamera();
-    vision.init();
+    vision.takePicture();
 
-    //compute the number of available fruits
-    int num; bool result = false;
+    //detect all the fruits in drawer
     vision.detect();
-    if(num>0)
+    DetectionResults result = vision.getFirst(food.getType());
+    cv::Point2f point = result.centroid;
+
+    if(result.fruitType!=-1)
     {
-        //return the center point value of apple
-        //CentrePoint point = vision.CalculateCentroid(food.getType());
-        //move the gantry to the point
-        //if(point.x!=-1 || point.y!=-1)
-        {
-            motor.bMoveTo(0,0);
-            motor.bMoveDownTillHit();
+        //move the gantry to the center point, pick the fruit
+        motor.bMoveTo(point.x,point.y);
+        motor.bMoveDownTillHit();
 
-            //register the height of food
-            food.height = motor.getRevLPos()
-                          + LOADING_RES_H;
+        //register the size of food
+        food.height = motor.getRevLPos() + LOADING_RES_H;
+        food.length = result.topLeft.x-result.bottomRight.x;
+        food.width = result.bottomRight.y - result.topLeft.y;
+        food.centerX = point.x;
+        food.centerY = point.y;
 
-            motor.bMoveDownTo(LOADING_CARRY_H);
-            result = true;
-        }
+        //retract the linear actuator
+        motor.bMoveDownTo(LOADING_CARRY_H);
+        ret = true;
     }
-    return result;
+    return ret;
 }
 
 bool Executor::unload(AbstractFood &food)

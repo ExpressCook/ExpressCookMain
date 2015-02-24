@@ -29,19 +29,29 @@ public:
       * */
     Vision();
 
-
     /*!
-      *\brief Initializes vision system by capturing the image of the drawer
+      *\brief Capturing the image of the drawer
       * */
-    void init();
-
+    void takePicture();
 
     /*!
-      *\brief Returns the centroid location of fruit selected on GUI
-      *\param 0: Potato centroids, 1: Apple Centroid
-      *\return a vector containing type, bounding rectanlge and centroid of each fruit detected
+      *\brief Detect where the fruit is, and what kind of fruit it is.
+      *\return The number of fruits detected
       */
-    std::vector<DetectionResults> detect();
+    int detect();
+
+    /*!
+     * \brief Return a reference to the entire list of detected fruits
+     * \return
+     */
+    std::vector<DetectionResults>& getList();
+
+    /*!
+     * \brief Return the first fruit from the result list
+     * \param fruitType 0->potato 1->apple
+     * \return
+     */
+    DetectionResults getFirst(int fruitType);
 
     /*!
      *\brief Detects blobs by color segmentation
@@ -52,44 +62,45 @@ public:
 
 private:
 
-/*!
+    /*!
      * \brief computes Homography Matrix for transformation
      */
-cv::Mat computeHomography();
+    cv::Mat computeHomography();
 
-/*!
+    /*!
      * \brief perform pre-processing operations
      * homography, background subtraction, grayScale conversion, BW conversion and erosion
      */
-void preProcessing();
+    void preProcessing();
 
-/*!
+    /*!
      * \brief finds contours to help in image segmentation
      * \param takes in the pre-processed image as input and returns contours
      */
-void findDrawContours();
+    void findDrawContours();
 
-/*!
- *\brief Function to determine whether fruit is apple or potato
- *\param
- *\return 0:Potato, 1:Apple
- */
+    /*!
+    *\brief Function to determine whether fruit is apple or potato
+    *\param
+    *\return 0:Potato, 1:Apple
+    */
+    int determineFruit(int i);
 
-int determineFruit(int i);
+    /*!
+    *\brief Converts points in image co-ordinates suitable to co-ordinates for manipulator motion
+    *\param the point whose co-ordinates must be converted
+    *\return the point with co-ordinates in manipulator frame
+    */
+    cv::Point2f frameConversion(cv::Point2f pt);
 
-/*!
- *\brief Converts points in image co-ordinates suitable to co-ordinates for manipulator motion
- *\param the point whose co-ordinates must be converted
- *\return the point with co-ordinates in manipulator frame
- */
-
-cv::Point2f frameConversion(cv::Point2f pt);
-
-
+    //store the detection results
+    std::vector<DetectionResults> results;
+    //image matrix for different stages
     cv:: Mat _imgNew, _imgHSV, _imgErode;
     std::vector<cv::Point2f> _centroids;
     cv::Mat1i _ind;
-    int _numApples, _numPotatoes;         // Stores the number of apples found, number of potatoes found.
+    // Stores the number of apples found, number of potatoes found.
+    int _numApples, _numPotatoes;
     std::vector<std::vector<cv::Point> > _contours;
     static int _minArea;
     static int _maxArea;

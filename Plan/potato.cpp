@@ -1,10 +1,10 @@
 #include "potato.h"
 
-potato::potato():AbstractFood()
+Potato::Potato():AbstractFood()
 {
 }
 
-int potato::getType()
+int Potato::getType()
 {
     return 0;
 }

@@ -21,7 +21,7 @@ Vision::Vision()
     _numPotatoes=0;
 }
 
-void Vision::init()
+void Vision::takePicture()
 {
     //Remember that color image is read in the BGR format, not RGB
     VideoCapture capture(0);
@@ -40,16 +40,12 @@ void Vision::init()
         resize(_imgNew, _imgNew, Size(640, 360));
         imwrite("Original.jpg",_imgNew);
     }
-
 }
 
-vector<DetectionResults> Vision::detect()
+int Vision::detect()
 {
-
-    vector<DetectionResults> results;
-
-    //numApples=0;
-    //numPotatoes=0;
+    //clear the old results
+    results.clear();
 
     //Clear the centroids vector for each subsequent iteration
     _centroids.erase(_centroids.begin(),_centroids.begin()+_centroids.size());
@@ -66,14 +62,13 @@ vector<DetectionResults> Vision::detect()
     {
         if(contourArea(_contours[i])>=_minArea && contourArea(_contours[i])<=_maxArea)
             validContourIdx.push_back(i);
-
     }
 
-   vector<vector<Point> > contours_poly( validContourIdx.size() );
-   vector<Rect> boundRect( validContourIdx.size() );
+    vector<vector<Point> > contours_poly( validContourIdx.size() );
+    vector<Rect> boundRect( validContourIdx.size() );
 
     for( int i = 0; i < validContourIdx.size(); i++ )
-     {
+    {
         DetectionResults tmp;
         approxPolyDP( Mat(_contours[validContourIdx.at(i)]), contours_poly[i], 3, true );
 
@@ -86,19 +81,46 @@ vector<DetectionResults> Vision::detect()
         tmp.fruitType=determineFruit(validContourIdx.at(i));
 
         results.push_back(tmp);
-     }
-     Mat drawing = Mat::zeros( _imgErode.size(), CV_8UC3 );
-     for( int i = 0; i< validContourIdx.size(); i++ )
-       {
-           Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-           //drawContours( drawing, contours_poly, ind(0,i), color, 1, 8, vector<Vec4i>(), 0, Point() );
-           rectangle( drawing, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0 );
-           circle(drawing, _centroids.at(i),2.0,color,-1,8,0);
-       }
+    }
 
-   imwrite("Contours.jpg", drawing );
+    Mat drawing = Mat::zeros( _imgErode.size(), CV_8UC3 );
+    for( int i = 0; i< validContourIdx.size(); i++ )
+    {
+        Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+        //drawContours( drawing, contours_poly, ind(0,i), color, 1, 8, vector<Vec4i>(), 0, Point() );
+        rectangle( drawing, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0 );
+        circle(drawing, _centroids.at(i),2.0,color,-1,8,0);
+    }
 
-   return results;
+    imwrite("Contours.jpg", drawing );
+    return results.size();
+}
+
+vector<DetectionResults>& Vision::getList()
+{
+    return results;
+}
+
+DetectionResults Vision::getFirst(int fruitType)
+{
+    DetectionResults falseResult;
+    falseResult.fruitType = -1;
+
+    if(results.size()==0)
+    {
+        cout <<"Fail to detect any food" << endl;
+        return falseResult;
+    }
+
+    for(vector<DetectionResults>::iterator it = results.begin();
+        it != results.end(); ++it)
+    {
+        if(it->fruitType == fruitType)
+            return *it;
+    }
+
+    cout<<"Fail to find any food of type:"<< fruitType << endl;
+    return falseResult;
 }
 
 Mat Vision::computeHomography()
@@ -106,7 +128,7 @@ Mat Vision::computeHomography()
     vector <Point2f> srcPoints;
     vector <Point2f> dstPoints;
 
-   // Points used for homography
+    // Points used for homography
     srcPoints.push_back(Point2f(394,50));
     srcPoints.push_back(Point2f(953,12));
     srcPoints.push_back(Point2f(436,706));
@@ -157,7 +179,7 @@ void Vision::findDrawContours()
     vector<Vec4i> hierarchy;
     findContours( _imgErode, _contours, hierarchy,cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE );
 
-        // iterate through all the top-level contours and draw each connected component with its own random color
+    // iterate through all the top-level contours and draw each connected component with its own random color
     int idx = 0;
     for( ; idx >= 0; idx = hierarchy[idx][0] )
     {
