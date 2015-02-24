@@ -4,6 +4,8 @@
 #include <algorithm>
 
 
+#define meanGValue 100
+#define threshVal 80
 #define PI 3.14
 cv::RNG rng(12345);
 
@@ -15,8 +17,8 @@ int Vision::_maxArea;
 
 Vision::Vision()
 {
-    _minArea = 6000;
-    _maxArea = 10000;
+    _minArea = 3000;
+    _maxArea = 7000;
     _numApples=0;
     _numPotatoes=0;
 }
@@ -60,6 +62,7 @@ int Vision::detect()
 
     for(int i=0;i<_contours.size();i++)
     {
+        cout<<contourArea(_contours[i])<<endl;
         if(contourArea(_contours[i])>=_minArea && contourArea(_contours[i])<=_maxArea)
             validContourIdx.push_back(i);
     }
@@ -135,8 +138,8 @@ Mat Vision::computeHomography()
     srcPoints.push_back(Point2f(197,358));
 
     dstPoints.push_back(Point2f(1,1));
-    dstPoints.push_back(Point2f(640,1));
-    dstPoints.push_back(Point2f(640,360));
+    dstPoints.push_back(Point2f(320,1));
+    dstPoints.push_back(Point2f(320,360));
     dstPoints.push_back(Point2f(1,360));
 
     Mat H;
@@ -150,10 +153,11 @@ void Vision::preProcessing()
     Mat H=computeHomography();
 
     //define the output matrix for transformation to be a black image of same size as input image
-    Mat imgNew_out = Mat::zeros( 640, 640, CV_8UC3 );
+    Mat imgNew_out = Mat::zeros( 360, 320, CV_8UC3 );
+
     //perform homography on new image, showing fruits
-    //warpPerspective(_imgNew, imgNew_out, H, imgNew_out.size(), 1, 1);
-    //imwrite("WarpedNew.jpg", imgNew_out);
+    warpPerspective(_imgNew, _imgNew, H, imgNew_out.size(), 1, 1);
+    imwrite("WarpedNew.jpg", _imgNew);
     //Remember to change _imgNew to _imgNew itself during warpPerspective operation
 
     //Transform img to HSV color space
@@ -164,7 +168,7 @@ void Vision::preProcessing()
     Mat imgBW;
     vector<Mat> bgr_planes;
     split( _imgNew, bgr_planes );
-    threshold(bgr_planes.at(2), imgBW, 20, 255,cv::THRESH_BINARY );
+    threshold(bgr_planes.at(2), imgBW, threshVal, 255,cv::THRESH_BINARY );
     imwrite("BWImage.jpg",imgBW);
 
     //Perform morphological operation of eroding
@@ -240,7 +244,7 @@ int Vision::determineFruit(int i)
     cout<<"Mean G value is "<<meanG<<endl;
 
     //if(meanH>= 0.82 && meanH<=1.85)
-    if(meanG>100)
+    if(meanG>meanGValue)
     {
         //numApples=0;
         //cout<<"Potatoes before"<<numPotatoes<<endl;
@@ -264,8 +268,8 @@ int Vision::determineFruit(int i)
 Point2f Vision::frameConversion(Point2f pt)
 {
     Point2f tmp;
-    tmp.x=(430-pt.x)*(2.04);
-    tmp.y=(pt.y-194)*2.51;
+    tmp.x=(210-pt.x)*(730/186);
+    tmp.y=(pt.y-68)*(500/130);
 
     return tmp;
 }

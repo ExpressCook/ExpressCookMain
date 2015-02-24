@@ -128,11 +128,17 @@ void testVision()
     vsNew.detect();
     vector<DetectionResults> &num = vsNew.getList();
 
-    for(int i=0;i<num.size();i++)
+    cout<<"List Size"<<num.size()<<endl;
+
+    DetectionResults first = vsNew.getFirst(1);
+
+    cout<<first.centroid.x<<"\t"<<first.centroid.y<<endl;
+
+    /*for(int i=0;i<num.size();i++)
     {
         DetectionResults test=num.at(i);
         cout<<"Type of fruit "<<test.fruitType<<endl;
-    }
+    }*/
     cout<<"......................"<<endl;
 }
 
