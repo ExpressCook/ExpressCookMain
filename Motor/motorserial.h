@@ -128,6 +128,12 @@ public:
     int getLPos();
     int getRevLPos();
 
+    /*!
+     * \brief return the distance moved by the blade
+     * \return
+     */
+    int getPeelDis();
+
 private:
     serialib serial;
     const QString endMark;
@@ -136,6 +142,7 @@ private:
     int _yPos;
     int _rSpeed;
     int _lPos;
+    int _peelPos;
 
     char _buffer[128];
 

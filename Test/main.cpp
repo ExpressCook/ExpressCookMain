@@ -15,6 +15,7 @@ void testSerialLibBlock();
 void testHit();
 void testVision();
 void testPeel();
+void testDist();
 
 int main(int argc, char *argv[])
 {
@@ -23,9 +24,10 @@ int main(int argc, char *argv[])
     //testSerial();
     //testSerialLib();
     //testSerialLibBlock();
-    testVision();
+    //testVision();
     //testHit();
     //testPeel();
+    testDist();
 
     return a.exec();
 }
@@ -179,4 +181,13 @@ void testPeel()
     //unload
     motor.bMoveTo(1500,600);
     motor.bMoveDownTo(0);
+}
+
+void testDist()
+{
+    MotorSerial motor;
+    motor.init();
+
+    while(true)
+        cout << "dist:" << motor.getPeelDis() << endl;
 }

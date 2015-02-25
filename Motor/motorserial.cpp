@@ -194,6 +194,12 @@ int MotorSerial::getRevLPos()
     return RANGE_L_MAX - getLPos();
 }
 
+int MotorSerial::getPeelDis()
+{
+    updateState();
+    return _peelPos;
+}
+
 void MotorSerial::updateState()
 {
     char a;
@@ -212,6 +218,7 @@ void MotorSerial::updateState()
     _yPos = states.at(1).toInt();
     _rSpeed = states.at(2).toInt();
     _lPos = states.at(3).toInt();
+    _peelPos = states.at(4).toInt();
 }
 
 int MotorSerial::checkXpos(int xpos)
