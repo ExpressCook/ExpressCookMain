@@ -129,15 +129,15 @@ Mat Vision::computeHomography()
     vector <Point2f> dstPoints;
 
     // Points used for homography
-    srcPoints.push_back(Point2f(394,50));
-    srcPoints.push_back(Point2f(953,12));
-    srcPoints.push_back(Point2f(436,706));
-    srcPoints.push_back(Point2f(950,699));
+    srcPoints.push_back(Point2f(167,3));
+    srcPoints.push_back(Point2f(502,3));
+    srcPoints.push_back(Point2f(488,355));
+    srcPoints.push_back(Point2f(197,358));
 
     dstPoints.push_back(Point2f(1,1));
     dstPoints.push_back(Point2f(640,1));
-    dstPoints.push_back(Point2f(1,640));
-    dstPoints.push_back(Point2f(640,640));
+    dstPoints.push_back(Point2f(640,360));
+    dstPoints.push_back(Point2f(1,360));
 
     Mat H;
     H=findHomography(srcPoints, dstPoints, 0, 3) ;
