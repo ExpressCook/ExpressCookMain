@@ -108,7 +108,7 @@ DetectionResults Vision::getFirst(int fruitType)
 
     if(results.size()==0)
     {
-        cout <<"Fail to detect any food" << endl;
+        cout <<"Fail to detect any item" << endl;
         return falseResult;
     }
 
@@ -119,7 +119,7 @@ DetectionResults Vision::getFirst(int fruitType)
             return *it;
     }
 
-    cout<<"Fail to find any food of type:"<< fruitType << endl;
+    cout<<"Fail to find any fruit of type:"<< fruitType << endl;
     return falseResult;
 }
 
