@@ -75,21 +75,32 @@ bool Executor::unload(AbstractFood &food)
 
 bool Executor::peel(AbstractFood &food)
 {
-    //approaching the peeler station
-    motor.bMoveYTo(PEELER_Y+200);
+    //approaching the peeler station with dynamic position
+    motor.bMoveYTo(PEELER_Y + food.height/2 + 50);
     motor.bMoveXTo(PEELER_X);
+    motor.bMoveDownTo(PEELER_H-food.height + 5);
 
-    //loading into peeler
-    motor.bMoveDownTo(PEELER_H-food.height);
+    //loading into peeler with feed back
     motor.rotateWith(PEELER_ROTATION);
-    motor.bMoveTo(PEELER_X, PEELER_Y);
+    while(motor.getPeelDis()>BLADE_MAX)
+        motor.bMoveYBy(-5);
 
     //start peeling
-    for (int i=0;i<=food.height;i=i+2)
-        motor.bMoveDownTo(PEELER_H-food.height+i);
+    for (int i=5;i<=food.height-5;i=i+3)
+    {
+        motor.moveDownTo(PEELER_H-food.height+i);
+
+        //dynamic adjust peeler position
+        if(motor.getPeelDis()<BLADE_MIN)
+            motor.moveYBy(3);
+        else if(motor.getPeelDis()>BLADE_MAX)
+            motor.moveYBy(-3);
+
+        while(motor.getLPos() != PEELER_H-food.height+i){};
+    }
 
     //unload from peeler
-    motor.bMoveTo(PEELER_X-50,PEELER_Y+50);
+    motor.bMoveYBy(80);
     motor.rotateWith(0);
     motor.bMoveDownTo(LOADING_CARRY_H);
 

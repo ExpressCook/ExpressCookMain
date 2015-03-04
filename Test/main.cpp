@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
     //testSerialLibBlock();
     //testVision();
     //testHit();
-    //testPeel();
-    testDist();
+    testPeel();
+    //testDist();
 
     return a.exec();
 }
@@ -146,47 +146,15 @@ void testVision()
 
 void testPeel()
 {
-    MotorSerial motor;
-    Apple apple;
-    int PEELER_X = 1550;
-    int PEELER_Y = 460;
-    int PEELER_H = 750;
+    Executor& exe = Executor::getInstance();
 
-    motor.init();
-    motor.goToOrigin();
+    Apple apple,apple2;
+    apple.height=380;
+    apple.width = 100;
+    apple.length = 100;
 
-    //pick up
-    motor.bMoveDownTo(100);
-    motor.bMoveTo(300,300);
-    motor.bMoveDownTillHit();
-    apple.height = motor.getRevLPos()
-            + 400;
-    motor.bMoveDownTo(270);
-
-    //do peel
-    //approaching the peeler station
-    motor.bMoveYTo(PEELER_Y+200);
-    motor.bMoveXTo(PEELER_X);
-
-    //loading into peeler
-    motor.bMoveDownTo(PEELER_H-apple.height);
-    motor.rotateWith(400);
-    motor.bMoveTo(PEELER_X, PEELER_Y);
-
-    //start peeling
-    for (int i=0;i<=apple.height;i=i+2)
-    {
-        //QThread::msleep(5);
-        motor.bMoveDownTo(PEELER_H-apple.height+i);
-    }
-
-    //unload from peeler
-    motor.bMoveTo(PEELER_X-50,PEELER_Y+50);
-    motor.rotateWith(0);
-
-    //unload
-    motor.bMoveTo(1500,600);
-    motor.bMoveDownTo(0);
+    exe.load(apple2);
+    exe.peel(apple);
 }
 
 void testDist()
