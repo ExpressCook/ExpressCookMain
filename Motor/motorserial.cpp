@@ -47,9 +47,8 @@ void MotorSerial::bMoveXTo(int position)
 
 bool MotorSerial::moveXBy(int position)
 {
-    QString command = "xr"+QString::number(position)+endMark;
-    int ret = serial.WriteString(toChar(command));
-    return toBool(ret);
+    int finalPos = getXPos()+position;
+    return moveXTo(finalPos);
 }
 
 void MotorSerial::bMoveXBy(int position)
@@ -74,9 +73,8 @@ void MotorSerial::bMoveYTo(int position)
 
 bool MotorSerial::moveYBy(int position)
 {
-    QString command = "yr"+QString::number(position)+endMark;
-    int ret = serial.WriteString(toChar(command));
-    return toBool(ret);
+    int finalPos = getYPos()+position;
+    return moveYTo(finalPos);
 }
 
 void MotorSerial::bMoveYBy(int position)

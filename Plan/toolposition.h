@@ -12,8 +12,14 @@ const int PEELER_X = 1700;
 const int PEELER_Y = 0;
 //the height that gripper touch the blade
 const int PEELER_H = 700;
+const int PEELER_Y = 50;
+//the height that gripper touch the blade
+const int PEELER_H = 810;
 //the rotation speed during peelig
 const int PEELER_ROTATION = 400;
+//optimum blade position
+const int BLADE_MIN = 25;
+const int BLADE_MAX = 50;
 
 //the start point of the slicer
 const int SLICER_S_X = 1000;
