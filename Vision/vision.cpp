@@ -5,7 +5,7 @@
 
 
 #define meanGValue 100
-#define threshVal 80
+#define threshVal 50
 #define PI 3.14
 cv::RNG rng(12345);
 
@@ -149,6 +149,7 @@ Mat Vision::computeHomography()
 
 void Vision::preProcessing()
 {
+
     //Compute homography matrix for transformation
     Mat H=computeHomography();
 
@@ -268,8 +269,11 @@ int Vision::determineFruit(int i)
 Point2f Vision::frameConversion(Point2f pt)
 {
     Point2f tmp;
-    tmp.x=(210-pt.x)*(730/186);
-    tmp.y=(pt.y-68)*(500/130);
+    //tmp.x=(210-pt.x)*(730/186);
+    //tmp.y=(pt.y-68)*(500/130);
+
+    tmp.x=(204-pt.x)*(730/180);
+    tmp.y=(pt.y-61)*(500/125);
 
     return tmp;
 }

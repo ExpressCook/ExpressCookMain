@@ -8,10 +8,10 @@
 #define TOOLPOSITION_H
 
 //the center point of the peeler
-const int PEELER_X = 1550;
-const int PEELER_Y = 460;
+const int PEELER_X = 1700;
+const int PEELER_Y = 0;
 //the height that gripper touch the blade
-const int PEELER_H = 750;
+const int PEELER_H = 700;
 //the rotation speed during peelig
 const int PEELER_ROTATION = 400;
 
