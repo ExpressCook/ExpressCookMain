@@ -162,14 +162,14 @@ void Vision::preProcessing()
     //Remember to change _imgNew to _imgNew itself during warpPerspective operation
 
     //Transform img to HSV color space
-    cvtColor(_imgNew, _imgHSV, COLOR_BGR2HSV);
+    cvtColor(_imgNew, _imgHSV, CV_BGR2HSV);
     imwrite("HSV.jpg",_imgHSV);
 
     //Convert image to BW depending on Red channel values only
     Mat imgBW;
     vector<Mat> bgr_planes;
     split( _imgNew, bgr_planes );
-    threshold(bgr_planes.at(2), imgBW, threshVal, 255,cv::THRESH_BINARY );
+    threshold(bgr_planes.at(0), imgBW, threshVal, 255,cv::THRESH_BINARY_INV );
     imwrite("BWImage.jpg",imgBW);
 
     //Perform morphological operation of eroding
