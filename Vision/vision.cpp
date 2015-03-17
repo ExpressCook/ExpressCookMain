@@ -80,6 +80,8 @@ int Vision::detect()
         tmp.topLeft=frameConversion(boundRect[i].tl());
         tmp.bottomRight=frameConversion(boundRect[i].br());
         tmp.centroid=frameConversion(Point2f((boundRect[i].br().x+boundRect[i].tl().x)/2,(boundRect[i].br().y+boundRect[i].tl().y)/2));
+        cout<<"Img"<<(boundRect[i].br().x+boundRect[i].tl().x)/2<<" "<<(boundRect[i].br().y+boundRect[i].tl().y)/2<<endl;
+        cout<<"Motor"<<tmp.centroid.x<<" "<<tmp.centroid.y<<endl;
         _centroids.push_back(tmp.centroid);
         tmp.fruitType=determineFruit(validContourIdx.at(i));
 
@@ -132,10 +134,10 @@ Mat Vision::computeHomography()
     vector <Point2f> dstPoints;
 
     // Points used for homography
-    srcPoints.push_back(Point2f(330, 5));
-    srcPoints.push_back(Point2f(24, 4));
-    srcPoints.push_back(Point2f(387, 708));
-    srcPoints.push_back(Point2f(991, 670));
+    srcPoints.push_back(Point2f(173, 5));
+    srcPoints.push_back(Point2f(502, 3));
+    srcPoints.push_back(Point2f(194, 352));
+    srcPoints.push_back(Point2f(495, 343));
 
     dstPoints.push_back(Point2f(1,1));
     dstPoints.push_back(Point2f(320,1));
@@ -177,7 +179,7 @@ void Vision::preProcessing()
     erode(imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
 
     imwrite ("Eroded Image.jpg", _imgErode);
-    dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(9,9), Point(-1,-1)));
+    dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(13,13), Point(-1,-1)));
 
     imwrite("Clean image.jpg", _imgDilate);
 }
@@ -260,8 +262,8 @@ Point2f Vision::frameConversion(Point2f pt)
     //tmp.x=(210-pt.x)*(730/186);
     //tmp.y=(pt.y-68)*(500/130);
 
-    tmp.x=(204-pt.x)*(730/180);
-    tmp.y=(pt.y-61)*(500/125);
+    tmp.x=(210-pt.x)*(800/210);
+    tmp.y=(pt.y-132)*(720/173);
 
     return tmp;
 }
