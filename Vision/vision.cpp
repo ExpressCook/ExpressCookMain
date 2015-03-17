@@ -4,8 +4,8 @@
 #include <algorithm>
 
 
-#define meanGValue 100
-#define threshVal 5
+#define meanGValue 80
+#define threshVal 40
 #define PI 3.14
 cv::RNG rng(12345);
 
@@ -18,7 +18,7 @@ int Vision::_maxArea;
 Vision::Vision()
 {
     _minArea = 3000;
-    _maxArea = 9000;
+    _maxArea = 20000;
     _numApples=0;
     _numPotatoes=0;
 }
@@ -132,15 +132,15 @@ Mat Vision::computeHomography()
     vector <Point2f> dstPoints;
 
     // Points used for homography
-    srcPoints.push_back(Point2f(167,3));
-    srcPoints.push_back(Point2f(502,3));
-    srcPoints.push_back(Point2f(488,355));
-    srcPoints.push_back(Point2f(197,358));
+    srcPoints.push_back(Point2f(330, 5));
+    srcPoints.push_back(Point2f(24, 4));
+    srcPoints.push_back(Point2f(387, 708));
+    srcPoints.push_back(Point2f(991, 670));
 
     dstPoints.push_back(Point2f(1,1));
     dstPoints.push_back(Point2f(320,1));
-    dstPoints.push_back(Point2f(320,360));
     dstPoints.push_back(Point2f(1,360));
+    dstPoints.push_back(Point2f(320,360));
 
     Mat H;
     H=findHomography(srcPoints, dstPoints, 0, 3) ;
@@ -172,9 +172,14 @@ void Vision::preProcessing()
     threshold(hsv_planes.at(0), imgBW, threshVal, 255,cv::THRESH_BINARY_INV );
     imwrite("BWImage.jpg",imgBW);
 
-    //Perform morphological operation of eroding
-    dilate(imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
-    imwrite("Erodedimage.jpg", _imgErode);
+    //Perform morphological operation of erosion followed by dilation
+
+    erode(imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
+
+    imwrite ("Eroded Image.jpg", _imgErode);
+    dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(9,9), Point(-1,-1)));
+
+    imwrite("Clean image.jpg", _imgDilate);
 }
 
 void Vision::findDrawContours()
@@ -182,7 +187,7 @@ void Vision::findDrawContours()
 
     Mat dst = Mat::zeros(_imgErode.rows, _imgErode.cols, CV_8UC3);
     vector<Vec4i> hierarchy;
-    findContours( _imgErode, _contours, hierarchy,cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE );
+    findContours( _imgDilate, _contours, hierarchy,cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE );
 
     // iterate through all the top-level contours and draw each connected component with its own random color
     int idx = 0;
@@ -201,28 +206,8 @@ void Vision::findDrawContours()
 
 int Vision::determineFruit(int i)
 {
-    double meanH = 0.0;
     double meanG = 0.0;
     int count=0;
-
-    /*vector<Point> cont=_contours.at(i);
-    for(int X=0;X<_imgHSV.rows;X++)
-    {
-        for(int Y=0;Y<_imgHSV.cols;Y++)
-        {
-            int position=pointPolygonTest(cont, Point2f(X,Y), false);
-            int Sval=_imgHSV.at<cv::Vec3b>(X,Y)[1];
-            int Vval=_imgHSV.at<cv::Vec3b>(X,Y)[2];
-
-            if(position==1 && Sval>50 && Vval>70)
-            {
-                int Hval=_imgHSV.at<cv::Vec3b>(X,Y)[0];
-                meanH=meanH+(cos((2*Hval*PI)/180)+1);
-                //imgHSV.at<cv::Vec3b>(X,Y)[0];//insert H value;
-                count++;
-            }
-        }
-    }*/
 
     vector<Point> cont=_contours.at(i);
     for(int X=0;X<_imgNew.rows;X++)
