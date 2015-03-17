@@ -23,10 +23,10 @@ int main(int argc, char *argv[])
 
     //testSerial();
     //testSerialLib();
-    //testSerialLibBlock();
+    testSerialLibBlock();
     //testVision();
     //testHit();
-    testPeel();
+    //testPeel();
     //testDist();
 
     return a.exec();
@@ -77,9 +77,9 @@ void testSerialLibBlock()
 
     motorControl.bMoveXTo(1700);
     motorControl.bMoveYTo(720);
-    motorControl.bMoveDownTo(600);
-    motorControl.bMoveDownTo(600);
-    motorControl.bMoveTo(0,0);
+    //motorControl.bMoveDownTo(600);
+    //motorControl.bMoveDownTo(600);
+    //motorControl.bMoveTo(0,0);
 }
 
 void testSerialLib()
