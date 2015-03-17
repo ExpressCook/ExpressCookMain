@@ -15,8 +15,8 @@ const int PEELER_H = 810;
 //the rotation speed during peelig
 const int PEELER_ROTATION = 400;
 //optimum blade position
-const int BLADE_MIN = 35;
-const int BLADE_MAX = 50;
+const int BLADE_MIN = 45;
+const int BLADE_MAX = 60;
 
 //the start point of the slicer
 const int SLICER_S_X = 1000;
@@ -36,6 +36,6 @@ const int UNLOAD_Y = 510;
 //the height that gripper should extract after loading
 const int LOADING_CARRY_H = 290;
 //the residual height to ground after fully extension
-const int LOADING_RES_H = 400;
+const int LOADING_RES_H = 350;
 
 #endif // TOOLPOSITION_H
