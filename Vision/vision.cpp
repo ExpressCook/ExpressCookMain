@@ -18,7 +18,7 @@ int Vision::_maxArea;
 Vision::Vision()
 {
     _minArea = 3000;
-    _maxArea = 7000;
+    _maxArea = 9000;
     _numApples=0;
     _numPotatoes=0;
 }
@@ -173,7 +173,7 @@ void Vision::preProcessing()
     imwrite("BWImage.jpg",imgBW);
 
     //Perform morphological operation of eroding
-    erode(imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(3,3), Point(-1,-1)));
+    dilate(imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
     imwrite("Erodedimage.jpg", _imgErode);
 }
 
@@ -186,10 +186,13 @@ void Vision::findDrawContours()
 
     // iterate through all the top-level contours and draw each connected component with its own random color
     int idx = 0;
-    for( ; idx >= 0; idx = hierarchy[idx][0] )
+    if(!hierarchy.empty())
     {
-        Scalar color( rand()&255, rand()&255, rand()&255 );
-        drawContours( dst, _contours, idx, color, CV_FILLED, 8, hierarchy );
+        for( ; idx >= 0; idx = hierarchy[idx][0] )
+        {
+            Scalar color( rand()&255, rand()&255, rand()&255 );
+            drawContours( dst, _contours, idx, color, CV_FILLED, 8, hierarchy );
+        }
     }
 
     imwrite( "Components.jpg", dst );

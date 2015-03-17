@@ -82,11 +82,15 @@ bool Executor::peel(AbstractFood &food)
 
     //loading into peeler with feed back
     motor.rotateWith(PEELER_ROTATION);
-    while(motor.getPeelDis()>BLADE_MAX)
-        motor.bMoveYBy(-5);
+    while(motor.getPeelDis()>BLADE_MAX+70)
+    {
+        motor.bMoveYBy(-10);
+        if(motor.getYPos()==0)
+            break;
+    }
 
     //start peeling
-    for (int i=5;i<=food.height-5;i=i+3)
+    for (int i=5;i<=food.height-5;i=i+5)
     {
         motor.moveDownTo(PEELER_H-food.height+i);
 
