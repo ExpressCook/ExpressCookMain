@@ -5,7 +5,7 @@
 
 
 #define meanGValue 100
-#define threshVal 50
+#define threshVal 5
 #define PI 3.14
 cv::RNG rng(12345);
 
@@ -167,9 +167,9 @@ void Vision::preProcessing()
 
     //Convert image to BW depending on Red channel values only
     Mat imgBW;
-    vector<Mat> bgr_planes;
-    split( _imgNew, bgr_planes );
-    threshold(bgr_planes.at(0), imgBW, threshVal, 255,cv::THRESH_BINARY_INV );
+    vector<Mat> hsv_planes;
+    split( _imgHSV, hsv_planes );
+    threshold(hsv_planes.at(0), imgBW, threshVal, 255,cv::THRESH_BINARY_INV );
     imwrite("BWImage.jpg",imgBW);
 
     //Perform morphological operation of eroding
