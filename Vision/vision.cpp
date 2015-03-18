@@ -81,8 +81,6 @@ int Vision::detect()
         tmp.topLeft=frameConversion(boundRect[i].tl());
         tmp.bottomRight=frameConversion(boundRect[i].br());
         tmp.centroid=frameConversion(Point2f((boundRect[i].br().x+boundRect[i].tl().x)/2,(boundRect[i].br().y+boundRect[i].tl().y)/2));
-        cout<<"Img"<<(boundRect[i].br().x+boundRect[i].tl().x)/2<<" "<<(boundRect[i].br().y+boundRect[i].tl().y)/2<<endl;
-        cout<<"Motor"<<tmp.centroid.x<<" "<<tmp.centroid.y<<endl;
         _centroids.push_back(tmp.centroid);
         tmp.fruitType=determineFruit(validContourIdx.at(i));
 
@@ -231,7 +229,7 @@ int Vision::determineFruit(int i)
 
             if(position==1)
             {
-                int Gval=_imgNew.at<cv::Vec3b>(X,Y)[1];
+                int Gval=_imgNew.at<cv::Vec3b>(X,Y)[2];
                 meanG=meanG+Gval;
                 count++;
             }
