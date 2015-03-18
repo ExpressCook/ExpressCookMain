@@ -5,7 +5,8 @@
 
 
 #define meanGValue 80
-#define threshVal 40
+#define threshValLow 40
+#define threshValHigh 160
 #define PI 3.14
 cv::RNG rng(12345);
 
@@ -168,10 +169,19 @@ void Vision::preProcessing()
     imwrite("HSV.jpg",_imgHSV);
 
     //Convert image to BW depending on Red channel values only
-    Mat imgBW;
+    Mat imgBW1, imgBW2, imgBW;
+
+
     vector<Mat> hsv_planes;
     split( _imgHSV, hsv_planes );
-    threshold(hsv_planes.at(0), imgBW, threshVal, 255,cv::THRESH_BINARY_INV );
+    threshold(hsv_planes.at(0), imgBW1, threshValLow, 255,cv::THRESH_BINARY_INV );
+    threshold(hsv_planes.at(0), imgBW2, threshValHigh, 255,cv::THRESH_BINARY );
+    add(imgBW1, imgBW2, imgBW);
+
+
+    imwrite("BWImage1.jpg",imgBW1);
+    imwrite("BWImage2.jpg",imgBW2);
+
     imwrite("BWImage.jpg",imgBW);
 
     //Perform morphological operation of erosion followed by dilation
@@ -180,6 +190,7 @@ void Vision::preProcessing()
 
     imwrite ("Eroded Image.jpg", _imgErode);
     dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(13,13), Point(-1,-1)));
+
 
     imwrite("Clean image.jpg", _imgDilate);
 }

@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
 
     //testSerial();
     //testSerialLib();
-    testSerialLibBlock();
-    //testVision();
+    //testSerialLibBlock();
+    testVision();
     //testHit();
     //testPeel();
     //testDist();
