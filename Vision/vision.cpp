@@ -17,7 +17,7 @@ int Vision::_maxArea;
 
 Vision::Vision()
 {
-    _minArea = 3000;
+    _minArea = 1500;
     _maxArea = 20000;
     _numApples=0;
     _numPotatoes=0;

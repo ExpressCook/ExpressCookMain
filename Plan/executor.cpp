@@ -49,8 +49,8 @@ bool Executor::load(AbstractFood &food)
     {
         //move the gantry to the center point, pick the fruit
         motor.bMoveTo(point.x,point.y);
-        motor.bMoveDownTillHit();
-
+        //motor.bMoveDownTillHit();
+        motor.bMoveDownTo(750);
         //register the size of food
         food.height = motor.getRevLPos() + LOADING_RES_H;
         food.length = result.topLeft.x-result.bottomRight.x;
@@ -63,6 +63,29 @@ bool Executor::load(AbstractFood &food)
         ret = true;
     }
     return ret;
+}
+
+bool Executor::fakeLoad(AbstractFood &food)
+{
+    motor.bMoveTo(0,0);
+
+    if(food.getType()==1)
+    {
+        motor.bMoveDownTo(750);
+        food.height = motor.getRevLPos() + LOADING_RES_H;
+        food.width = 100;
+        food.length =100;
+    }
+    else
+    {
+        motor.bMoveDownTo(500);
+        food.height = motor.getRevLPos() + LOADING_RES_H;
+        food.width = 200;
+        food.length =200;
+    }
+
+    motor.bMoveDownTo(LOADING_CARRY_H);
+    return true;
 }
 
 bool Executor::unload(AbstractFood &food)
@@ -107,6 +130,7 @@ bool Executor::peel(AbstractFood &food)
     }
     else if(food.getType()==0) //potato
     {
+
         motor.rotateWith(100);
         while(motor.getPeelDis()>BLADE_MAX+70)
         {
@@ -116,15 +140,15 @@ bool Executor::peel(AbstractFood &food)
         }
 
         //start peeling
-        for (int i=5;i<=food.height-5;i=i+2)
+        for (int i=5;i<=food.height-5;i=i+3)
         {
             motor.moveDownTo(PEELER_H-food.height+i);
 
             //dynamic adjust peeler position
             if(motor.getPeelDis()<BLADE_MIN)
-                motor.moveYBy(8);
+                motor.moveYBy(3);
             else if(motor.getPeelDis()>BLADE_MAX)
-                motor.moveYBy(-8);
+                motor.moveYBy(-3);
 
             while(motor.getLPos() != PEELER_H-food.height+i){};
         }

@@ -18,7 +18,7 @@ void taskPage::on_apple_clicked()
     Executor &exe = Executor::getInstance();
     Apple apple;
 
-    if(exe.load(apple))
+    if(exe.fakeLoad(apple))
     {
         exe.peel(apple);
         exe.unload(apple);
@@ -30,7 +30,7 @@ void taskPage::on_potato_clicked()
     Executor &exe = Executor::getInstance();
     Potato pot;
 
-    if(exe.load(pot))
+    if(exe.fakeLoad(pot))
     {
         exe.peel(pot);
         exe.unload(pot);
