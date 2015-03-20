@@ -30,8 +30,8 @@ const int SLICER_H = 600;
 const int NEEDLE_H = 100;
 
 //the center of unloading area
-const int UNLOAD_X = 1500;
-const int UNLOAD_Y = 510;
+const int UNLOAD_X = 1700;
+const int UNLOAD_Y = 720;
 
 //the height that gripper should extract after loading
 const int LOADING_CARRY_H = 290;
