@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-#define meanGValue 80
+#define meanGValue 200
 #define threshValLow 40
 #define threshValHigh 160
 #define PI 3.14
@@ -18,7 +18,7 @@ int Vision::_maxArea;
 
 Vision::Vision()
 {
-    _minArea = 1500;
+    _minArea = 2500;
     _maxArea = 20000;
     _numApples=0;
     _numPotatoes=0;
@@ -40,6 +40,7 @@ void Vision::takePicture()
         cout << "Failed to capture an image" << endl;
     else
     {
+        imwrite("Before Resizing.jpg", _imgNew);
         resize(_imgNew, _imgNew, Size(640, 360));
         imwrite("Original.jpg",_imgNew);
     }
@@ -187,7 +188,7 @@ void Vision::preProcessing()
     erode(imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
 
     imwrite ("Eroded Image.jpg", _imgErode);
-    dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(13,13), Point(-1,-1)));
+    dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(11,11), Point(-1,-1)));
 
 
     imwrite("Clean image.jpg", _imgDilate);
@@ -271,8 +272,8 @@ Point2f Vision::frameConversion(Point2f pt)
     //tmp.x=(210-pt.x)*(730/186);
     //tmp.y=(pt.y-68)*(500/130);
 
-    tmp.x=(210-pt.x)*(800/210);
-    tmp.y=(pt.y-132)*(720/173);
+    tmp.x=(240-pt.x)*(850/240);
+    tmp.y=(pt.y-112)*(720/153);    //original = 132
 
     return tmp;
 }
