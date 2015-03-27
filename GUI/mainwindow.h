@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "taskpage.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,15 +16,27 @@ public:
     ~MainWindow();
 
 public slots:
-      void openTaskPage();
 
 private slots:
     void on_clickanywhere_clicked();
 
 
+    void on_realExit_clicked();
+
+    void on_apple_clicked();
+
+    void on_potato_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_4_clicked();
+
 private:
     Ui::MainWindow *ui;
-    taskPage *mMyTaskPage;
 };
 
 #endif // MAINWINDOW_H
