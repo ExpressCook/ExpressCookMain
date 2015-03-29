@@ -15,6 +15,7 @@ void testSerialLibBlock();
 void testHit();
 void testVision();
 void testPeel();
+void testSlice();
 void testDist();
 
 int main(int argc, char *argv[])
@@ -24,9 +25,10 @@ int main(int argc, char *argv[])
     //testSerial();
     //testSerialLib();
     //testSerialLibBlock();
-    testVision();
+    //testVision();
     //testHit();
     //testPeel();
+    testSlice();
     //testDist();
 
     return a.exec();
@@ -155,6 +157,19 @@ void testPeel()
 
     exe.load(apple2);
     exe.peel(apple);
+}
+
+void testSlice()
+{
+    Executor& exe = Executor::getInstance();
+
+    Apple apple,apple2;
+    apple.height=380;
+    apple.width = 100;
+    apple.length = 100;
+
+    //exe.load(apple2);
+    exe.slice(apple);
 }
 
 void testDist()
