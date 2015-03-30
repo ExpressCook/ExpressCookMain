@@ -4,7 +4,9 @@
 #include <algorithm>
 
 
-#define meanGValue 200
+//#define meanGValue 200
+#define minHValue 30
+#define maxHValue 60
 #define threshValLow 40
 #define threshValHigh 160
 #define PI 3.14
@@ -218,7 +220,7 @@ void Vision::findDrawContours()
 
 int Vision::determineFruit(int i)
 {
-    double meanG = 0.0;
+    double meanH = 0.0;
     int count=0;
 
     vector<Point> cont=_contours.at(i);
@@ -230,8 +232,8 @@ int Vision::determineFruit(int i)
 
             if(position==1)
             {
-                int Gval=_imgNew.at<cv::Vec3b>(X,Y)[2];
-                meanG=meanG+Gval;
+                int Hval=_imgHSV.at<cv::Vec3b>(X,Y)[0];
+                meanH=meanH+Hval;
                 count++;
             }
         }
@@ -241,11 +243,11 @@ int Vision::determineFruit(int i)
     //cout<<"Count is "<<count<<endl;
     //cout<<"Mean Hue Value is "<<meanH<<endl;
 
-    meanG=meanG/count;
-    cout<<"Mean G value is "<<meanG<<endl;
+    meanH=meanH/count;
+    cout<<"Mean H value is "<<meanH<<endl;
 
     //if(meanH>= 0.82 && meanH<=1.85)
-    if(meanG>meanGValue)
+    if(meanH>minHValue && meanH<maxHValue)
     {
         //numApples=0;
         //cout<<"Potatoes before"<<numPotatoes<<endl;
