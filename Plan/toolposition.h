@@ -19,11 +19,11 @@ const int BLADE_MIN = 45;
 const int BLADE_MAX = 60;
 
 //the start point of the slicer
-const int SLICER_S_X = 1000;
-const int SLICER_S_Y = 500;
+const int SLICER_S_X = 1800;
+const int SLICER_S_Y = 800;
 //the end point of the slicer
-const int SLICER_E_X = 1000;
-const int SLICER_E_Y = 300;
+const int SLICER_E_X = 1800;
+const int SLICER_E_Y = 400;
 //the height of the slicer blade
 const int SLICER_H = 600;
 //the length of the needle

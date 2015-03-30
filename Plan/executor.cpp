@@ -177,7 +177,7 @@ bool Executor::slice(AbstractFood &food)
             break;
 
         motor.bMoveTo(SLICER_E_X,SLICER_E_Y);
-        motor.bMoveDownBy(-5);
+        motor.bMoveDownBy(-30);
         motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
     }
 
