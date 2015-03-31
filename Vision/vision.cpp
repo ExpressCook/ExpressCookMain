@@ -21,7 +21,7 @@ int Vision::_maxArea;
 
 Vision::Vision()
 {
-    _minArea = 2500;
+    _minArea = 3000;
     _maxArea = 20000;
     _numApples=0;
     _numPotatoes=0;
@@ -31,7 +31,7 @@ void Vision::takePicture()
 {
     //Remember that color image is read in the BGR format, not RGB
     VideoCapture capture(0);
-    sleep(5);
+    sleep(3);
 
     capture.set(CV_CAP_PROP_FRAME_WIDTH,1280);
     capture.set(CV_CAP_PROP_FRAME_HEIGHT,720);
@@ -190,11 +190,11 @@ void Vision::preProcessing()
 
     //Perform morphological operation of erosion followed by dilation
 
-    erode(_imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
+    erode(_imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(9,9), Point(-1,-1)));
 
     imwrite ("Eroded Image.jpg", _imgErode);
     cout<<"Type Before"<<_imgDilate.type()<<endl;
-    dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
+    dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(3,3), Point(-1,-1)));
 
     cout<<"Type"<<_imgDilate.type()<<endl;
     //uchar ttt = _imgDilate.at<uchar>(150,150);
@@ -240,7 +240,7 @@ int Vision::determineFruit(int i)
 
             if(position==1 /*&& ttt>120*/)
             {
-                int Gval=_imgHSV.at<cv::Vec3b>(X,Y)[0];
+                int Gval=_imgNew.at<cv::Vec3b>(X,Y)[1];
                 meanG=meanG+Gval;
                 count++;
             }
