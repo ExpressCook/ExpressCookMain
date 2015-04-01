@@ -2,10 +2,13 @@
 #include "vision.h"
 #include <iostream>
 #include <algorithm>
+#include <unistd.h>
 
 
-#define meanGValue 200
-#define threshValLow 40
+//#define meanGValue 200
+#define minGValue 70
+#define maxGValue 255
+#define threshValLow 30
 #define threshValHigh 160
 #define PI 3.14
 cv::RNG rng(12345);
@@ -18,7 +21,7 @@ int Vision::_maxArea;
 
 Vision::Vision()
 {
-    _minArea = 2500;
+    _minArea = 3000;
     _maxArea = 20000;
     _numApples=0;
     _numPotatoes=0;
@@ -28,6 +31,8 @@ void Vision::takePicture()
 {
     //Remember that color image is read in the BGR format, not RGB
     VideoCapture capture(0);
+    sleep(3);
+
     capture.set(CV_CAP_PROP_FRAME_WIDTH,1280);
     capture.set(CV_CAP_PROP_FRAME_HEIGHT,720);
     if(!capture.isOpened())
@@ -168,29 +173,32 @@ void Vision::preProcessing()
     imwrite("HSV.jpg",_imgHSV);
 
     //Convert image to BW depending on Red channel values only
-    Mat imgBW1, imgBW2, imgBW;
+    Mat imgBW1, imgBW2;
 
 
     vector<Mat> hsv_planes;
     split( _imgHSV, hsv_planes );
     threshold(hsv_planes.at(0), imgBW1, threshValLow, 255,cv::THRESH_BINARY_INV );
     threshold(hsv_planes.at(0), imgBW2, threshValHigh, 255,cv::THRESH_BINARY );
-    add(imgBW1, imgBW2, imgBW);
+    add(imgBW1, imgBW2, _imgBW);
 
 
     imwrite("BWImage1.jpg",imgBW1);
     imwrite("BWImage2.jpg",imgBW2);
 
-    imwrite("BWImage.jpg",imgBW);
+    imwrite("BWImage.jpg",_imgBW);
 
     //Perform morphological operation of erosion followed by dilation
 
-    erode(imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
+    erode(_imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(9,9), Point(-1,-1)));
 
     imwrite ("Eroded Image.jpg", _imgErode);
-    dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(11,11), Point(-1,-1)));
+    cout<<"Type Before"<<_imgDilate.type()<<endl;
+    dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(3,3), Point(-1,-1)));
 
-
+    cout<<"Type"<<_imgDilate.type()<<endl;
+    //uchar ttt = _imgDilate.at<uchar>(150,150);
+    //cout<<"value test "<<int(ttt)<<endl;
     imwrite("Clean image.jpg", _imgDilate);
 }
 
@@ -227,10 +235,12 @@ int Vision::determineFruit(int i)
         for(int Y=0;Y<_imgNew.cols;Y++)
         {
             int position=pointPolygonTest(cont, Point2f(X,Y), false);
+            //uint ttt =  _imgDilate.at<uchar>(X,Y);
+            //cout<<"Val = "<<ttt<<endl;
 
-            if(position==1)
+            if(position==1 /*&& ttt>120*/)
             {
-                int Gval=_imgNew.at<cv::Vec3b>(X,Y)[2];
+                int Gval=_imgNew.at<cv::Vec3b>(X,Y)[1];
                 meanG=meanG+Gval;
                 count++;
             }
@@ -245,7 +255,7 @@ int Vision::determineFruit(int i)
     cout<<"Mean G value is "<<meanG<<endl;
 
     //if(meanH>= 0.82 && meanH<=1.85)
-    if(meanG>meanGValue)
+    if(meanG>minGValue)
     {
         //numApples=0;
         //cout<<"Potatoes before"<<numPotatoes<<endl;
