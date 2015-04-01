@@ -101,7 +101,7 @@ bool Executor::unload(AbstractFood &food)
 bool Executor::peel(AbstractFood &food)
 {
     //approaching the peeler station with dynamic position
-    motor.bMoveYTo(PEELER_Y + food.width/2 + 50);
+    motor.bMoveYTo(PEELER_Y + food.width/2 + 100);
     motor.bMoveXTo(PEELER_X);
     motor.bMoveDownTo(PEELER_H-food.height + 5);
 
@@ -169,7 +169,7 @@ bool Executor::slice(AbstractFood &food)
     //loading into slicer
     motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
     motor.bMoveDownTillHit(25);
-    motor.bMoveDownBy(-60);
+    motor.bMoveDownBy(-50);
     motor.rotateWith(400);
 
     //slicing
@@ -181,10 +181,10 @@ bool Executor::slice(AbstractFood &food)
 
         motor.bMoveTo(SLICER_E_X,SLICER_E_Y);
         motor.rotateWith(0);
-        motor.bMoveDownBy(-110);
+        motor.bMoveDownBy(-80);
         motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
         motor.bMoveDownTillHit(25);
-        motor.bMoveDownBy(-60);
+        motor.bMoveDownBy(-50);
         motor.rotateWith(400);
 
     }

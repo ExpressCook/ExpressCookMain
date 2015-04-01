@@ -25,7 +25,7 @@ const int SLICER_S_Y = 700;
 const int SLICER_E_X = 1168;
 const int SLICER_E_Y = 0;
 //the height of the slicer blade
-const int SLICER_H = 780;
+const int SLICER_H = 800;
 
 //the center of unloading area
 const int UNLOAD_X = 1700;
