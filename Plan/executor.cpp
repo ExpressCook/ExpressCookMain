@@ -73,14 +73,14 @@ bool Executor::fakeLoad(AbstractFood &food)
 
     if(food.getType()==1) //apple
     {
-        motor.bMoveDownTillHit(30);
+        motor.bMoveDownTillHit(50);
         food.height = motor.getRevLPos() + LOADING_RES_H;
         food.width = 100;
         food.length =100;
     }
     else //potato
     {
-        motor.bMoveDownTillHit(50);
+        motor.bMoveDownTillHit(100);
         food.height = motor.getRevLPos() + LOADING_RES_H;
         food.width = 200;
         food.length =200;
@@ -109,7 +109,7 @@ bool Executor::peel(AbstractFood &food)
     if(food.getType()==1) //apple
     {
         motor.rotateWith(PEELER_ROTATION);
-        while(motor.getPeelDis()>BLADE_MAX+70)
+        while(motor.getPeelDis()>BLADE_MAX+150)
         {
             motor.bMoveYBy(-10);
             if(motor.getYPos()==0)
@@ -133,8 +133,8 @@ bool Executor::peel(AbstractFood &food)
     else if(food.getType()==0) //potato
     {
 
-        motor.rotateWith(100);
-        while(motor.getPeelDis()>BLADE_MAX+70)
+        motor.rotateWith(PEELER_ROTATION);
+        while(motor.getPeelDis()>BLADE_MAX+150)
         {
             motor.bMoveYBy(-10);
             if(motor.getYPos()==0)
@@ -142,7 +142,7 @@ bool Executor::peel(AbstractFood &food)
         }
 
         //start peeling
-        for (int i=5;i<=food.height-5;i=i+3)
+        for (int i=5;i<=food.height-5;i=i+5)
         {
             motor.moveDownTo(PEELER_H-food.height+i);
 
@@ -168,24 +168,30 @@ bool Executor::slice(AbstractFood &food)
 {
     //loading into slicer
     motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
-    motor.bMoveDownTillHit(10);
-    motor.bMoveDownBy(-15);
+    motor.bMoveDownTillHit(25);
+    motor.bMoveDownBy(-60);
+    motor.rotateWith(400);
 
     //slicing
     while(true)
     {
         //check the height
-        if(SLICER_H - motor.getLPos()<=NEEDLE_H)
+        if(motor.getLPos()>=SLICER_H)
             break;
 
         motor.bMoveTo(SLICER_E_X,SLICER_E_Y);
-        motor.bMoveDownBy(-10);
+        motor.rotateWith(0);
+        motor.bMoveDownBy(-110);
         motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
-        motor.bMoveDownBy(10+15);
+        motor.bMoveDownTillHit(25);
+        motor.bMoveDownBy(-60);
+        motor.rotateWith(400);
+
     }
 
     //unload from slicer
     motor.bMoveDownTo(LOADING_CARRY_H);
+    motor.rotateWith(0);
     motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
 
     return true;

@@ -15,19 +15,17 @@ const int PEELER_H = 810;
 //the rotation speed during peelig
 const int PEELER_ROTATION = 400;
 //optimum blade position
-const int BLADE_MIN = 45;
-const int BLADE_MAX = 60;
+const int BLADE_MIN = 220;
+const int BLADE_MAX = 250;
 
 //the start point of the slicer
-const int SLICER_S_X = 1800;
-const int SLICER_S_Y = 800;
+const int SLICER_S_X = 1168;
+const int SLICER_S_Y = 700;
 //the end point of the slicer
-const int SLICER_E_X = 1800;
-const int SLICER_E_Y = 400;
+const int SLICER_E_X = 1168;
+const int SLICER_E_Y = 0;
 //the height of the slicer blade
-const int SLICER_H = 600;
-//the length of the needle
-const int NEEDLE_H = 100;
+const int SLICER_H = 780;
 
 //the center of unloading area
 const int UNLOAD_X = 1700;

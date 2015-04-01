@@ -5,6 +5,7 @@
 #include <vision.h>
 #include <executor.h>
 #include <apple.h>
+#include <potato.h>
 #include <unistd.h>
 
 #define  DEVICE_PORT "/dev/ttyO1"
@@ -163,12 +164,12 @@ void testSlice()
 {
     Executor& exe = Executor::getInstance();
 
-    Apple apple,apple2;
+    Potato apple;
     apple.height=380;
     apple.width = 100;
     apple.length = 100;
 
-    //exe.load(apple2);
+    exe.fakeLoad(apple);
     exe.slice(apple);
 }
 
