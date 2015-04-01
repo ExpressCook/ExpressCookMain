@@ -96,7 +96,7 @@ private:
     //store the detection results
     std::vector<DetectionResults> results;
     //image matrix for different stages
-    cv:: Mat _imgNew, _imgHSV, _imgErode, _imgDilate, _imgBW;
+    cv:: Mat _imgNew, _imgHSV, _imgErode, _imgDilate, _imgBW, _imgRed;
     std::vector<cv::Point2f> _centroids;
     cv::Mat1i _ind;
     // Stores the number of apples found, number of potatoes found.
