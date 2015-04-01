@@ -52,7 +52,7 @@ bool Executor::load(AbstractFood &food)
         if(food.getType()==1) //apple
             motor.bMoveDownTillHit(50);
         else //potato
-            motor.bMoveDownTillHit(110);
+            motor.bMoveDownTillHit(100);
         //register the size of food
         food.height = motor.getRevLPos() + LOADING_RES_H;
         food.length = result.topLeft.x-result.bottomRight.x;

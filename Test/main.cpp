@@ -158,6 +158,7 @@ void testPeel()
 
     exe.load(apple);
     exe.peel(apple);
+    exe.unload(apple);
 }
 
 void testSlice()

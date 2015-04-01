@@ -94,6 +94,7 @@ int Vision::detect()
         tmp.centroid=frameConversion(Point2f((boundRect[i].br().x+boundRect[i].tl().x)/2,(boundRect[i].br().y+boundRect[i].tl().y)/2));
         _centroids.push_back(tmp.centroid);
         tmp.fruitType=determineFruit(validContourIdx.at(i));
+       cout<<"Type "<<tmp.fruitType<<endl;
 
         results.push_back(tmp);
     }
@@ -246,7 +247,6 @@ void Vision::findDrawContours()
 int Vision::determineFruit(int i)
 {
     double meanG = 0.0;
-    double min = 50;
     int count=0;
 
     vector<Point> cont =_contours.at(i);
@@ -271,6 +271,10 @@ int Vision::determineFruit(int i)
                 //if(Gval<min)
                    // min = Gval;
                 meanG=meanG+Gval;
+                int Rval=_imgNew.at<cv::Vec3b>(X,Y)[2];
+                meanR=meanR+Rval;
+                int Bval=_imgNew.at<cv::Vec3b>(X,Y)[0];
+                meanB=meanB+Bval;
                 count++;
             }
         }
