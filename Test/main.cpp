@@ -25,9 +25,9 @@ int main(int argc, char *argv[])
     //testSerial();
     //testSerialLib();
     //testSerialLibBlock();
-    testVision();
+    //testVision();
     //testHit();
-    //testPeel();
+    testPeel();
     //testSlice();
     //testDist();
 
@@ -155,7 +155,7 @@ void testPeel()
     apple.width = 100;
     apple.length = 100;
 
-    exe.load(apple2);
+    exe.fakeLoad(apple2);
     exe.peel(apple);
 }
 

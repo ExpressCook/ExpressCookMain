@@ -69,16 +69,16 @@ bool Executor::fakeLoad(AbstractFood &food)
 {
     motor.bMoveTo(0,0);
 
-    if(food.getType()==1)
+    if(food.getType()==1) //apple
     {
-        motor.bMoveDownTo(750);
+        motor.bMoveDownTillHit(30);
         food.height = motor.getRevLPos() + LOADING_RES_H;
         food.width = 100;
         food.length =100;
     }
-    else
+    else //potato
     {
-        motor.bMoveDownTo(500);
+        motor.bMoveDownTillHit(50);
         food.height = motor.getRevLPos() + LOADING_RES_H;
         food.width = 200;
         food.length =200;
