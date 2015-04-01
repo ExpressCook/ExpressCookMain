@@ -49,8 +49,10 @@ bool Executor::load(AbstractFood &food)
     {
         //move the gantry to the center point, pick the fruit
         motor.bMoveTo(point.x,point.y);
-        //motor.bMoveDownTillHit();
-        motor.bMoveDownTo(750);
+        if(food.getType()==1) //apple
+            motor.bMoveDownTillHit(50);
+        else //potato
+            motor.bMoveDownTillHit(110);
         //register the size of food
         food.height = motor.getRevLPos() + LOADING_RES_H;
         food.length = result.topLeft.x-result.bottomRight.x;
@@ -166,19 +168,20 @@ bool Executor::slice(AbstractFood &food)
 {
     //loading into slicer
     motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
+    motor.bMoveDownTillHit(10);
+    motor.bMoveDownBy(-15);
 
     //slicing
     while(true)
     {
-        motor.bMoveDownTillHit();
-
         //check the height
         if(SLICER_H - motor.getLPos()<=NEEDLE_H)
             break;
 
         motor.bMoveTo(SLICER_E_X,SLICER_E_Y);
-        motor.bMoveDownBy(-30);
+        motor.bMoveDownBy(-10);
         motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
+        motor.bMoveDownBy(10+15);
     }
 
     //unload from slicer

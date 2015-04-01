@@ -120,7 +120,7 @@ void testHit()
     motor.init();
     motor.goToOrigin();
 
-    motor.bMoveDownTillHit();
+    motor.bMoveDownTillHit(50);
     motor.bMoveTo(400,400);
     motor.goToOrigin();
 }
