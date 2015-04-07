@@ -9,7 +9,7 @@
 //#define meanGValue 200
 #define minGValue 180
 #define maxGValue 255
-#define threshValLow 40
+#define threshValLow 50
 #define threshValHigh 160
 #define PI 3.14
 cv::RNG rng(12345);
@@ -180,8 +180,8 @@ void Vision::preProcessing()
 
     //Mat input;
     //input.create(320,360,CV_8UC(3));
-    color_correction::gray_edge b2;
-    _imgNew = b2.run(_imgNew,1,0);
+    color_correction::gray_world b1;
+    _imgNew = b1.run2(_imgNew,1,2);
     imwrite("AfterGrayEdge.jpg", _imgNew);
 
     //Mat imgRed;
@@ -191,29 +191,29 @@ void Vision::preProcessing()
     imwrite("RedPlane.jpg", _imgRed);
 
     //Transform img to HSV color space
-    cvtColor(_imgNew, _imgHSV, CV_BGR2HSV);
-    imwrite("HSV.jpg",_imgHSV);
+    //cvtColor(_imgNew, _imgHSV, CV_BGR2HSV);
+    //imwrite("HSV.jpg",_imgHSV);
 
     //Convert image to BW depending on Red channel values only
-    Mat imgBW1, imgBW2;
+    //Mat imgBW1, imgBW2;
 
 
-    vector<Mat> hsv_planes;
-    split( _imgHSV, hsv_planes );
-    threshold(hsv_planes.at(0), imgBW1, threshValLow, 255,cv::THRESH_BINARY_INV );
-    threshold(hsv_planes.at(0), imgBW2, threshValHigh, 255,cv::THRESH_BINARY );
-    add(imgBW1, imgBW2, _imgBW);
+    //vector<Mat> hsv_planes;
+    //split( _imgHSV, hsv_planes );
+    //threshold(hsv_planes.at(0), imgBW1, threshValLow, 255,cv::THRESH_BINARY_INV );
+    //threshold(hsv_planes.at(0), imgBW2, threshValHigh, 255,cv::THRESH_BINARY );
+    //add(imgBW1, imgBW2, _imgBW);
 
 
-    imwrite("HuePlane.jpg",hsv_planes.at(1));
-    imwrite("BWImage1.jpg",imgBW1);
-    imwrite("BWImage2.jpg",imgBW2);
+    //imwrite("HuePlane.jpg",hsv_planes.at(1));
+    //imwrite("BWImage1.jpg",imgBW1);
+    //imwrite("BWImage2.jpg",imgBW2);
 
-    imwrite("BWImage.jpg",_imgBW);
+    //imwrite("BWImage.jpg",_imgBW);
 
     //Perform morphological operation of erosion followed by dilation
 
-    erode(_imgBW,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
+    erode(_imgRed,_imgErode, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
 
     imwrite ("Eroded Image.jpg", _imgErode);
     dilate(_imgErode, _imgDilate, getStructuringElement(cv::MORPH_ELLIPSE, Size(5,5), Point(-1,-1)));
@@ -226,7 +226,7 @@ void Vision::findDrawContours()
 
     Mat dst = Mat::zeros(_imgErode.rows, _imgErode.cols, CV_8UC3);
     vector<Vec4i> hierarchy;
-    findContours( _imgRed, _contours, hierarchy,cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE );
+    findContours( _imgDilate, _contours, hierarchy,cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE );
     //findContours( _imgDilate, _contours, hierarchy,cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE );
 
     // iterate through all the top-level contours and draw each connected component with its own random color
@@ -271,10 +271,10 @@ int Vision::determineFruit(int i)
                 //if(Gval<min)
                    // min = Gval;
                 meanG=meanG+Gval;
-                int Rval=_imgNew.at<cv::Vec3b>(X,Y)[2];
-                meanR=meanR+Rval;
-                int Bval=_imgNew.at<cv::Vec3b>(X,Y)[0];
-                meanB=meanB+Bval;
+                //int Rval=_imgNew.at<cv::Vec3b>(X,Y)[2];
+                //meanR=meanR+Rval;
+                //int Bval=_imgNew.at<cv::Vec3b>(X,Y)[0];
+                //meanB=meanB+Bval;
                 count++;
             }
         }
@@ -310,7 +310,7 @@ Point2f Vision::frameConversion(Point2f pt)
     Point2f tmp;
 
     tmp.x=(240-pt.x)*(850/240);
-    tmp.y=(pt.y-112)*(720/153);    //original = 132
+    tmp.y=(pt.y-82)*(720/192);    //original = 132
 
     return tmp;
 }
