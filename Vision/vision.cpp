@@ -1,5 +1,6 @@
 
 #include "vision.h"
+#include "color_constancy.hpp"
 #include <iostream>
 #include <algorithm>
 
@@ -160,6 +161,12 @@ void Vision::preProcessing()
     warpPerspective(_imgNew, _imgNew, H, imgNew_out.size(), 1, 1);
     imwrite("WarpedNew.jpg", _imgNew);
     //Remember to change _imgNew to _imgNew itself during warpPerspective operation
+
+     color_correction::gray_world b1;
+     Mat input;
+     input.create(360, 320,CV_8UC(3));
+
+     _imgNew = b1.run2(input, 1, 2);
 
     //Transform img to HSV color space
     cvtColor(_imgNew, _imgHSV, CV_BGR2HSV);
