@@ -26,10 +26,10 @@ int main(int argc, char *argv[])
     //testSerial();
     //testSerialLib();
     //testSerialLibBlock();
-    //testVision();
+    testVision();
     //testHit();
     //testPeel();
-    testSlice();
+    //testSlice();
     //testDist();
 
     return a.exec();
