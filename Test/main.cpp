@@ -5,6 +5,7 @@
 #include <vision.h>
 #include <executor.h>
 #include <apple.h>
+#include <potato.h>
 #include <unistd.h>
 
 #define  DEVICE_PORT "/dev/ttyO1"
@@ -15,6 +16,7 @@ void testSerialLibBlock();
 void testHit();
 void testVision();
 void testPeel();
+void testSlice();
 void testDist();
 
 int main(int argc, char *argv[])
@@ -23,10 +25,11 @@ int main(int argc, char *argv[])
 
     //testSerial();
     //testSerialLib();
-    testSerialLibBlock();
+    //testSerialLibBlock();
     //testVision();
     //testHit();
-    //testPeel();
+    testPeel();
+    //testSlice();
     //testDist();
 
     return a.exec();
@@ -118,7 +121,7 @@ void testHit()
     motor.init();
     motor.goToOrigin();
 
-    motor.bMoveDownTillHit();
+    motor.bMoveDownTillHit(50);
     motor.bMoveTo(400,400);
     motor.goToOrigin();
 }
@@ -153,8 +156,22 @@ void testPeel()
     apple.width = 100;
     apple.length = 100;
 
-    exe.load(apple2);
+    exe.load(apple);
     exe.peel(apple);
+    exe.unload(apple);
+}
+
+void testSlice()
+{
+    Executor& exe = Executor::getInstance();
+
+    Potato apple;
+    apple.height=380;
+    apple.width = 100;
+    apple.length = 100;
+
+    exe.fakeLoad(apple);
+    exe.slice(apple);
 }
 
 void testDist()

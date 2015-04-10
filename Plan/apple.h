@@ -7,6 +7,7 @@ class Apple: public AbstractFood
 public:
     Apple();
     int getType();
+    QString getName();
 };
 
 #endif // APPLE_H

@@ -17,13 +17,11 @@ INSTALLS += target
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    taskpage.cpp
 
 HEADERS  += mainwindow.h \
-    taskpage.h
 
 FORMS    += mainwindow.ui \
-    taskpage.ui
+
 
 RESOURCES += \
     test.qrc

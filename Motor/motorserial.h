@@ -90,8 +90,8 @@ public:
      * \brief move the arm down till hit the fruit
      * \return
      */
-    bool moveDownTillHit();
-    void bMoveDownTillHit();
+    bool moveDownTillHit(int strength);
+    void bMoveDownTillHit(int strength);
 
     /*!
      * \brief set the gantry into origin position

@@ -115,16 +115,16 @@ void MotorSerial::bMoveDownBy(int position)
     bMoveDownTo(getLPos()+position);
 }
 
-bool MotorSerial::moveDownTillHit()
+bool MotorSerial::moveDownTillHit(int strength)
 {
-    QString command = "lh0"+endMark;
+    QString command = "lh"+QString::number(strength)+endMark;
     int ret = serial.WriteString(toChar(command));
     return toBool(ret);
 }
 
-void MotorSerial::bMoveDownTillHit()
+void MotorSerial::bMoveDownTillHit(int strength)
 {
-    moveDownTillHit();
+    moveDownTillHit(strength);
 
     int lastPos,nowPos;
     do

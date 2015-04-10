@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ExpressCookTaskPage</class>
- <widget class="QMainWindow" name="ExpressCookTaskPage">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
+ <class>StackedWidget</class>
+ <widget class="QStackedWidget" name="StackedWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>795</width>
-    <height>480</height>
+    <width>797</width>
+    <height>477</height>
    </rect>
   </property>
-  <property name="maximumSize">
-   <size>
-    <width>795</width>
-    <height>498</height>
-   </size>
-  </property>
-  <property name="cursor">
-   <cursorShape>PointingHandCursor</cursorShape>
-  </property>
   <property name="windowTitle">
-   <string>ExpressCook Demo</string>
+   <string>StackedWidget</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+  <property name="currentIndex">
+   <number>1</number>
+  </property>
+  <widget class="QWidget" name="welcome">
+   <widget class="QPushButton" name="clickanywhere">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-40</y>
+      <y>-10</y>
       <width>801</width>
-      <height>561</height>
+      <height>501</height>
      </rect>
     </property>
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="test.qrc">:/test/taskpage.jpg</pixmap>
+    <property name="icon">
+     <iconset resource="../test.qrc">
+      <normaloff>:/test/main_page.jpg</normaloff>:/test/main_page.jpg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>820</width>
+      <height>500</height>
+     </size>
     </property>
    </widget>
+  </widget>
+  <widget class="QWidget" name="task_selection">
    <widget class="QPushButton" name="apple">
     <property name="geometry">
      <rect>
@@ -554,7 +554,7 @@
      <string notr="true"/>
     </property>
     <property name="icon">
-     <iconset resource="test.qrc">
+     <iconset resource="../test.qrc">
       <normaloff>:/test/appleicon.png</normaloff>:/test/appleicon.png</iconset>
     </property>
     <property name="iconSize">
@@ -565,6 +565,35 @@
     </property>
     <property name="flat">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="realExit">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>440</y>
+      <width>99</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Real Exit!</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-40</y>
+      <width>801</width>
+      <height>561</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../test.qrc">:/test/taskpage.jpg</pixmap>
     </property>
    </widget>
    <widget class="QPushButton" name="potato">
@@ -1142,7 +1171,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="test.qrc">
+     <iconset resource="../test.qrc">
       <normaloff>:/test/potatoicon.png</normaloff>:/test/potatoicon.png</iconset>
     </property>
     <property name="iconSize">
@@ -1161,36 +1190,400 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="Exit">
+   <widget class="QTabWidget" name="Task">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>310</y>
-      <width>98</width>
-      <height>27</height>
+      <x>87</x>
+      <y>174</y>
+      <width>631</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="tabWidgetPage1">
+     <attribute name="title">
+      <string>Task1</string>
+     </attribute>
+     <widget class="QComboBox" name="comboBox">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>11</y>
+        <width>180</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="editable">
+       <bool>false</bool>
+      </property>
+      <property name="currentText">
+       <string>Peel</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Peel</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Slice</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Peel and Slice</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>13</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Fruit</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBox">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>11</y>
+        <width>150</width>
+        <height>35</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QTabWidget" name="Task_2">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>87</x>
+      <y>272</y>
+      <width>631</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="tabWidgetPage1_3">
+     <attribute name="title">
+      <string>Task1</string>
+     </attribute>
+     <widget class="QComboBox" name="comboBox_3">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>11</y>
+        <width>180</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="editable">
+       <bool>false</bool>
+      </property>
+      <property name="currentText">
+       <string>Peel</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Peel</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Slice</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Peel and Slice</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>13</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Fruit</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBox_3">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>11</y>
+        <width>150</width>
+        <height>35</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>400</y>
+      <width>99</width>
+      <height>35</height>
      </rect>
     </property>
     <property name="text">
-     <string>Exit</string>
+     <string>OK</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="realExit">
+   <zorder>label</zorder>
+   <zorder>potato</zorder>
+   <zorder>apple</zorder>
+   <zorder>realExit</zorder>
+   <zorder>Task</zorder>
+   <zorder>Task_2</zorder>
+   <zorder>pushButton</zorder>
+  </widget>
+  <widget class="QWidget" name="progress_monitering">
+   <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>450</y>
+      <x>0</x>
+      <y>-40</y>
+      <width>801</width>
+      <height>561</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../test.qrc">:/test/taskpage.jpg</pixmap>
+    </property>
+   </widget>
+   <widget class="QTabWidget" name="Task_1_progress">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>87</x>
+      <y>174</y>
+      <width>631</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="tabWidgetPage1_2">
+     <attribute name="title">
+      <string>Task1</string>
+     </attribute>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>13</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Fruit</string>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="progressBar">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>20</y>
+        <width>421</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QTabWidget" name="Task_1_progress_2">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>87</x>
+      <y>272</y>
+      <width>631</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="tabWidgetPage1_4">
+     <attribute name="title">
+      <string>Task2</string>
+     </attribute>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>13</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Fruit</string>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="progressBar_2">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>20</y>
+        <width>421</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>50</y>
+      <width>331</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>22</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Progress Monitering</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="completion">
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-40</y>
+      <width>801</width>
+      <height>561</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../test.qrc">:/test/taskpage.jpg</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>50</y>
+      <width>291</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>22</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Congratulations!</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>110</y>
+      <width>331</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>TlwgMono</family>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>All tasks completed.</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>320</y>
       <width>99</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
-     <string>Real Exit!</string>
+     <string>OK</string>
     </property>
    </widget>
   </widget>
  </widget>
  <resources>
-  <include location="test.qrc"/>
+  <include location="../test.qrc"/>
  </resources>
  <connections/>
 </ui>

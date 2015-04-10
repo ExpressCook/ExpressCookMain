@@ -13,7 +13,12 @@ CONFIG += staticlib
 SOURCES += vision.cpp \
            color_constancy.cpp
 
+<<<<<<< HEAD
 HEADERS += vision.h \
+=======
+HEADERS += vision.h  \
+    color_constancy.hpp
+>>>>>>> b60e1d118b52927c7fdbf9db9ee75bb9f8009ce3
            color_constancy.hpp
 unix {
     target.path = /usr/lib

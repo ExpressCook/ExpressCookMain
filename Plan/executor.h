@@ -21,6 +21,7 @@ public:
     static Executor& getInstance();
 
     bool load(AbstractFood &food);
+    bool fakeLoad(AbstractFood &food);
     bool unload(AbstractFood &food);
     bool peel(AbstractFood &food);
     bool slice(AbstractFood &food);
