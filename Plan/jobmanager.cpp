@@ -86,25 +86,25 @@ void JobManager::executeJobTest(Job *job, QProgressBar *bar)
         AbstractFood* food = *it;
         // load
         cout<<"start loading:"<< food->getName().toStdString() <<endl;
-        QThread::sleep(3);
+        QThread::sleep(2);
         bar->setValue(bar->value()+1);
         // peel
         if(job->doPeel)
         {
             cout<<"start peeling..."<<endl;
-            QThread::sleep(3);
+            QThread::sleep(2);
             bar->setValue(bar->value()+1);
         }
         // slice
         if(job->doSlice)
         {
             cout<<"start slicing..."<<endl;
-            QThread::sleep(3);
+            QThread::sleep(2);
             bar->setValue(bar->value()+1);
         }
         // unload
         cout<<"start unloading..."<<endl;
-        QThread::sleep(3);
+        QThread::sleep(2);
         bar->setValue(bar->value()+1);
     }
     cout<<"job done..."<<endl;

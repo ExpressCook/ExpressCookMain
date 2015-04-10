@@ -106,11 +106,12 @@ void MainWindow::on_pushButton_clicked()
                                            ui->task_choice_2->currentText()));
         }
     }
-    // Send message to CPU
-    jobManager.executeAll();
 
     // Switched to progress monitor page
     ui->stackedWidget->setCurrentIndex(2);
+
+    // Send message to CPU
+    jobManager.executeAll();
 }
 
 
