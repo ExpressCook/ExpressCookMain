@@ -22,7 +22,7 @@ int Vision::_maxArea;
 
 Vision::Vision()
 {
-    _minArea = 3000;
+    _minArea = 2500;
     _maxArea = 20000;
     _numApples=0;
     _numPotatoes=0;
@@ -176,15 +176,6 @@ void Vision::preProcessing()
     imwrite("WarpedNew.jpg", _imgNew);
     //Remember to change _imgNew to _imgNew itself during warpPerspective operation
 
-<<<<<<< HEAD
-     color_correction::gray_world b1;
-     Mat input;
-     input.create(360, 320,CV_8UC(3));
-
-     _imgNew = b1.run2(input, 1, 2);
-=======
-
-
     //Mat input;
     //input.create(320,360,CV_8UC(3));
     color_correction::gray_world b1;
@@ -196,7 +187,7 @@ void Vision::preProcessing()
     split( _imgNew, bgr_planes );
     threshold(bgr_planes.at(2), _imgRed, 150, 255,cv::THRESH_BINARY );
     imwrite("RedPlane.jpg", _imgRed);
->>>>>>> b60e1d118b52927c7fdbf9db9ee75bb9f8009ce3
+
 
     //Transform img to HSV color space
     //cvtColor(_imgNew, _imgHSV, CV_BGR2HSV);
