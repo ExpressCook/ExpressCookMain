@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <unistd.h>
+#include <job.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,6 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(0);
     ui->Task->setTabEnabled(0,false);
     ui->Task_2->setTabEnabled(0,false);
+
+    //set up job manager
+    jobManager.linkProgressBar(ui->progressBar_1,ui->progressBar_2);
 }
 
 MainWindow::~MainWindow()
@@ -88,34 +92,25 @@ void MainWindow::on_potato_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    int task_num = 0;
     if (ui->Task->isEnabled())
     {
+        // create the job1
+        jobManager.setJob1(Job::CreateJob(ui->fruit_num_1->value(),
+                                       ui->fruit_name_1->text(),
+                                       ui->task_choice_1->currentText()));
         if (ui->Task_2->isEnabled())
         {
-            task_num = 2;
-            // Get task 2 info
+            // create the job2
+            jobManager.setJob2(Job::CreateJob(ui->fruit_num_2->value(),
+                                           ui->fruit_name_2->text(),
+                                           ui->task_choice_2->currentText()));
         }
-        task_num = 1;
-        // Get task 1 info
     }
     // Send message to CPU
-
-    ui->stackedWidget->setCurrentIndex(2);
+    jobManager.executeAll();
 
     // Switched to progress monitor page
-    while (ui->progressBar_1->value()<100)
-    {
-        ui->progressBar_1->setValue(ui->progressBar_1->value()+1);
-        sleep(0.3);
-    }
-
-    sleep(1);
-    while (ui->progressBar_2->value()<100)
-    {
-        ui->progressBar_2->setValue(ui->progressBar_2->value()+1);
-        sleep(0.3);
-    }
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 
@@ -127,6 +122,7 @@ void MainWindow::on_pushButton_3_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    jobManager.clearJobs();
     ui->stackedWidget->setCurrentIndex(0);
 }
 

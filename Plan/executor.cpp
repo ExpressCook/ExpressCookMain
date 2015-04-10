@@ -49,10 +49,7 @@ bool Executor::load(AbstractFood &food)
     {
         //move the gantry to the center point, pick the fruit
         motor.bMoveTo(point.x,point.y);
-        if(food.getType()==1) //apple
-            motor.bMoveDownTillHit(50);
-        else //potato
-            motor.bMoveDownTillHit(100);
+        motor.bMoveDownTillHit(food.loadForce);
         //register the size of food
         food.height = motor.getRevLPos() + LOADING_RES_H;
         food.length = result.topLeft.x-result.bottomRight.x;
@@ -70,18 +67,16 @@ bool Executor::load(AbstractFood &food)
 bool Executor::fakeLoad(AbstractFood &food)
 {
     motor.bMoveTo(0,0);
+    motor.bMoveDownTillHit(food.loadForce);
+    food.height = motor.getRevLPos() + LOADING_RES_H;
 
     if(food.getType()==1) //apple
     {
-        motor.bMoveDownTillHit(50);
-        food.height = motor.getRevLPos() + LOADING_RES_H;
         food.width = 100;
         food.length =100;
     }
     else //potato
     {
-        motor.bMoveDownTillHit(100);
-        food.height = motor.getRevLPos() + LOADING_RES_H;
         food.width = 200;
         food.length =200;
     }
@@ -106,60 +101,33 @@ bool Executor::peel(AbstractFood &food)
     motor.bMoveDownTo(PEELER_H-food.height + 5);
 
     //loading into peeler with feed back
-    if(food.getType()==1) //apple
+    motor.rotateWith(PEELER_ROTATION);
+    while(motor.getPeelDis()>BLADE_MAX+150)
     {
-        motor.rotateWith(PEELER_ROTATION);
-        while(motor.getPeelDis()>BLADE_MAX+150)
-        {
-            motor.bMoveYBy(-10);
-            if(motor.getYPos()==0)
-                break;
-        }
-
-        //start peeling
-        for (int i=5;i<=food.height-5;i=i+5)
-        {
-            motor.moveDownTo(PEELER_H-food.height+i);
-
-            //dynamic adjust peeler position
-            if(motor.getPeelDis()<BLADE_MIN)
-                motor.moveYBy(3);
-            else if(motor.getPeelDis()>BLADE_MAX)
-                motor.moveYBy(-3);
-
-            while(motor.getLPos() != PEELER_H-food.height+i){};
-        }
+        motor.bMoveYBy(-10);
+        if(motor.getYPos()==0)
+            break;
     }
-    else if(food.getType()==0) //potato
+
+    //start peeling
+    for (int i=5;i<=food.height-5;i=i+5)
     {
+        motor.moveDownTo(PEELER_H-food.height+i);
 
-        motor.rotateWith(PEELER_ROTATION);
-        while(motor.getPeelDis()>BLADE_MAX+150)
-        {
-            motor.bMoveYBy(-10);
-            if(motor.getYPos()==0)
-                break;
-        }
+        //dynamic adjust peeler position
+        if(motor.getPeelDis()<BLADE_MIN)
+            motor.moveYBy(3);
+        else if(motor.getPeelDis()>BLADE_MAX)
+            motor.moveYBy(-3);
 
-        //start peeling
-        for (int i=5;i<=food.height-5;i=i+5)
-        {
-            motor.moveDownTo(PEELER_H-food.height+i);
-
-            //dynamic adjust peeler position
-            if(motor.getPeelDis()<BLADE_MIN)
-                motor.moveYBy(3);
-            else if(motor.getPeelDis()>BLADE_MAX)
-                motor.moveYBy(-3);
-
-            while(motor.getLPos() != PEELER_H-food.height+i){};
-        }
+        while(motor.getLPos() != PEELER_H-food.height+i){};
     }
 
     //unload from peeler
     motor.bMoveYBy(80);
     motor.rotateWith(0);
     motor.bMoveDownTo(LOADING_CARRY_H);
+    food.isPeeled = true;
 
     return true;
 }
@@ -169,8 +137,8 @@ bool Executor::slice(AbstractFood &food)
     //loading into slicer
     motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
     motor.bMoveDownTillHit(25);
-    motor.bMoveDownBy(-50);
-    motor.rotateWith(400);
+    motor.bMoveDownBy(-(70-food.defaultThick));
+    motor.rotateWith(SLICE_ROT);
 
     //slicing
     while(true)
@@ -180,19 +148,16 @@ bool Executor::slice(AbstractFood &food)
             break;
 
         motor.bMoveTo(SLICER_E_X,SLICER_E_Y);
-        motor.rotateWith(0);
-        motor.bMoveDownBy(-80);
-        motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
-        motor.bMoveDownTillHit(25);
         motor.bMoveDownBy(-50);
-        motor.rotateWith(400);
-
+        motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
+        motor.bMoveDownBy(50+food.defaultThick);
     }
 
     //unload from slicer
     motor.bMoveDownTo(LOADING_CARRY_H);
     motor.rotateWith(0);
     motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
+    food.isSliced = true;
 
     return true;
 }

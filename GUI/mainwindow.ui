@@ -33,7 +33,7 @@
      <enum>QFrame::Raised</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="welcome">
      <widget class="QPushButton" name="clickanywhere">

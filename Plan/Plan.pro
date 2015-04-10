@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT       += widgets
 
 TARGET = Plan
 TEMPLATE = lib
@@ -13,13 +14,17 @@ CONFIG += staticlib
 SOURCES += executor.cpp \
     abstractfood.cpp \
     apple.cpp \
-    potato.cpp
+    potato.cpp \
+    job.cpp \
+    jobmanager.cpp
 
 HEADERS += executor.h \
     abstractfood.h \
     apple.h \
     potato.h \
-    toolposition.h
+    toolposition.h \
+    job.h \
+    jobmanager.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
