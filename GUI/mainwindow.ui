@@ -33,7 +33,7 @@
      <enum>QFrame::Raised</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="welcome">
      <widget class="QPushButton" name="clickanywhere">
@@ -1220,7 +1220,7 @@
       </property>
       <widget class="QWidget" name="Task_tab_2">
        <attribute name="title">
-        <string>Task1</string>
+        <string>Task2</string>
        </attribute>
        <widget class="QComboBox" name="task_choice_2">
         <property name="geometry">
@@ -1463,7 +1463,7 @@
        <attribute name="title">
         <string>Task2</string>
        </attribute>
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="progress_2_label">
         <property name="geometry">
          <rect>
           <x>80</x>
@@ -1480,7 +1480,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Fruit</string>
+         <string/>
         </property>
        </widget>
        <widget class="QProgressBar" name="progressBar_2">
@@ -1514,7 +1514,7 @@
        <attribute name="title">
         <string>Task1</string>
        </attribute>
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="progress_1_label">
         <property name="geometry">
          <rect>
           <x>80</x>
@@ -1531,7 +1531,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Fruit</string>
+         <string/>
         </property>
        </widget>
        <widget class="QProgressBar" name="progressBar_1">

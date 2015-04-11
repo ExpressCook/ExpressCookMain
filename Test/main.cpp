@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
     //testSerialLibBlock();
     //testVision();
     //testHit();
-    testPeel();
-    //testSlice();
+    //testPeel();
+    testSlice();
     //testDist();
 
     return a.exec();

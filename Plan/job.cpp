@@ -21,18 +21,18 @@ Job::Job(int num, int type, bool doPeel, bool doSlice)
 Job* Job::CreateJob(int num, const QString &type, const QString &ops)
 {
     int ty = AbstractFood::parseType(type);
-    bool doPeel,doSlice;
-    if(ops.compare("peel")==0)
+    bool doPeel=false,doSlice=false;
+    if(ops.compare("Peel")==0)
     {
         doPeel = true;
         doSlice = false;
     }
-    else if(ops.compare("slice")==0)
+    else if(ops.compare("Slice")==0)
     {
         doPeel = false;
         doSlice = true;
     }
-    else if(ops.compare("peel+slice")==0)
+    else if(ops.compare("Peel and Slice")==0)
     {
         doPeel = true;
         doSlice = true;

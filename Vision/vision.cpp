@@ -22,10 +22,10 @@ int Vision::_maxArea;
 
 Vision::Vision()
 {
-    _minArea = 3000;
+    _minArea = 2500;
     _maxArea = 20000;
-    _numApples=0;
-    _numPotatoes=0;
+    _numApples = 0;
+    _numPotatoes = 0;
 }
 
 void Vision::takePicture()

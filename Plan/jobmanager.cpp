@@ -4,7 +4,9 @@
 using namespace std;
 
 JobManager::JobManager()
-{}
+{
+    j1 = NULL;j2 = NULL;
+}
 
 JobManager::~JobManager()
 {
@@ -20,14 +22,20 @@ void JobManager::linkProgressBar(QProgressBar *b1, QProgressBar *b2)
 void JobManager::executeAll()
 {
     if(this->j1 != NULL)
-        executeJobTest(this->j1,this->b1);
+        executeJob(this->j1,this->b1);
+    else
+        b1->setValue(b1->maximum());
 
     if(this->j2 != NULL)
-        executeJobTest(this->j2,this->b2);
+        executeJob(this->j2,this->b2);
+    else
+        b2->setValue(b2->maximum());
 }
 
 void JobManager::executeJob(Job* job, QProgressBar* bar)
 {
+    cout<<"job started"<<endl;
+    bar->setValue(0);
     Executor& exe = Executor::getInstance();
     vector<AbstractFood*> & allFruits = job->fruits;
     for(vector<AbstractFood*>::iterator it = allFruits.begin();
@@ -72,13 +80,14 @@ void JobManager::executeJob(Job* job, QProgressBar* bar)
             continue;
         }
         bar->setValue(bar->value()+1);
-        cout<<"job done..."<<endl;
     }
+    cout<<"job done..."<<endl;
 }
 
 void JobManager::executeJobTest(Job *job, QProgressBar *bar)
 {
     cout<<"job started"<<endl;
+    bar->setValue(0);
     vector<AbstractFood*> & allFruits = job->fruits;
     for(vector<AbstractFood*>::iterator it = allFruits.begin();
         it != allFruits.end(); ++it)
@@ -120,6 +129,9 @@ void JobManager::clearJobs()
 {
     delete j1;
     delete j2;
+
+    j1 = NULL;
+    j2 = NULL;
 
     b1->reset();
     b2->reset();
