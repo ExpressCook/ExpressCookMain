@@ -15,7 +15,7 @@ SOURCES += vision.cpp \
 
 HEADERS += vision.h  \
     color_constancy.hpp
-           color_constancy.hpp
+
 unix {
     target.path = /usr/lib
     INSTALLS += target

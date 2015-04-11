@@ -176,8 +176,6 @@ void Vision::preProcessing()
     imwrite("WarpedNew.jpg", _imgNew);
     //Remember to change _imgNew to _imgNew itself during warpPerspective operation
 
-
-
     //Mat input;
     //input.create(320,360,CV_8UC(3));
     color_correction::gray_world b1;
@@ -189,6 +187,7 @@ void Vision::preProcessing()
     split( _imgNew, bgr_planes );
     threshold(bgr_planes.at(2), _imgRed, 150, 255,cv::THRESH_BINARY );
     imwrite("RedPlane.jpg", _imgRed);
+
 
     //Transform img to HSV color space
     //cvtColor(_imgNew, _imgHSV, CV_BGR2HSV);
