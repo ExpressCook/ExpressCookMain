@@ -3,7 +3,7 @@
 Potato::Potato():AbstractFood()
 {
     loadForce = 70;
-    defaultThick = 6;
+    defaultThick = 9;
 }
 
 int Potato::getType()
