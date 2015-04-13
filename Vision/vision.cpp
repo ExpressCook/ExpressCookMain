@@ -322,7 +322,7 @@ Point2f Vision::frameConversion(Point2f pt)
     Point2f tmp;
 
     tmp.x=(240-pt.x)*(850/240);
-    tmp.y=(pt.y-82)*(720/192);    //original = 132
+    tmp.y=(pt.y-62)*(720/162);    //original = 132
 
     return tmp;
 }

@@ -137,7 +137,7 @@ bool Executor::slice(AbstractFood &food)
     //loading into slicer
     motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
     motor.bMoveDownTillHit(25);
-    motor.bMoveDownBy(-(70-food.defaultThick));
+    motor.bMoveDownBy(-(60-food.defaultThick));
     motor.rotateWith(SLICE_ROT);
 
     //slicing

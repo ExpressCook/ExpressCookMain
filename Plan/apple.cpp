@@ -3,7 +3,7 @@
 Apple::Apple():AbstractFood()
 {
     loadForce = 50;
-    defaultThick = 13;
+    defaultThick = 22;
 }
 
 int Apple::getType()
