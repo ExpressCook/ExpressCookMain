@@ -17,9 +17,11 @@
 
 //#define meanGValue 200
 #define minGValue 100
-#define maxGValue 255
-#define threshValLow 50
-#define threshValHigh 160
+//#define maxGValue 255
+
+#define minRValue 80
+//#define threshValLow 50
+//#define threshValHigh 160
 #define PI 3.14
 cv::RNG rng(12345);
 
@@ -194,7 +196,9 @@ void Vision::preProcessing()
     //Mat imgRed;
     vector<Mat> bgr_planes;
     split( _imgNew, bgr_planes );
-    threshold(bgr_planes.at(2), _imgRed, 80, 255,cv::THRESH_BINARY );
+
+    threshold(bgr_planes.at(2), _imgRed, minRValue, 255,cv::THRESH_BINARY );
+
     imwrite("RedPlane.jpg", _imgRed);
 
 
@@ -258,8 +262,8 @@ int Vision::determineFruit(int i)
     int count=0;
 
     vector<Point> cont =_contours.at(i);
-    cout<<"Checking Area = "<<contourArea(_contours[i])<<endl;
-    cout<<"rows="<<_imgNew.rows<<" cols="<<_imgNew.cols<<endl;
+    //cout<<"Checking Area = "<<contourArea(_contours[i])<<endl;
+    //cout<<"rows="<<_imgNew.rows<<" cols="<<_imgNew.cols<<endl;
     for(int X=0;X<_imgNew.rows;X++)
     {
         for(int Y=0;Y<_imgNew.rows;Y++)

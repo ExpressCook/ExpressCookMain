@@ -34,7 +34,7 @@ const int UNLOAD_X = 1700;
 const int UNLOAD_Y = 720;
 
 //the height that gripper should extract after loading
-const int LOADING_CARRY_H = 290;
+const int LOADING_CARRY_H = 330;
 //the residual height to ground after fully extension
 const int LOADING_RES_H = 350;
 
