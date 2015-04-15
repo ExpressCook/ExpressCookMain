@@ -141,7 +141,7 @@ bool Executor::slice(AbstractFood &food)
     motor.rotateWith(SLICE_ROT);
 
     int end_l_pos = 0;
-    int unload_l = 60;
+    int unload_l = 80;
     bool has_unload = false;
 
     //slicing
@@ -161,7 +161,7 @@ bool Executor::slice(AbstractFood &food)
             has_unload = true;
             motor.bMoveDownTo(LOADING_CARRY_H-unload_l);
             motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
-            motor.bMoveDownTo(end_l_pos-unload_l+food.defaultThick);
+            motor.bMoveDownTo(end_l_pos-unload_l+food.defaultThick-3);
         }
         else
         {
