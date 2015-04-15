@@ -140,17 +140,36 @@ bool Executor::slice(AbstractFood &food)
     motor.bMoveDownBy(-(60-food.defaultThick));
     motor.rotateWith(SLICE_ROT);
 
+    int end_l_pos = 0;
+    int unload_l = 60;
+    bool has_unload = false;
+
     //slicing
     while(true)
     {
-        //check the height
-        if(motor.getLPos()>=SLICER_H)
+        end_l_pos = motor.getLPos();
+
+        //check is finish
+        if(end_l_pos>=SLICER_H)
             break;
 
         motor.bMoveTo(SLICER_E_X,SLICER_E_Y);
-        motor.bMoveDownBy(-50);
-        motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
-        motor.bMoveDownBy(50+food.defaultThick);
+
+        if(end_l_pos>=SLICER_H-50 && !has_unload)
+        {
+            //try to unload a little
+            has_unload = true;
+            motor.bMoveDownTo(LOADING_CARRY_H-unload_l);
+            motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
+            motor.bMoveDownTo(end_l_pos-unload_l+food.defaultThick);
+        }
+        else
+        {
+            //normal slicing routine
+            motor.bMoveDownBy(-50);
+            motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
+            motor.bMoveDownBy(50+food.defaultThick);
+        }
     }
 
     //unload from slicer

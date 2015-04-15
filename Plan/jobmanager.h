@@ -1,6 +1,7 @@
 #ifndef JOBMANAGER_H
 #define JOBMANAGER_H
 #include <qprogressbar.h>
+#include <qwidget.h>
 #include <job.h>
 
 class JobManager
@@ -11,6 +12,7 @@ public:
 
     //link progress bar
     void linkProgressBar(QProgressBar* b1,QProgressBar* b2);
+    void linkMainWindow(QWidget* widget);
 
     //execute all the job
     void executeAll();
@@ -38,6 +40,9 @@ private:
     //bars
     QProgressBar* b1;
     QProgressBar* b2;
+
+    //main window
+    QWidget* widget;
 };
 
 #endif // JOBMANAGER_H

@@ -1,5 +1,6 @@
 #include "jobmanager.h"
 #include <executor.h>
+#include <qmessagebox.h>
 
 using namespace std;
 
@@ -17,6 +18,11 @@ void JobManager::linkProgressBar(QProgressBar *b1, QProgressBar *b2)
 {
     this->b1 = b1;
     this->b2 = b2;
+}
+
+void JobManager::linkMainWindow(QWidget *widget)
+{
+    this->widget = widget;
 }
 
 void JobManager::executeAll()
@@ -82,6 +88,8 @@ void JobManager::executeJob(Job* job, QProgressBar* bar)
         bar->setValue(bar->value()+1);
     }
     cout<<"job done..."<<endl;
+
+    QMessageBox::information(widget,"Success","All jobs done!");
 }
 
 void JobManager::executeJobTest(Job *job, QProgressBar *bar)
