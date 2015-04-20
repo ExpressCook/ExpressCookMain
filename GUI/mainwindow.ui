@@ -1282,6 +1282,9 @@
           <height>35</height>
          </rect>
         </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
        </widget>
       </widget>
      </widget>
@@ -1370,6 +1373,12 @@
           <height>35</height>
          </rect>
         </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="value">
+         <number>1</number>
+        </property>
        </widget>
       </widget>
      </widget>
@@ -1402,6 +1411,38 @@
        <pixmap resource="test.qrc">:/test/taskpage.jpg</pixmap>
       </property>
      </widget>
+     <widget class="QPushButton" name="delete_task1">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>730</x>
+        <y>218</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>x</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="delete_task2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>730</x>
+        <y>319</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>x</string>
+      </property>
+     </widget>
      <zorder>label_11</zorder>
      <zorder>realExit</zorder>
      <zorder>potato</zorder>
@@ -1409,6 +1450,8 @@
      <zorder>Task</zorder>
      <zorder>pushButton</zorder>
      <zorder>apple</zorder>
+     <zorder>delete_task1</zorder>
+     <zorder>delete_task2</zorder>
     </widget>
     <widget class="QWidget" name="progress_monitor">
      <widget class="QLabel" name="label_3">

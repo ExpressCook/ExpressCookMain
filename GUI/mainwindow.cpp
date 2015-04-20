@@ -32,6 +32,7 @@ void MainWindow::on_clickanywhere_clicked()
     ui->task_choice_1->setEnabled(false);
     ui->fruit_num_1->setEnabled(false);
     ui->fruit_name_1->setText("Fruit");
+    ui->delete_task1->setEnabled(false);
 
     ui->Task_2->setEnabled(false);
     ui->Task_tab_2->setEnabled(false);
@@ -39,6 +40,7 @@ void MainWindow::on_clickanywhere_clicked()
     ui->task_choice_2->setEnabled(false);
     ui->fruit_num_2->setEnabled(false);
     ui->fruit_name_2->setText("Fruit");
+    ui->delete_task2->setEnabled(false);
 }
 
 void MainWindow::on_realExit_clicked()
@@ -63,6 +65,7 @@ void MainWindow::on_apple_clicked()
             ui->task_choice_2->setEnabled(true);
             ui->fruit_num_2->setEnabled(true);
             ui->fruit_name_2->setText("Apple");
+            ui->delete_task2->setEnabled(true);
         }
     }
     else
@@ -73,6 +76,7 @@ void MainWindow::on_apple_clicked()
         ui->task_choice_1->setEnabled(true);
         ui->fruit_num_1->setEnabled(true);
         ui->fruit_name_1->setText("Apple");
+        ui->delete_task1->setEnabled(true);
     }
 }
 
@@ -151,4 +155,26 @@ void MainWindow::on_pushButton_4_clicked()
 {
     MainWindow w;
     w.~MainWindow();
+}
+
+void MainWindow::on_delete_task1_clicked()
+{
+    ui->Task->setEnabled(false);
+    ui->Task_tab_1->setEnabled(false);
+    ui->fruit_name_1->setEnabled(false);
+    ui->task_choice_1->setEnabled(false);
+    ui->fruit_num_1->setEnabled(false);
+    ui->fruit_name_1->setText("Fruit");
+    ui->delete_task1->setEnabled(false);
+}
+
+void MainWindow::on_delete_task2_clicked()
+{
+    ui->Task->setEnabled(false);
+    ui->Task_tab_2->setEnabled(false);
+    ui->fruit_name_2->setEnabled(false);
+    ui->task_choice_2->setEnabled(false);
+    ui->fruit_num_2->setEnabled(false);
+    ui->fruit_name_2->setText("Fruit");
+    ui->delete_task2->setEnabled(false);
 }

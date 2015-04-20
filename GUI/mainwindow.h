@@ -36,6 +36,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_delete_task1_clicked();
+
 private:
     Ui::MainWindow *ui;
     JobManager jobManager;
