@@ -34,6 +34,7 @@ Executor& Executor::getInstance()
 
 bool Executor::load(AbstractFood &food)
 {
+    motor.wakeAll();
     bool ret = false;
 
     //make sure the view of camera is not obscured
@@ -61,11 +62,13 @@ bool Executor::load(AbstractFood &food)
         motor.bMoveDownTo(LOADING_CARRY_H);
         ret = true;
     }
+    motor.sleepAll();
     return ret;
 }
 
 bool Executor::fakeLoad(AbstractFood &food)
 {
+    motor.wakeAll();
     motor.bMoveTo(0,0);
     motor.bMoveDownTillHit(food.loadForce);
     food.height = motor.getRevLPos() + LOADING_RES_H;
@@ -82,19 +85,22 @@ bool Executor::fakeLoad(AbstractFood &food)
     }
 
     motor.bMoveDownTo(LOADING_CARRY_H);
+    motor.sleepAll();
     return true;
 }
 
 bool Executor::unload(AbstractFood &food)
 {
+    motor.wakeAll();
     motor.bMoveTo(UNLOAD_X,UNLOAD_Y);
     motor.bMoveDownTo(0);
-
+    motor.sleepAll();
     return true;
 }
 
 bool Executor::peel(AbstractFood &food)
 {
+    motor.wakeAll();
     //approaching the peeler station with dynamic position
     motor.bMoveYTo(PEELER_Y + food.width/2 + 100);
     motor.bMoveXTo(PEELER_X);
@@ -104,9 +110,9 @@ bool Executor::peel(AbstractFood &food)
 
     //loading into peeler with feed back
     motor.rotateWith(PEELER_ROTATION);
-    while(motor.getPeelDis()>BLADE_MAX+70)
+    while(motor.getPeelDis()>BLADE_MAX+100)
     {
-        motor.bMoveYBy(-20);
+        motor.bMoveYBy(-10);
         if(motor.getYPos()==0)
             break;
     }
@@ -131,11 +137,13 @@ bool Executor::peel(AbstractFood &food)
     motor.bMoveDownTo(LOADING_CARRY_H);
     food.isPeeled = true;
 
+    motor.sleepAll();
     return true;
 }
 
 bool Executor::slice(AbstractFood &food)
 {
+    motor.wakeAll();
     //loading into slicer
     motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
     motor.bMoveDownTillHit(25);
@@ -180,5 +188,6 @@ bool Executor::slice(AbstractFood &food)
     motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
     food.isSliced = true;
 
+    motor.sleepAll();
     return true;
 }

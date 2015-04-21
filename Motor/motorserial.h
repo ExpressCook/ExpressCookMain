@@ -94,6 +94,12 @@ public:
     void bMoveDownTillHit(int strength);
 
     /*!
+     * \brief Sleep or wake up all the stepper motors
+     */
+    void sleepAll();
+    void wakeAll();
+
+    /*!
      * \brief set the gantry into origin position
      */
     bool goToOrigin();
@@ -143,6 +149,7 @@ private:
     int _rSpeed;
     int _lPos;
     int _peelPos;
+    bool _isSleep;
 
     char _buffer[128];
 

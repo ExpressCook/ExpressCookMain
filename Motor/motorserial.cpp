@@ -137,6 +137,24 @@ void MotorSerial::bMoveDownTillHit(int strength)
     while(lastPos!=nowPos);
 }
 
+void MotorSerial::sleepAll()
+{
+    _isSleep = true;
+    QString command = "xs"+QString::number(0)+endMark;
+    serial.WriteString(toChar(command));
+    command = "ys"+QString::number(0)+endMark;
+    serial.WriteString(toChar(command));
+}
+
+void MotorSerial::wakeAll()
+{
+    _isSleep = false;
+    QString command = "xw"+QString::number(0)+endMark;
+    serial.WriteString(toChar(command));
+    command = "yw"+QString::number(0)+endMark;
+    serial.WriteString(toChar(command));
+}
+
 bool MotorSerial::goToOrigin()
 {
     //the function block until it reach the origin point
