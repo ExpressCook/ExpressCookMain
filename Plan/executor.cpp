@@ -104,9 +104,9 @@ bool Executor::peel(AbstractFood &food)
 
     //loading into peeler with feed back
     motor.rotateWith(PEELER_ROTATION);
-    while(motor.getPeelDis()>BLADE_MAX+150)
+    while(motor.getPeelDis()>BLADE_MAX+70)
     {
-        motor.bMoveYBy(-10);
+        motor.bMoveYBy(-20);
         if(motor.getYPos()==0)
             break;
     }
