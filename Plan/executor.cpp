@@ -11,6 +11,7 @@ Executor::Executor()
 {
     //initial motor
     motor.init();
+    motor.wakeAll();
     motor.goToOrigin();
 
     //initial camera
@@ -20,7 +21,7 @@ Executor::~Executor()
 {
     //finialize motor
     motor.goToOrigin();
-
+    motor.sleepAll();
     //fianlize vision
 }
 
