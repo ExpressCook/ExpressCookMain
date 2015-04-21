@@ -96,6 +96,7 @@ void MainWindow::on_potato_clicked()
             ui->task_choice_2->setEnabled(true);
             ui->fruit_num_2->setEnabled(true);
             ui->fruit_name_2->setText("Potato");
+            ui->delete_task2->setEnabled(true);
         }
     }
     else
@@ -106,6 +107,7 @@ void MainWindow::on_potato_clicked()
         ui->task_choice_1->setEnabled(true);
         ui->fruit_num_1->setEnabled(true);
         ui->fruit_name_1->setText("Potato");
+        ui->delete_task1->setEnabled(true);
     }
 }
 

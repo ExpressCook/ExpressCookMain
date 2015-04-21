@@ -9,7 +9,7 @@ const long RANGE_X = 1700;
 const long RANGE_Y = 720;
 
 //range of linear actuator
-const long RANGE_L_MIN = 75;
+const long RANGE_L_MIN = 80;
 const long RANGE_L_MAX = 865;
 
 #endif // MOTORPARAMS_H

@@ -92,6 +92,7 @@ bool MotorSerial::rotateWith(int speed)
 
 bool MotorSerial::moveDownTo(int position)
 {
+    position = checkLpos(position);
     QString command = "lp"+QString::number(position)+endMark;
     int ret = serial.WriteString(toChar(command));
     return toBool(ret);
@@ -102,7 +103,7 @@ void MotorSerial::bMoveDownTo(int position)
     position = checkLpos(position);
     moveDownTo(position);
     //the tolerance should be smaller
-    while(abs(position-getLPos())>=2){}
+    while(abs(position-getLPos())>=1){}
 }
 
 bool MotorSerial::moveDownBy(int position)
@@ -129,7 +130,7 @@ void MotorSerial::bMoveDownTillHit(int strength)
     int lastPos,nowPos;
     do
     {
-        QThread::msleep(30);
+        QThread::msleep(70);
         lastPos = nowPos;
         nowPos = getLPos();
     }

@@ -78,9 +78,9 @@ void testSerialLibBlock()
 
     motorControl.goToOrigin();
 
-    motorControl.bMoveXTo(1700);
-    motorControl.bMoveYTo(720);
-    //motorControl.bMoveDownTo(600);
+    //motorControl.bMoveXTo(830);
+    motorControl.bMoveYTo(700);
+    motorControl.bMoveDownTo(650);
     //motorControl.bMoveDownTo(600);
     //motorControl.bMoveTo(0,0);
 }

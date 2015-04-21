@@ -12,14 +12,21 @@
  *
  * Alt2 : Red Thresh   = 150
  *        Green Thresh = 180
+ * Alt2 is best so far.
+ *
+ * Alt3 : Red Thresh   = 100
+ *        Green Thresh = 100
+ *
+ * Alt4 : Red Thresh   = 50
+ *        Green Thresh = 50
  */
 
 
 //#define meanGValue 200
-#define minGValue 100
+#define minGValue 180
 //#define maxGValue 255
 
-#define minRValue 80
+#define minRValue 140
 //#define threshValLow 50
 //#define threshValHigh 160
 #define PI 3.14
@@ -33,8 +40,8 @@ int Vision::_maxArea;
 
 Vision::Vision()
 {
-    _minArea = 2500;
-    _maxArea = 20000;
+    _minArea = 2000;
+    _maxArea = 10000;
     _numApples = 0;
     _numPotatoes = 0;
 }
@@ -43,16 +50,17 @@ void Vision::takePicture()
 {
     //Remember that color image is read in the BGR format, not RGB
     VideoCapture capture(0);
-    sleep(3);
 
     capture.set(CV_CAP_PROP_FRAME_WIDTH,1280);
     capture.set(CV_CAP_PROP_FRAME_HEIGHT,720);
+    _imgNew =  Mat::zeros(1280,720,CV_32F);
 
     if(!capture.isOpened())
     {
         cout << "Failed to connect to the camera." << endl;
     }
 
+    sleep(5);
     capture >> _imgNew;
     if(_imgNew.empty())
         cout << "Failed to capture an image" << endl;
@@ -61,9 +69,12 @@ void Vision::takePicture()
         //cout<<"Initial Size, rows="<<_imgNew.rows<<" cols="<<_imgNew.cols<<endl;
         imwrite("Before Resizing.jpg", _imgNew);
         resize(_imgNew, _imgNew, Size(640, 360));
+        //resize(_imgNew, _imgNew, Size(640, 400));
+
         //cout<<"After resizing Size, rows="<<_imgNew.rows<<" cols="<<_imgNew.cols<<endl;
         imwrite("Original.jpg",_imgNew);
     }
+    capture.release();
 }
 
 int Vision::detect()
@@ -104,10 +115,13 @@ int Vision::detect()
         tmp.bottomRight=frameConversion(boundRect[i].br());
         tmp.centroid=frameConversion(Point2f((boundRect[i].br().x+boundRect[i].tl().x)/2,(boundRect[i].br().y+boundRect[i].tl().y)/2));
         _centroids.push_back(tmp.centroid);
-        tmp.fruitType=determineFruit(validContourIdx.at(i));
-       cout<<"Type "<<tmp.fruitType<<endl;
 
-        results.push_back(tmp);
+        tmp.fruitType=determineFruit(validContourIdx.at(i));
+
+       cout<<"Type "<<tmp.fruitType<<endl;
+       cout<<"x = "<<(boundRect[i].br().x+boundRect[i].tl().x)/2<<" y = "<<(boundRect[i].br().y+boundRect[i].tl().y)/2<<endl;
+       cout<<"Motor x = "<<tmp.centroid.x<<" Motor y = "<<tmp.centroid.y<<endl;
+       results.push_back(tmp);
     }
 
     Mat drawing = Mat::zeros( _imgErode.size(), CV_8UC3 );
@@ -156,10 +170,10 @@ Mat Vision::computeHomography()
     vector <Point2f> dstPoints;
 
     // Points used for homography
-    srcPoints.push_back(Point2f(173, 5));
-    srcPoints.push_back(Point2f(502, 3));
+    srcPoints.push_back(Point2f(184, 7));
+    srcPoints.push_back(Point2f(523, 5));
     srcPoints.push_back(Point2f(200, 350));
-    srcPoints.push_back(Point2f(495, 343));
+    srcPoints.push_back(Point2f(499, 355));
 
     dstPoints.push_back(Point2f(1,1));
     dstPoints.push_back(Point2f(320,1));
@@ -178,6 +192,7 @@ void Vision::preProcessing()
     Mat H=computeHomography();
 
     //define the output matrix for transformation to be a black image of same size as input image
+    //Mat imgNew_out = Mat::zeros( 360, 320, CV_8UC3 );
     Mat imgNew_out = Mat::zeros( 360, 320, CV_8UC3 );
     //Mat imgNew_out = Mat::zeros( 320, 360, CV_8UC3 );
 
@@ -321,8 +336,10 @@ Point2f Vision::frameConversion(Point2f pt)
 {
     Point2f tmp;
 
-    tmp.x=(240-pt.x)*(850/240);
-    tmp.y=(pt.y-62)*(720/162);    //original = 132
+    //tmp.x=(209-pt.x)*(700/182);
+    tmp.x=(239-pt.x)*(700/212);
+    tmp.y=(pt.y-118)*(720/188);    //original = 132
+
 
     return tmp;
 }

@@ -89,7 +89,7 @@ void JobManager::executeJob(Job* job, QProgressBar* bar)
     }
     cout<<"job done..."<<endl;
 
-    QMessageBox::information(widget,"Success","All jobs done!");
+    //QMessageBox::information(widget,"Success","All jobs done!");
 }
 
 void JobManager::executeJobTest(Job *job, QProgressBar *bar)

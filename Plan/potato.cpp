@@ -2,7 +2,7 @@
 
 Potato::Potato():AbstractFood()
 {
-    loadForce = 70;
+    loadForce = 80;
     defaultThick = 20;
 }
 

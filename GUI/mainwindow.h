@@ -38,6 +38,8 @@ private slots:
 
     void on_delete_task1_clicked();
 
+    void on_delete_task2_clicked();
+
 private:
     Ui::MainWindow *ui;
     JobManager jobManager;

@@ -98,7 +98,9 @@ bool Executor::peel(AbstractFood &food)
     //approaching the peeler station with dynamic position
     motor.bMoveYTo(PEELER_Y + food.width/2 + 100);
     motor.bMoveXTo(PEELER_X);
-    motor.bMoveDownTo(PEELER_H-food.height + 5);
+    int load_height = PEELER_H-food.height +5;
+    if(load_height>LOADING_CARRY_H)
+        motor.bMoveDownTo(load_height);
 
     //loading into peeler with feed back
     motor.rotateWith(PEELER_ROTATION);
@@ -120,7 +122,7 @@ bool Executor::peel(AbstractFood &food)
         else if(motor.getPeelDis()>BLADE_MAX)
             motor.moveYBy(-3);
 
-        while(motor.getLPos() != PEELER_H-food.height+i){};
+        while(motor.getLPos() < PEELER_H-food.height+i){};
     }
 
     //unload from peeler
@@ -141,7 +143,7 @@ bool Executor::slice(AbstractFood &food)
     motor.rotateWith(SLICE_ROT);
 
     int end_l_pos = 0;
-    int unload_l = 80;
+    int unload_l = 100;
     bool has_unload = false;
 
     //slicing
@@ -161,7 +163,7 @@ bool Executor::slice(AbstractFood &food)
             has_unload = true;
             motor.bMoveDownTo(LOADING_CARRY_H-unload_l);
             motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
-            motor.bMoveDownTo(end_l_pos-unload_l+food.defaultThick-3);
+            motor.bMoveDownTo(end_l_pos-unload_l+food.defaultThick);
         }
         else
         {
