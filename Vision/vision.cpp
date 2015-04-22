@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include <unistd.h>
+#include <stdlib.h>
 
 
 /* Working Configuration Alternatives
@@ -23,10 +24,10 @@
 
 
 //#define meanGValue 200
-#define minGValue 180
+#define minGValue 185
 //#define maxGValue 255
 
-#define minRValue 140
+#define minRValue 150
 //#define threshValLow 50
 //#define threshValHigh 160
 #define PI 3.14
@@ -41,13 +42,16 @@ int Vision::_maxArea;
 Vision::Vision()
 {
     _minArea = 2000;
-    _maxArea = 10000;
+    _maxArea = 15000;
     _numApples = 0;
     _numPotatoes = 0;
 }
 
 void Vision::takePicture()
 {
+
+    system("/home/ubuntu/CameraCalib.sh");
+
     //Remember that color image is read in the BGR format, not RGB
     VideoCapture capture(0);
 
@@ -60,7 +64,8 @@ void Vision::takePicture()
         cout << "Failed to connect to the camera." << endl;
     }
 
-    sleep(5);
+
+    //sleep(5);
     capture >> _imgNew;
     if(_imgNew.empty())
         cout << "Failed to capture an image" << endl;
@@ -68,8 +73,24 @@ void Vision::takePicture()
     {
         //cout<<"Initial Size, rows="<<_imgNew.rows<<" cols="<<_imgNew.cols<<endl;
         imwrite("Before Resizing.jpg", _imgNew);
+
+        //Mat imgBefore = imread('Original-The Real.jpg');
+
         resize(_imgNew, _imgNew, Size(640, 360));
-        //resize(_imgNew, _imgNew, Size(640, 400));
+        //Mat ycrcb;
+        //cvtColor(_imgNew,ycrcb,CV_BGR2HSV);
+
+        //vector<Mat> channels;
+        //split(ycrcb,channels);
+        //split(_imgNew,channels);
+
+        //equalizeHist(channels[0], channels[0]);
+        //equalizeHist(channels[1], channels[1]);
+        //equalizeHist(channels[2], channels[2]);
+
+        //merge(channels,_imgNew);
+        //merge(channels,ycrcb);
+        //cvtColor(ycrcb,_imgNew,CV_HSV2BGR);
 
         //cout<<"After resizing Size, rows="<<_imgNew.rows<<" cols="<<_imgNew.cols<<endl;
         imwrite("Original.jpg",_imgNew);
@@ -119,8 +140,8 @@ int Vision::detect()
         tmp.fruitType=determineFruit(validContourIdx.at(i));
 
        cout<<"Type "<<tmp.fruitType<<endl;
-       cout<<"x = "<<(boundRect[i].br().x+boundRect[i].tl().x)/2<<" y = "<<(boundRect[i].br().y+boundRect[i].tl().y)/2<<endl;
-       cout<<"Motor x = "<<tmp.centroid.x<<" Motor y = "<<tmp.centroid.y<<endl;
+       //cout<<"x = "<<(boundRect[i].br().x+boundRect[i].tl().x)/2<<" y = "<<(boundRect[i].br().y+boundRect[i].tl().y)/2<<endl;
+       //cout<<"Motor x = "<<tmp.centroid.x<<" Motor y = "<<tmp.centroid.y<<endl;
        results.push_back(tmp);
     }
 
@@ -204,9 +225,15 @@ void Vision::preProcessing()
 
     //Mat input;
     //input.create(320,360,CV_8UC(3));
+
+
     color_correction::gray_world b1;
     _imgNew = b1.run2(_imgNew,1,2);
-    imwrite("AfterGrayEdge.jpg", _imgNew);
+    imwrite("AfterGrayWorld.jpg", _imgNew);
+
+    //color_correction::gray_edge b2;
+    //_imgNew = b2.run(_imgNew,1,0);
+    //imwrite("AfterGrayEdge.jpg", _imgNew);
 
     //Mat imgRed;
     vector<Mat> bgr_planes;
@@ -334,14 +361,21 @@ imwrite("ContourModified.jpg", _imgNew);
 
 Point2f Vision::frameConversion(Point2f pt)
 {
-    Point2f tmp;
+    Point2f tmp1;
 
     //tmp.x=(209-pt.x)*(700/182);
-    tmp.x=(239-pt.x)*(700/212);
-    tmp.y=(pt.y-118)*(720/188);    //original = 132
+    /*Last set of working equation
+    // ///tmp.x=(239-pt.x)*(700/212);
+    // ///tmp.y=(pt.y-68)*(720/238);
+    */
+    float x1 = pt.x;
+    float y1 = pt.y;
+    tmp1.x = (211-x1)*(700.0/179.0);
+    tmp1.y = (y1-127)*(720.0/177.0);
+    //tmp.y=(pt.y-118)*(720/188);    //original = 132
 
-
-    return tmp;
+    //cout<<"Inside function x = "<<tmp1.x<<" y = "<<tmp1.y<<endl;
+    return tmp1;
 }
 
 void Vision::detectingBlobs()

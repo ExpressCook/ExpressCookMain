@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //set up job manager
     jobManager.linkProgressBar(ui->progressBar_1,ui->progressBar_2);
+    jobManager.linkMainWindow(this);
 }
 
 MainWindow::~MainWindow()

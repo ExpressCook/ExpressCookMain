@@ -61,6 +61,23 @@ bool Executor::load(AbstractFood &food)
 
         //retract the linear actuator
         motor.bMoveDownTo(LOADING_CARRY_H);
+
+        //if in the right hand side, try reroute
+        if(point.x<300)
+        {
+            //in the upper right
+            if(point.y<375)
+            {
+                motor.bMoveYTo(0);
+                motor.bMoveXTo(1000);
+            }
+            //in the bottom right
+            else
+            {
+                motor.bMoveYTo(750);
+                motor.bMoveXTo(1000);
+            }
+        }
         ret = true;
     }
     motor.sleepAll();
@@ -105,21 +122,24 @@ bool Executor::peel(AbstractFood &food)
     //approaching the peeler station with dynamic position
     motor.bMoveYTo(PEELER_Y + food.width/2 + 100);
     motor.bMoveXTo(PEELER_X);
-    int load_height = PEELER_H-food.height +5;
-    if(load_height>LOADING_CARRY_H)
-        motor.bMoveDownTo(load_height);
+
+    //bound the food height
+    if(PEELER_H-food.height +5<LOADING_CARRY_H)
+        food.height = PEELER_H + 5 -LOADING_CARRY_H;
+
+    motor.bMoveDownTo(PEELER_H-food.height +10);
 
     //loading into peeler with feed back
     motor.rotateWith(PEELER_ROTATION);
-    while(motor.getPeelDis()>BLADE_MAX+100)
+    while(motor.getPeelDis()>BLADE_MAX+15)
     {
         motor.bMoveYBy(-10);
-        if(motor.getYPos()==0)
+        if(motor.getYPos()==5)
             break;
     }
 
     //start peeling
-    for (int i=5;i<=food.height-5;i=i+5)
+    for (int i=10;i<=food.height-5;i=i+5)
     {
         motor.moveDownTo(PEELER_H-food.height+i);
 
@@ -129,7 +149,11 @@ bool Executor::peel(AbstractFood &food)
         else if(motor.getPeelDis()>BLADE_MAX)
             motor.moveYBy(-3);
 
-        while(motor.getLPos() < PEELER_H-food.height+i){};
+        while(motor.getLPos() < PEELER_H-food.height+i-2)
+        {
+            if(motor.getLPos() >= 814)
+                break;
+        };
     }
 
     //unload from peeler

@@ -41,6 +41,7 @@ void JobManager::executeAll()
 void JobManager::executeJob(Job* job, QProgressBar* bar)
 {
     cout<<"job started"<<endl;
+
     bar->setValue(0);
     Executor& exe = Executor::getInstance();
     vector<AbstractFood*> & allFruits = job->fruits;
@@ -53,6 +54,7 @@ void JobManager::executeJob(Job* job, QProgressBar* bar)
         if(!exe.load(*food))
         {
             cout<<"fail to load!"<<endl;
+            QMessageBox::information(widget,"Fail","Fail to load food!");
             continue;
         }
         bar->setValue(bar->value()+1);
@@ -88,8 +90,6 @@ void JobManager::executeJob(Job* job, QProgressBar* bar)
         bar->setValue(bar->value()+1);
     }
     cout<<"job done..."<<endl;
-
-    //QMessageBox::information(widget,"Success","All jobs done!");
 }
 
 void JobManager::executeJobTest(Job *job, QProgressBar *bar)
