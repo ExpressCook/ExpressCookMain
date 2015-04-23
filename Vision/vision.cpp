@@ -51,6 +51,7 @@ void Vision::takePicture()
 {
 
     system("/home/ubuntu/CameraCalib.sh");
+    sleep(3);
 
     //Remember that color image is read in the BGR format, not RGB
     VideoCapture capture(0);
