@@ -189,6 +189,7 @@ bool Executor::slice(AbstractFood &food)
             break;
 
         motor.bMoveTo(SLICER_E_X,SLICER_E_Y);
+        motor.rotateWith(0);
 
         if(end_l_pos>=SLICER_H-50 && !has_unload)
         {
@@ -196,6 +197,7 @@ bool Executor::slice(AbstractFood &food)
             has_unload = true;
             motor.bMoveDownTo(LOADING_CARRY_H-unload_l);
             motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
+            motor.rotateWith(SLICE_ROT);
             motor.bMoveDownTo(end_l_pos-unload_l+food.defaultThick);
         }
         else
@@ -203,6 +205,7 @@ bool Executor::slice(AbstractFood &food)
             //normal slicing routine
             motor.bMoveDownBy(-50);
             motor.bMoveTo(SLICER_S_X,SLICER_S_Y);
+            motor.rotateWith(SLICE_ROT);
             motor.bMoveDownBy(50+food.defaultThick);
         }
     }

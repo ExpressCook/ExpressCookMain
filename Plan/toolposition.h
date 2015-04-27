@@ -27,7 +27,7 @@ const int SLICER_E_Y = 0;
 //the height of the slicer blade
 const int SLICER_H = 800;
 //the rotation speed of slice
-const int SLICE_ROT=700;
+const int SLICE_ROT=400;
 
 //the center of unloading area
 const int UNLOAD_X = 1700;
