@@ -103,10 +103,13 @@ int Vision::detect()
 {
     //clear the old results
     results.clear();
+    _numApples = 0;
+    _numPotatoes = 0;
 
     //Clear the centroids and contours vector for each subsequent iteration
     _centroids.erase(_centroids.begin(),_centroids.begin()+_centroids.size());
     _contours.erase(_contours.begin(),_contours.begin()+_contours.size());
+
 
     //Perform all pre-processing tasks on the image
     preProcessing();
@@ -118,7 +121,7 @@ int Vision::detect()
 
     for(int i=0;i<_contours.size();i++)
     {
-        cout<<contourArea(_contours[i])<<endl;
+        //cout<<contourArea(_contours[i])<<endl;
         if(contourArea(_contours[i])>=_minArea && contourArea(_contours[i])<=_maxArea)
             validContourIdx.push_back(i);
     }
@@ -149,8 +152,15 @@ int Vision::detect()
     Mat drawing = Mat::zeros( _imgErode.size(), CV_8UC3 );
     for( int i = 0; i< validContourIdx.size(); i++ )
     {
-        Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-        //drawContours( drawing, contours_poly, ind(0,i), color, 1, 8, vector<Vec4i>(), 0, Point() );
+        DetectionResults tmp;
+        tmp = results.at(i);
+        Scalar color = Scalar(0.0, 0.0, 0.0);
+
+        if(tmp.fruitType == 1)
+            color = Scalar(255.0,0.0,0.0);
+        else
+             color = Scalar(254.0,143.0,203.0);
+
         rectangle( drawing, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0 );
         circle(drawing, _centroids.at(i),2.0,color,-1,8,0);
     }
@@ -377,6 +387,16 @@ Point2f Vision::frameConversion(Point2f pt)
 
     //cout<<"Inside function x = "<<tmp1.x<<" y = "<<tmp1.y<<endl;
     return tmp1;
+}
+
+int Vision::numOfApples()
+{
+    return _numApples;
+}
+
+int Vision::numOfPotatoes()
+{
+    return _numPotatoes;
 }
 
 void Vision::detectingBlobs()

@@ -15,8 +15,8 @@ const int PEELER_H = 820;
 //the rotation speed during peelig
 const int PEELER_ROTATION = 400;
 //optimum blade position
-const int BLADE_MIN = 400;
-const int BLADE_MAX = 410;
+const int BLADE_MIN = 390;
+const int BLADE_MAX = 400;
 
 //the start point of the slicer
 const int SLICER_S_X = 1168;

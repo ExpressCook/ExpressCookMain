@@ -1,4 +1,5 @@
 #include "motorserial.h"
+#include <stdlib.h>
 #define DEVICE_PORT "/dev/ttyO1"
 
 MotorSerial::MotorSerial():endMark("!")
@@ -12,6 +13,7 @@ MotorSerial::~MotorSerial()
 
 bool MotorSerial::init()
 {
+    //system("/home/ubuntu/BeagleBoneConfig/SerialConfig.sh");
     int ret = serial.Open(DEVICE_PORT,SERIAL_RATE);
     return toBool(ret);
 }

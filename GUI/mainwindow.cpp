@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <unistd.h>
 #include <job.h>
+#include "executor.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -182,31 +183,36 @@ void MainWindow::on_delete_task2_clicked()
     ui->delete_task2->setEnabled(false);
 }
 
-QPixmap getCVpic()
+QPixmap getCVpic(QString file_path)
 {
-    QPixmap cv_pic("Original.jpg");
-    QSize size(360,240);
+    QPixmap cv_pic(file_path);
+    QSize size(261,301);
     QPixmap cv_pic_scaled = cv_pic.scaled(size, Qt::IgnoreAspectRatio, Qt::FastTransformation);
     return cv_pic_scaled;
 }
 
 void MainWindow::on_cv_do_detection_clicked()
 {
-    ui->cv_message->setText("Computer Vision Running...Please wait");
+    ui->cv_message->setText("Running");
 
-    sleep(3);
+    // run the vision test to refresh result images
+    QString txt = Executor::getInstance().cvTest();
 
     // Do CV detection script, upon finishing, call the following three lines to update the image shown on screen
-    QPixmap cv_pic = getCVpic();
+    QPixmap cv_pic = getCVpic("/home/ubuntu/WarpedNew.jpg");
+    QPixmap cv_pic2 = getCVpic("/home/ubuntu/Contours.jpg");
     ui->CV_label->setPixmap(cv_pic);
-    ui->cv_message->setText("Done.");
+    ui->CV_label_2->setPixmap(cv_pic2);
+    ui->cv_message->setText(txt);
 }
 
 void MainWindow::on_cv_button_clicked()
 {
     ui->stackedWidget->setCurrentIndex(4);
-    QPixmap cv_pic = getCVpic();
-    ui->CV_label->setPixmap(cv_pic);
+    //QPixmap cv_pic = getCVpic("/home/ubuntu/WarpedNew.jpg");
+    //QPixmap cv_pic2 = getCVpic("/home/ubuntu/Contours.jpg");
+    //ui->CV_label->setPixmap(cv_pic);
+    //ui->CV_label_2->setPixmap(cv_pic2);
 }
 
 void MainWindow::on_pushButton_5_clicked()

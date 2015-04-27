@@ -20,6 +20,7 @@ public:
      */
     static Executor& getInstance();
 
+    QString cvTest();
     bool load(AbstractFood &food);
     bool fakeLoad(AbstractFood &food);
     bool unload(AbstractFood &food);

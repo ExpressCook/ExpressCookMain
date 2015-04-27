@@ -54,6 +54,20 @@ public:
     DetectionResults getFirst(int fruitType);
 
     /*!
+     * \brief number of apples detected
+     * \return number of apples detected
+     */
+
+    int numOfApples();
+
+    /*!
+     * \brief number of potatoes detected
+     * \return number of potatoes detected
+     */
+
+    int numOfPotatoes();
+
+    /*!
      *\brief Detects blobs by color segmentation
      *\param
      * */

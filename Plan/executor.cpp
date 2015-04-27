@@ -33,6 +33,18 @@ Executor& Executor::getInstance()
     return executor;
 }
 
+QString Executor::cvTest()
+{
+    motor.wakeAll();
+    motor.moveAwayForCamera();
+    vision.takePicture();
+    vision.detect();
+    QString text = "  Number of Apples   = " + QString::number(vision.numOfApples());
+    text =  text + "\nNumber of Potatoes = " + QString::number(vision.numOfPotatoes());
+    motor.sleepAll();
+    return text;
+}
+
 bool Executor::load(AbstractFood &food)
 {
     motor.wakeAll();
@@ -131,7 +143,7 @@ bool Executor::peel(AbstractFood &food)
 
     //loading into peeler with feed back
     motor.rotateWith(PEELER_ROTATION);
-    while(motor.getPeelDis()>BLADE_MAX+15)
+    while(motor.getPeelDis()>BLADE_MAX+5)
     {
         motor.bMoveYBy(-10);
         if(motor.getYPos()==5)
@@ -177,6 +189,8 @@ bool Executor::slice(AbstractFood &food)
 
     int end_l_pos = 0;
     int unload_l = 100;
+    if(food.getType()==1)
+        unload_l = 50;
     bool has_unload = false;
 
     //slicing
