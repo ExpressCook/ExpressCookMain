@@ -40,6 +40,12 @@ private slots:
 
     void on_delete_task2_clicked();
 
+    void on_cv_do_detection_clicked();
+
+    void on_cv_button_clicked();
+
+    void on_pushButton_5_clicked();
+
 private:
     Ui::MainWindow *ui;
     JobManager jobManager;

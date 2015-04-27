@@ -181,3 +181,36 @@ void MainWindow::on_delete_task2_clicked()
     ui->fruit_name_2->setText("Fruit");
     ui->delete_task2->setEnabled(false);
 }
+
+QPixmap getCVpic()
+{
+    QPixmap cv_pic("Original.jpg");
+    QSize size(360,240);
+    QPixmap cv_pic_scaled = cv_pic.scaled(size, Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    return cv_pic_scaled;
+}
+
+void MainWindow::on_cv_do_detection_clicked()
+{
+    ui->cv_message->setText("Computer Vision Running...Please wait");
+
+    sleep(3);
+
+    // Do CV detection script, upon finishing, call the following three lines to update the image shown on screen
+    QPixmap cv_pic = getCVpic();
+    ui->CV_label->setPixmap(cv_pic);
+    ui->cv_message->setText("Done.");
+}
+
+void MainWindow::on_cv_button_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
+    QPixmap cv_pic = getCVpic();
+    ui->CV_label->setPixmap(cv_pic);
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    MainWindow w;
+    w.~MainWindow();
+}
