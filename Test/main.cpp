@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
 
     //testSerial();
     //testSerialLib();
-    //testSerialLibBlock();
-    testVision();
+    testSerialLibBlock();
+    //testVision();
     //testHit();
     //testPeel();
     //testSlice();
@@ -74,6 +74,7 @@ int testSerial()
 void testSerialLibBlock()
 {
     MotorSerial motorControl;
+    motorControl.wakeAll();
     motorControl.init();
 
     motorControl.goToOrigin();

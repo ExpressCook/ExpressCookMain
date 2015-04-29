@@ -6,6 +6,7 @@
 #include "executor.h"
 #include "toolposition.h"
 #include <vector>
+#include <QTime>
 
 Executor::Executor()
 {
@@ -36,6 +37,7 @@ Executor& Executor::getInstance()
 QString Executor::cvTest()
 {
     motor.wakeAll();
+    //motor.goToOrigin();
     motor.moveAwayForCamera();
     vision.takePicture();
     vision.detect();
@@ -143,13 +145,16 @@ bool Executor::peel(AbstractFood &food)
 
     //loading into peeler with feed back
     motor.rotateWith(PEELER_ROTATION);
-    while(motor.getPeelDis()>BLADE_MAX+5)
+    while(motor.getPeelDis()>390)
     {
         motor.bMoveYBy(-10);
-        if(motor.getYPos()==5)
+        if(motor.getYPos()==0)
             break;
     }
 
+    QTime t;
+    int peelTimeout = 30000;
+    t.start();
     //start peeling
     for (int i=10;i<=food.height-5;i=i+5)
     {
@@ -163,9 +168,13 @@ bool Executor::peel(AbstractFood &food)
 
         while(motor.getLPos() < PEELER_H-food.height+i-2)
         {
+            if(t.elapsed()>peelTimeout)
+                break;
             if(motor.getLPos() >= 814)
                 break;
         };
+        if(t.elapsed()>peelTimeout)
+            break;
     }
 
     //unload from peeler
@@ -190,7 +199,7 @@ bool Executor::slice(AbstractFood &food)
     int end_l_pos = 0;
     int unload_l = 100;
     if(food.getType()==1)
-        unload_l = 50;
+        unload_l = 70;
     bool has_unload = false;
 
     //slicing

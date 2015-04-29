@@ -24,7 +24,7 @@
 
 
 //#define meanGValue 200
-#define minGValue 185
+#define minGValue 190
 //#define maxGValue 255
 
 #define minRValue 150
